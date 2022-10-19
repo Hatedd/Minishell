@@ -37,15 +37,17 @@ typedef	struct s_token
 {
 	enum
 	{
-		token_id,
-		token_sign,
-		token_string,
-		token_semi,
-		token_lpar,
-		token_rpar
+		TOKEN_ID,
+		TOKEN_STRING,
+		TOKEN_PIPE,
+		TOKEN_READ,
+		TOKEN_WRITE,
+		TOKEN_LQOUTE,
+		TOKEN_RQOUTE
 	};
 	char *content;
 }	t_token;
 
+int       ft_strlen(char *str);
 
 #endif

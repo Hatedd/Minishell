@@ -12,16 +12,6 @@
 
 #include "minishell.h"
 
-int       ft_strlen(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i])
-        i++;
-    return (i);
-}
-
 t_lexer *init_lexer(char *content)
 {
     t_lexer *lexer;
@@ -52,11 +42,12 @@ void    lexer_skip_space(t_lexer *lexer)
     }
 }
 
-t_lexer *get_next_token(t_lexer *lexer)
+t_token *get_next_token(t_lexer *lexer)
 {
     while (lexer->c != '\0' && lexer->i < lexer->len)
     {
         if (lexer->c == ' ' || lexer->c == '\n')
             lexer_skip_space(lexer);
+        if (lexer->c == ''))
     }
 }
