@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/20 20:53:05 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/21 17:37:26 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int main(int argc, char **argv, char **env)
     while (TRUE)
     {
         meta.cmd = readline("minishell$");
+        meta.len = ft_strlen(meta.cmd);
+        meta.i = 0;
         if (meta.cmd == NULL)
             exit (113); // here you should exit with the last exit status you had
         ft_trans_meta(meta.cmd ,&meta);

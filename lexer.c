@@ -6,11 +6,37 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:05:03 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/20 21:06:08 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/21 17:47:17 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void    trans_to_string(t_meta *meta, t_token *token, int pos)
+{
+    
+}
+
+void    init_data(t_meta *meta, t_token *token)
+{
+    
+}
+
+int     check_not_word(t_meta *meta, int pos)
+{
+    if (meta->meta_str[pos] == 'b' || meta->meta_str[pos] == '<' || meta->meta_str[pos] == '>' || meta->meta_str[pos] == '|')
+        return (0);
+    return (1);
+}
+
+int init_token(int type, int start, t_meta *meta)
+{
+    meta->tokens->type = type;
+    while (check_not_word(meta, start))
+    {
+        
+    }
+}
 
 void    lexer_scan(t_token *token, t_meta *meta)
 {
@@ -25,11 +51,11 @@ void    lexer_scan(t_token *token, t_meta *meta)
         {
             j = 1;
             while (meta->meta_str[i + i] == 'u')
+                 j++; 
+            while (i < i + j)
             {
-                 j++;
-                 i++;  
+                init_token(TOKEN_WORD, i, meta, token);
             }
-            i++; 
         }
         else if (meta->meta_str[i] == 'p')
         {
