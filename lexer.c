@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:05:03 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/21 17:47:17 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/21 22:18:33 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    trans_to_string(t_meta *meta, t_token *token, int pos)
 
 void    init_data(t_meta *meta, t_token *token)
 {
-    
+    meta->tokens[i] 
 }
 
 int     check_not_word(t_meta *meta, int pos)
