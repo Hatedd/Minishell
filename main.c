@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/02 03:37:37 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/20 20:53:05 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,26 @@ int     ft_quote(char *av, t_meta *meta, int pos)
 {
     if (av[pos] == '\'')
     {
-        meta->m_str[pos++] = 's';
+        meta->meta_str[pos++] = 's';
         while (av[pos] != '\'')
         {
-            meta->m_str[pos] = 'Q';
+            meta->meta_str[pos] = 'Q';
             pos++;
         }
-        meta->m_str[pos] = 's';
+        meta->meta_str[pos] = 's';
     }
     else if (av[pos] == '"')
     {
-        meta->m_str[pos++] = 'd';
+        meta->meta_str[pos++] = 'd';
         while (av[pos] != '"')
         {
             if (av[pos] == '$')
-                meta->m_str[pos] = 'x';
+                meta->meta_str[pos] = 'x';
             else
-                meta->m_str[pos] = 'q';
+                meta->meta_str[pos] = 'q';
             pos++;
         }
-        meta->m_str[pos] = 'd';
+        meta->meta_str[pos] = 'd';
     }
     return (pos);
 }
@@ -64,49 +64,59 @@ void    ft_trans_meta(char *av, t_meta *meta)
 
     i = 0;
     len = ft_strlen(av) + 1;
-    meta->m_str = malloc(sizeof(char) * len);
+    meta->meta_str = malloc(sizeof(char) * len);
     while (av[i])
     {
         if (is_char(av[i]))
-            meta->m_str[i] = 'u';
+            meta->meta_str[i] = 'u';
         else if (av[i] == '|')
-            meta->m_str[i] = 'p';
+            meta->meta_str[i] = 'p';
         else if (av[i] == '<')
-            meta->m_str[i] = 'r';
+            meta->meta_str[i] = 'r';
         else if (av[i] == '>')
-            meta->m_str[i] = 'w';
-        else if (av[i] == ' ')
-            meta->m_str[i] = 'b';
+            meta->meta_str[i] = 'w';
+        else if (av[i] == ' ' || av[i] == '\t' || av[i] == '\n')
+            meta->meta_str[i] = 'b';
         else if (av[i] == '$')
         {
             if (av[i + 1] && is_char(av [i + 1]))
             {
-                meta->m_str[i] = 'x';
+                meta->meta_str[i] = 'x';
             }
             else if (av[i + 1] && av[i + 1] == '?')
-                meta->m_str[i] = 'X';
+                meta->meta_str[i] = 'X';
             else
-                meta->m_str[i] = 'u';
+                meta->meta_str[i] = 'u';
         }
         else if (av[i] == '\'' || av[i] == '"')
             i = ft_quote(av, meta, i);
         else
-            meta->m_str[i] = 'u';
+            meta->meta_str[i] = 'u';
         i++;
     }
-    meta->m_str[i] = 0;
+    meta->meta_str[i] = 0;
 }
 
-int main()
+int main(int argc, char **argv, char **env)
 {
-    int i = 0;
-    t_meta *meta;
+    t_meta  meta;
+    t_token token;
     
-    char * a;
-
-    a = strdup("\"$USER\"");
-    meta = malloc(sizeof(t_meta));
-    ft_trans_meta(a, meta);
-    printf("%s\n", meta->m_str);
+    (void)argc;
+    (void)argv;
+    (void)env;
+    while (TRUE)
+    {
+        meta.cmd = readline("minishell$");
+        if (meta.cmd == NULL)
+            exit (113); // here you should exit with the last exit status you had
+        ft_trans_meta(meta.cmd ,&meta);
+        add_history(meta.cmd);
+        printf("%s\n", meta.meta_str);
+    }
+    // char * a;
+    // a = strdup("\"$USER\"");
+    // meta = malloc(sizeof(t_meta));
+    // ft_trans_meta(a, meta);
     return (0);
 }

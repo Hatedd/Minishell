@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/19 00:56:57 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/20 20:54:24 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,36 +17,41 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+// # include "/Users/yobenali/readline/include/readline/readline.h"
+// # include "/Users/yobenali/readline/include/readline/history.h"
 #include <sys/wait.h>
-
-typedef struct s_meta
-{
-    char    *m_str;
-    char    *token;
-}   t_meta;
-
-typedef struct s_lexer
-{
-    char	c;
-    char	*content;
-    int		i;
-	int		len;
-}   t_lexer;
+#define TRUE 1
+#define FALSE 0
 
 typedef	struct s_token
 {
 	enum
 	{
-		TOKEN_ID,
-		TOKEN_STRING,
+		TOKEN_WORD,
 		TOKEN_PIPE,
+		TOKEN_DREAD,
 		TOKEN_READ,
+		TOKEN_DWRITE,
 		TOKEN_WRITE,
-		TOKEN_LQOUTE,
-		TOKEN_RQOUTE
-	};
-	char *content;
+	} type;
+	char			*word;
+	char			*meta;
+	char			*old_word;
+	struct s_token	*next;
+	struct s_token	*prev;
 }	t_token;
+
+typedef struct s_meta
+{
+    char	*meta_str;
+	char	*cmd;
+	int		len;
+	t_token	*tokens;
+}   t_meta;
+
 
 int       ft_strlen(char *str);
 
