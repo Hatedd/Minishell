@@ -97,6 +97,21 @@ void    ft_trans_meta(char *av, t_meta *meta)
     meta->meta_str[i] = 0;
 }
 
+void    ft_init_meta(t_meta *meta)
+{
+    meta->cmd = readline("minishell$");
+    meta->len = ft_strlen(meta->cmd);
+    meta->i = 0;
+    if (meta.cmd == NULL)
+        exit (113); // here you should exit with the last exit status you had
+    ft_trans_meta(meta.cmd ,&meta);
+}
+
+void    ft_init_data(t_token *token)
+{
+    
+}
+
 int main(int argc, char **argv, char **env)
 {
     t_meta  meta;
@@ -105,14 +120,10 @@ int main(int argc, char **argv, char **env)
     (void)argc;
     (void)argv;
     (void)env;
+    ft_init_data(token);
     while (TRUE)
     {
-        meta.cmd = readline("minishell$");
-        meta.len = ft_strlen(meta.cmd);
-        meta.i = 0;
-        if (meta.cmd == NULL)
-            exit (113); // here you should exit with the last exit status you had
-        ft_trans_meta(meta.cmd ,&meta);
+        ft_init_meta(meta);
         add_history(meta.cmd);
         printf("%s\n", meta.meta_str);
     }

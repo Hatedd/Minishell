@@ -34,7 +34,7 @@ int init_token(int type, int start, t_meta *meta)
     meta->tokens->type = type;
     while (check_not_word(meta, start))
     {
-        
+        meta->tokens->  
     }
 }
 
@@ -54,7 +54,7 @@ void    lexer_scan(t_token *token, t_meta *meta)
                  j++; 
             while (i < i + j)
             {
-                init_token(TOKEN_WORD, i, meta, token);
+                init_token(TOKEN_WORD, i, j, meta, token);
             }
         }
         else if (meta->meta_str[i] == 'p')
