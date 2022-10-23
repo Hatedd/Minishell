@@ -6,36 +6,99 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:05:03 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/21 22:18:33 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/23 19:20:50 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    trans_to_string(t_meta *meta, t_token *token, int pos)
+char	**ft_char_to_string(char **tab, t_meta *meta, int pos)
 {
-    
+	tab[0] = ft_calloc(2 * sizeof(char));
+	tab[1] = ft_calloc(2 * sizeof(char));
+	tab[0][0] = meta->cmd[pos];
+	tab[1][0] = meta->meta_str[pos];
+	return (tab);
 }
 
-void    init_data(t_meta *meta, t_token *token)
+char	**trans_to_string(t_meta *meta, t_token *token, int pos, int len)
 {
-    meta->tokens[i] 
-}
+	char	**tab;
+	int		i;
+	int 	cal;
 
-int     check_not_word(t_meta *meta, int pos)
-{
-    if (meta->meta_str[pos] == 'b' || meta->meta_str[pos] == '<' || meta->meta_str[pos] == '>' || meta->meta_str[pos] == '|')
-        return (0);
-    return (1);
-}
-
-int init_token(int type, int start, t_meta *meta)
-{
-    meta->tokens->type = type;
-    while (check_not_word(meta, start))
+	i = 0;
+	cal = 0;
+	tab = malloc(sizeof(char *) * 3);
+	if (!tab)
+		return (NULL);
+	if (len == 1)
+		ft_char_to_string(tab, meta, pos);
+	cal = len - pos;
+	if (!check_word(meta, pos))
+		cal++;
+	tab[0] = ft_calloc(cal * sizeof(char));
+	tab[1] = ft_calloc(cal * sizeof(char));
+    while (pos < len && len != 1)
     {
-        meta->tokens->  
+        tab[0][i] = meta->cmd[pos];
+		tab[1][i] = meta->meta_str[pos];
+        pos++;
+		i++;
     }
+	tab[2] = '\0';
+    return (tab);
+}
+
+t_token	*init_token(int type, char **data, t_meta *meta)
+{
+    int 	i;
+    int 	j;
+	t_token *head;
+	
+    i = 0;
+	head = (t_token *)malloc(sizeof(t_token));
+	if (!head)
+		return (NULL);
+	head->prev = NULL;
+    head->type = type;
+	while (data[0][i])
+	{
+		head->word[i] = data[0][i];
+		head->meta[i] = data[1][i];
+		i++;
+	}
+	head->next = NULL;
+	return (head);
+}
+
+int	check_word(t_meta *meta, int pos)
+{
+    if (meta->meta_str[pos] == 's' || meta->meta_str[pos] == 'd')
+        return (1);
+    return (0);
+}
+
+void	get_token(t_token *tokens, t_token *lst, t_meta *meta)
+{
+	t_token *tmp;
+	t_token *back;
+	
+	tmp = NULL;
+	back = NULL;
+	if(meta->flag == 0)
+	{
+		tokens = lst->prev;
+		meta->flag++;
+		return ;
+	}
+	back = tokens;
+	if (back->next != NULL)
+	{
+		back = ft_lstlast(back);
+		 	
+	}
+	
 }
 
 void    lexer_scan(t_token *token, t_meta *meta)
@@ -47,19 +110,17 @@ void    lexer_scan(t_token *token, t_meta *meta)
     {
         if (meta->meta_str[i] == 'b')
             i++;
-        if (meta->meta_str[i] == 'u')
+        if (check_word(meta, i) || meta->meta_str == 'u')
         {
             j = 1;
-            while (meta->meta_str[i + i] == 'u')
-                 j++; 
-            while (i < i + j)
-            {
-                init_token(TOKEN_WORD, i, j, meta, token);
-            }
+            while (meta->meta_str[i + j] == 'u')
+                 j++;
+            if (i < i + j)
+				get_token(meta->tokens ,init_token(TOKEN_PIPE, trans_to_string(meta, token, i, i + j), meta));
         }
         else if (meta->meta_str[i] == 'p')
         {
-            
+            lexer_advance_token();
         }
     }
 }

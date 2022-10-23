@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/21 22:07:46 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/23 18:26:19 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_meta
     char	*meta_str;
 	char	*cmd;
 	int		len;
-	int		i;
+	int 	flag;
 	t_token	*tokens;
 }   t_meta;
 

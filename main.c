@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/21 17:37:26 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/23 18:04:44 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,19 @@ int     ft_strlen(char *str)
     while(str[i])
         i++;
     return (i);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	size_t	t_count;
+	char	*ptr;
+
+	t_count = count * size;
+	ptr = malloc(t_count);
+	if (!ptr)
+		return (NULL);
+	ft_bzero((void *)ptr, t_count);
+	return ((void *)ptr);
 }
 
 int     is_char(char c)
@@ -101,16 +114,16 @@ void    ft_init_meta(t_meta *meta)
 {
     meta->cmd = readline("minishell$");
     meta->len = ft_strlen(meta->cmd);
-    meta->i = 0;
-    if (meta.cmd == NULL)
+    meta->flag = 0;
+    if (meta->cmd == NULL)
         exit (113); // here you should exit with the last exit status you had
-    ft_trans_meta(meta.cmd ,&meta);
+    ft_trans_meta(meta->cmd ,&meta);
 }
 
-void    ft_init_data(t_token *token)
-{
+// void    ft_init_data(t_token *token)
+// {
     
-}
+// }
 
 int main(int argc, char **argv, char **env)
 {
@@ -120,10 +133,10 @@ int main(int argc, char **argv, char **env)
     (void)argc;
     (void)argv;
     (void)env;
-    ft_init_data(token);
+    // ft_init_data(token);
     while (TRUE)
     {
-        ft_init_meta(meta);
+        ft_init_meta(&meta);
         add_history(meta.cmd);
         printf("%s\n", meta.meta_str);
     }
