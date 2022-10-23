@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/23 18:04:44 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/23 23:14:00 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,26 @@ int     ft_strlen(char *str)
     while(str[i])
         i++;
     return (i);
+}
+
+void	*ft_memset(void *b, int c, size_t len)
+{
+	size_t			i;
+	unsigned char	*buf;
+
+	i = 0;
+	buf = (unsigned char *) b;
+	while (i < len)
+	{
+		buf[i] = (unsigned char) c;
+		i++;
+	}
+	return ((void *) buf);
+}
+
+void	ft_bzero(void	*s, size_t n)
+{
+	ft_memset(s, 0, n);
 }
 
 void	*ft_calloc(size_t count, size_t size)
@@ -117,7 +137,7 @@ void    ft_init_meta(t_meta *meta)
     meta->flag = 0;
     if (meta->cmd == NULL)
         exit (113); // here you should exit with the last exit status you had
-    ft_trans_meta(meta->cmd ,&meta);
+    ft_trans_meta(meta->cmd ,meta);
 }
 
 // void    ft_init_data(t_token *token)
@@ -128,7 +148,7 @@ void    ft_init_meta(t_meta *meta)
 int main(int argc, char **argv, char **env)
 {
     t_meta  meta;
-    t_token token;
+    // t_token token;
     
     (void)argc;
     (void)argv;
@@ -139,6 +159,7 @@ int main(int argc, char **argv, char **env)
         ft_init_meta(&meta);
         add_history(meta.cmd);
         printf("%s\n", meta.meta_str);
+        lexer_scan(&meta);
     }
     // char * a;
     // a = strdup("\"$USER\"");

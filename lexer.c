@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:05:03 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/23 19:20:50 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/23 23:37:30 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,21 @@
 
 char	**ft_char_to_string(char **tab, t_meta *meta, int pos)
 {
-	tab[0] = ft_calloc(2 * sizeof(char));
-	tab[1] = ft_calloc(2 * sizeof(char));
+	tab[0] = ft_calloc(2, sizeof(char));
+	tab[1] = ft_calloc(2, sizeof(char));
 	tab[0][0] = meta->cmd[pos];
 	tab[1][0] = meta->meta_str[pos];
 	return (tab);
 }
 
-char	**trans_to_string(t_meta *meta, t_token *token, int pos, int len)
+int	check_word(t_meta *meta, int pos)
+{
+    if (meta->meta_str[pos] == 's' || meta->meta_str[pos] == 'd')
+        return (1);
+    return (0);
+}
+
+char	**trans_to_string(t_meta *meta, int pos, int len)
 {
 	char	**tab;
 	int		i;
@@ -37,8 +44,8 @@ char	**trans_to_string(t_meta *meta, t_token *token, int pos, int len)
 	cal = len - pos;
 	if (!check_word(meta, pos))
 		cal++;
-	tab[0] = ft_calloc(cal * sizeof(char));
-	tab[1] = ft_calloc(cal * sizeof(char));
+	tab[0] = ft_calloc(cal, sizeof(char));
+	tab[1] = ft_calloc(cal, sizeof(char));
     while (pos < len && len != 1)
     {
         tab[0][i] = meta->cmd[pos];
@@ -46,21 +53,20 @@ char	**trans_to_string(t_meta *meta, t_token *token, int pos, int len)
         pos++;
 		i++;
     }
-	tab[2] = '\0';
+	tab[2] = 0;
     return (tab);
 }
 
-t_token	*init_token(int type, char **data, t_meta *meta)
+t_token	*init_token(int type, char **data)
 {
     int 	i;
-    int 	j;
 	t_token *head;
 	
     i = 0;
-	head = (t_token *)malloc(sizeof(t_token));
+	head = (t_token *)malloc(sizeof(t_token*));
 	if (!head)
 		return (NULL);
-	head->prev = NULL;
+	// head->prev = NULL;
     head->type = type;
 	while (data[0][i])
 	{
@@ -68,15 +74,13 @@ t_token	*init_token(int type, char **data, t_meta *meta)
 		head->meta[i] = data[1][i];
 		i++;
 	}
+	while (*data)
+	{
+		printf("%s\n", *data);
+		data++;
+	}
 	head->next = NULL;
 	return (head);
-}
-
-int	check_word(t_meta *meta, int pos)
-{
-    if (meta->meta_str[pos] == 's' || meta->meta_str[pos] == 'd')
-        return (1);
-    return (0);
 }
 
 void	get_token(t_token *tokens, t_token *lst, t_meta *meta)
@@ -88,20 +92,25 @@ void	get_token(t_token *tokens, t_token *lst, t_meta *meta)
 	back = NULL;
 	if(meta->flag == 0)
 	{
-		tokens = lst->prev;
+		tokens = lst;
 		meta->flag++;
 		return ;
 	}
 	back = tokens;
-	if (back->next != NULL)
+	if (back->next == NULL)
 	{
-		back = ft_lstlast(back);
-		 	
+		back->next = lst;
+		lst->prev = tokens;
 	}
-	
+	else
+	{
+		ft_lstlast(back)->next = lst;
+		tmp = back;
+		lst->prev = back->next;
+	}
 }
 
-void    lexer_scan(t_token *token, t_meta *meta)
+void    lexer_scan(t_meta *meta)
 {
     int i = 0;
     int j;
@@ -110,17 +119,15 @@ void    lexer_scan(t_token *token, t_meta *meta)
     {
         if (meta->meta_str[i] == 'b')
             i++;
-        if (check_word(meta, i) || meta->meta_str == 'u')
+        if (check_word(meta, i) || meta->meta_str[i] == 'u')
         {
             j = 1;
             while (meta->meta_str[i + j] == 'u')
                  j++;
             if (i < i + j)
-				get_token(meta->tokens ,init_token(TOKEN_PIPE, trans_to_string(meta, token, i, i + j), meta));
-        }
-        else if (meta->meta_str[i] == 'p')
-        {
-            lexer_advance_token();
+				get_token(meta->tokens ,init_token(TOKEN_PIPE, trans_to_string(meta, i, i + j)), meta);
         }
     }
+	t_token *tmp = meta->tokens;
+	printf("token :%d     word : %s     meta : %s", tmp->type, tmp->word, tmp->meta);
 }

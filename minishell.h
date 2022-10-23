@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/23 18:26:19 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/23 23:13:42 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,10 @@ typedef struct s_meta
 
 
 int       ft_strlen(char *str);
+void	*ft_calloc(size_t count, size_t size);
+void	*ft_memset(void *b, int c, size_t len);
+void	ft_bzero(void	*s, size_t n);
+t_token	*ft_lstlast(t_token *lst);
+void    lexer_scan(t_meta *meta);
 
 #endif

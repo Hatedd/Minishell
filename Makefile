@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = main.c lexer.c
+SRC = main.c lexer.c doubly_lst.c
 
 OBJS = ${SRC:.c=.o}
 
@@ -8,7 +8,7 @@ CC = CC
 
 RM = rm -rf
 
-CFLAGS = -Wall -Wextra -Werror -I /Users/${USER}/readline/include
+CFLAGS = -Wall -Wextra -Werror -I /Users/${USER}/readline/include -g -fsanitize=address
 
 all : 	${NAME}
 
