@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/23 23:14:00 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/24 11:51:58 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,6 @@ int main(int argc, char **argv, char **env)
     {
         ft_init_meta(&meta);
         add_history(meta.cmd);
-        printf("%s\n", meta.meta_str);
         lexer_scan(&meta);
     }
     // char * a;
