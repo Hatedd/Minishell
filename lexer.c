@@ -12,15 +12,6 @@
 
 #include "minishell.h"
 
-// char	**ft_char_to_string(char **tab, t_meta *meta, int pos)
-// {
-// 	tab[0] = ft_calloc(2, sizeof(char));
-// 	tab[1] = ft_calloc(2, sizeof(char));
-// 	tab[0][0] = meta->cmd[pos];
-// 	tab[1][0] = meta->meta_str[pos];
-// 	return (tab);
-// }
-
 int	check_word(t_meta *meta, int pos)
 {
 	if (meta->meta_str[pos] && (meta->meta_str[pos] != 'b'
@@ -28,25 +19,7 @@ int	check_word(t_meta *meta, int pos)
 			&& meta->meta_str[pos] != 'r'))
 		return (1);
 	return (0);
-}
 
-// int		ft_check_quote(t_meta *meta, int pos, int cal)
-// {
-// 	// int	i;
-// 	char	c;
-// 	c = '\0';
-// 	if (meta->meta_str[pos] == '\'')
-// 		c = 's';
-// 	else if (meta->meta_str[pos] == '"')
-// 		c = 'd';
-// 	if (c == 's' || c == 'd')
-// 		pos++;
-// 	while (c != 'd' && c != 's' && pos < cal)
-// 		pos++;
-// 	if (pos == cal)
-// 		return (0);
-// 	return (1);
-// }
 
 char	**trans_to_string(t_meta *meta, int pos, int len)
 {

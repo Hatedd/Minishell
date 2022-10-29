@@ -162,6 +162,22 @@ void	ft_init_meta(t_meta *meta)
 	ft_trans_meta(meta->cmd, meta);
 }
 
+void	error_check(t_token *tokens)
+{
+	int		i;
+	t_token *tmp;
+
+	tmp = tokens;
+	i = 0;
+	while (tmp)
+	{
+		if (tmp->meta == 'p' && i == 0)
+
+		else if (tmp->meta == 'p' && tmp->next->meta == 'p')
+
+		else if ()
+	}
+}
 int	main(int argc, char **argv, char **env)
 {
 	t_meta	meta;
@@ -178,6 +194,7 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		add_history(meta.cmd);
 		lexer_scan(&meta);
+		error_check(meta.tokens);
 		if (g_all.g_error_status)
 			continue ;
 		tmp = meta.tokens;
