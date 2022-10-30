@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/28 01:19:57 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/30 02:14:10 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,26 @@ void	ft_bzero(void	*s, size_t n)
 {
 	ft_memset(s, 0, n);
 }
+
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s)
+	{
+		if (*s == (char) c)
+			return ((char *) s);
+		s++;
+	}
+	if (*s == (char) c)
+		return ((char *) s);
+	return (0);
+}
+
+// int		ft_strcheck(const char *s1, const char *s2)
+// {
+// 	if (s1[0] == s2[0] && s2[1] == s2[1])
+// 		return (1);
+// 	return (0);
+// }
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -171,13 +191,17 @@ void	error_check(t_token *tokens)
 	i = 0;
 	while (tmp)
 	{
-		if (tmp->meta == 'p' && i == 0)
-
-		else if (tmp->meta == 'p' && tmp->next->meta == 'p')
-
-		else if ()
+		if (ft_strchr(tmp->meta, 'p') && i == 0)
+			exit(258);
+		else if (ft_strchr(tmp->meta, 'p') && ft_strchr(tmp->next->meta, 'p'))
+			exit(258);
+		else if ((ft_strchr(tmp->meta,'p') || ft_strchr(tmp->meta,'r') || ft_strchr(tmp->meta,'w')) && tmp->next == NULL)
+			exit(258);
+		i++;
+		tmp = tmp->next;
 	}
 }
+
 int	main(int argc, char **argv, char **env)
 {
 	t_meta	meta;

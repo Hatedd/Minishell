@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:05:03 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/28 00:48:30 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/30 01:50:02 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_word(t_meta *meta, int pos)
 			&& meta->meta_str[pos] != 'r'))
 		return (1);
 	return (0);
-
+}
 
 char	**trans_to_string(t_meta *meta, int pos, int len)
 {
