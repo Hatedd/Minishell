@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/30 02:14:10 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/30 15:25:25 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,11 +192,20 @@ void	error_check(t_token *tokens)
 	while (tmp)
 	{
 		if (ft_strchr(tmp->meta, 'p') && i == 0)
-			exit(258);
+		{
+			write(2, "syntax error near unexpected token `|'\n", 39);
+			g_all.g_exit_status = 258;
+		}
 		else if (ft_strchr(tmp->meta, 'p') && ft_strchr(tmp->next->meta, 'p'))
-			exit(258);
+		{
+			write(2, "syntax error near unexpected token `|'\n", 39);
+			g_all.g_exit_status = 258;
+		}
 		else if ((ft_strchr(tmp->meta,'p') || ft_strchr(tmp->meta,'r') || ft_strchr(tmp->meta,'w')) && tmp->next == NULL)
-			exit(258);
+		{
+			write(2, "syntax error near unexpected token\n", 36);
+			g_all.g_exit_status = 258;
+		}
 		i++;
 		tmp = tmp->next;
 	}
