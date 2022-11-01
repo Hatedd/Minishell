@@ -1,37 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   doubly_lst.c                                       :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 15:45:43 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/31 16:50:24 by yobenali         ###   ########.fr       */
+/*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
+/*   Updated: 2022/11/01 04:42:58 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*ft_dlstlast(t_token *lst)
+void    ft_heredoc(char *str, int nb, int nb_tty)
 {
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
-void	ft_dlstadd_back(t_token **lst, t_token *new)
-{
-	t_token	*tmp;
-
-	tmp = NULL;
-	if (!(*lst) || !lst)
-		*lst = new;
-	else
-	{	
-		tmp = ft_dlstlast(*lst);
-		tmp->next = new;
-		new->prev = tmp;
-	}
+    
 }

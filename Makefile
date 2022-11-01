@@ -14,13 +14,13 @@ all : 	${NAME}
 
 ${NAME} : ${OBJS}
 #		${CC} ${CFLAGS} -L /Users/${USER}/readline/lib ${OBJS} -o ${NAME}
-		${CC} ${CFLAGS} -lreadline ${OBJS} -o ${NAME}
+		${CC} ${CFLAGS} -lreadline libft/libft.a ${OBJS} -o ${NAME}
 
 clean :
-	${RM} ${OBJS}
+	@${RM} ${OBJS}
 
 fclean : clean
-	${RM} ${NAME}
+	@${RM} ${NAME}
 
 re : fclean all
 

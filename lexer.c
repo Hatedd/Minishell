@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:05:03 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/30 01:50:02 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:49:05 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ t_token	*lexer_scan(t_meta *meta)
 			j = 1;
 			while (check_word(meta, meta->i + j))
 				j++;
-			ft_lstadd_back(&meta->tokens, init_token(TOKEN_WORD,
+			ft_dlstadd_back(&meta->tokens, init_token(TOKEN_WORD,
 					trans_to_string(meta, meta->i, meta->i + j)));
 			meta->i = meta->i + j;
 		}
 		else if (meta->meta_str[meta->i] == 'p')
 		{
-			ft_lstadd_back(&meta->tokens, init_token(TOKEN_PIPE,
+			ft_dlstadd_back(&meta->tokens, init_token(TOKEN_PIPE,
 					trans_to_string(meta, meta->i, meta->i + 1)));
 			meta->i++;
 		}
@@ -90,13 +90,13 @@ t_token	*lexer_scan(t_meta *meta)
 		{
 			if (meta->meta_str[meta->i + 1] == 'w')
 			{
-				ft_lstadd_back(&meta->tokens, init_token(TOKEN_DWRITE,
+				ft_dlstadd_back(&meta->tokens, init_token(TOKEN_DWRITE,
 						trans_to_string(meta, meta->i, meta->i + 2)));
 				meta->i += 2;
 			}
 			else
 			{
-				ft_lstadd_back(&meta->tokens, init_token(TOKEN_WRITE,
+				ft_dlstadd_back(&meta->tokens, init_token(TOKEN_WRITE,
 						trans_to_string(meta, meta->i, meta->i + 1)));
 				meta->i++;
 			}
@@ -105,13 +105,13 @@ t_token	*lexer_scan(t_meta *meta)
 		{
 			if (meta->meta_str[meta->i + 1] == 'r')
 			{
-				ft_lstadd_back(&meta->tokens, init_token(TOKEN_DREAD,
+				ft_dlstadd_back(&meta->tokens, init_token(TOKEN_DREAD,
 						trans_to_string(meta, meta->i, meta->i + 2)));
 				meta->i += 2;
 			}
 			else
 			{
-				ft_lstadd_back(&meta->tokens, init_token(TOKEN_READ,
+				ft_dlstadd_back(&meta->tokens, init_token(TOKEN_READ,
 						trans_to_string(meta, meta->i, meta->i + 1)));
 				meta->i++;
 			}

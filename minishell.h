@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/28 01:16:24 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:48:49 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 // # include "/Users/yobenali/readline/include/readline/readline.h"
 // # include "/Users/yobenali/readline/include/readline/history.h"
 # include <sys/wait.h>
+# include "./libft/libft.h"
 # define TRUE	1
 # define FALSE	0
 
@@ -62,12 +63,12 @@ typedef struct s_meta
 	t_token	*tokens;
 }	t_meta;
 
-int		ft_strlen(char *str);
-void	*ft_calloc(size_t count, size_t size);
-void	*ft_memset(void *b, int c, size_t len);
-void	ft_bzero(void	*s, size_t n);
-void	ft_lstadd_back(t_token **lst, t_token *new);
-t_token	*ft_lstlast(t_token *lst);
+// int		ft_strlen(char *str);
+// void	*ft_calloc(size_t count, size_t size);
+// void	*ft_memset(void *b, int c, size_t len);
+// void	ft_bzero(void	*s, size_t n);
+void	ft_dlstadd_back(t_token **lst, t_token *new);
+t_token	*ft_dlstlast(t_token *lst);
 t_token	*lexer_scan(t_meta *meta);
 
 #endif
