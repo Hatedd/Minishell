@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/01 04:48:55 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/02 02:23:18 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ void	ft_init_meta(t_meta *meta)
 void	error_check(t_token *tokens)
 {
 	t_token *tmp;
+	int		i;
+	int 	j;
 
 	tmp = tokens;
 	while (tmp)
@@ -169,13 +171,56 @@ void	error_check(t_token *tokens)
 				ft_putstr_fd(tmp->next->word, 2);
 				write(2, "'\n", 2);
 			}
-			if (tmp->e_type == TOKEN_DREAD)
-			{
-				if (tmp->next->e_type == TOKEN_WORD);
-			}
 			g_all.g_exit_status = 258;
 			g_all.g_error_status = EXIT_FAILURE;
 			return ;
+		}
+		if (tmp->e_type == TOKEN_DREAD)
+		{
+			if (tmp->next->e_type == TOKEN_WORD)
+			{
+				tmp = tmp->next;
+				i = 0;
+				j = ft_strlen(tmp->meta);
+				printf("%d\n", j);
+				tmp->heredoc = malloc(sizeof(char) * (j + 1));
+				if (!tmp)
+					return ;
+				j = 0;				
+				while (tmp->meta[i] && (tmp->meta[i] == 'd' || tmp->meta[i] == 's'))
+				{
+					if (tmp->meta[i] == 'd' && tmp->meta[i])
+					{
+						i++;
+						while (tmp->meta[i] != 'd')
+						{
+							tmp->heredoc[j] = tmp->word[i];
+							i++;
+							j++;
+						}
+						i++;
+					}
+					else if (tmp->meta[i] == 's' && tmp->meta[i])
+					{
+						i++;
+						while (tmp->meta[i] != 's')
+						{
+							tmp->heredoc[j] = tmp->word[i];
+							i++;
+							j++;
+						}
+						i++;
+					}
+					else if (tmp->meta[i] != 's' && tmp->meta[i] != 'd' && tmp->meta[i])
+					{
+						tmp->heredoc[j] = tmp->word[i];
+						i++;
+						j++;
+					}
+				}
+				tmp->heredoc[j] = '0';
+				// printf("%s\n", tmp->heredoc);
+			}
 		}
 		tmp = tmp->next;
 	}

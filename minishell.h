@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/31 16:48:49 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/01 20:42:21 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_token
 	char			*word;
 	char			*meta;
 	char			*old_word;
+	char			*heredoc;
+	int				quoted;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;

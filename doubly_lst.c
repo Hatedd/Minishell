@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:45:43 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/31 16:50:24 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/02 01:52:00 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	ft_dlstadd_back(t_token **lst, t_token *new)
 	else
 	{	
 		tmp = ft_dlstlast(*lst);
+		if (!tmp)
+			return ;
 		tmp->next = new;
 		new->prev = tmp;
 	}

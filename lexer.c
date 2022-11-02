@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:05:03 by yobenali          #+#    #+#             */
-/*   Updated: 2022/10/31 16:49:05 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/02 02:05:51 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ t_token	*init_token(int type, char **data)
 	head->word = *data;
 	data++;
 	head->meta = *data;
+	head->quoted = 0;
+	head->heredoc = NULL;
 	head->prev = NULL;
 	head->next = NULL;
 	return (head);
