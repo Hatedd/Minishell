@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/01 20:42:21 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/02 05:13:12 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@
 // # include "/Users/yobenali/readline/include/readline/history.h"
 # include <sys/wait.h>
 # include "./libft/libft.h"
-# define TRUE	1
-# define FALSE	0
+# define TRUE		1
+# define FALSE		0
+# define EXPAND		0
+# define NO_EXPAND	1
 
+typedef char	t_flag;
 
 typedef struct s_gdata
 {
@@ -50,7 +53,7 @@ typedef struct s_token
 	char			*meta;
 	char			*old_word;
 	char			*heredoc;
-	int				quoted;
+	t_flag			h_quoted;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -72,5 +75,6 @@ typedef struct s_meta
 void	ft_dlstadd_back(t_token **lst, t_token *new);
 t_token	*ft_dlstlast(t_token *lst);
 t_token	*lexer_scan(t_meta *meta);
+void    ft_heredoc(t_token *tokens);
 
 #endif

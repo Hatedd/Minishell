@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = main.c lexer.c doubly_lst.c
+SRC = main.c lexer.c doubly_lst.c heredoc.c
 
 OBJS = ${SRC:.c=.o}
 

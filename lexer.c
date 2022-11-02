@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:05:03 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/02 02:05:51 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/02 04:12:14 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ t_token	*init_token(int type, char **data)
 {
 	t_token	*head;
 
-	head = (t_token *)malloc(sizeof(t_token));
+	head = (t_token *)ft_calloc(sizeof(t_token), 1);
 	if (!head || !data)
 		return (NULL);
 	head->e_type = type;
 	head->word = *data;
 	data++;
 	head->meta = *data;
-	head->quoted = 0;
+	head->h_quoted = 0;
 	head->heredoc = NULL;
 	head->prev = NULL;
 	head->next = NULL;

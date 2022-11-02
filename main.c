@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/02 02:23:18 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/02 05:13:58 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,43 +183,19 @@ void	error_check(t_token *tokens)
 				i = 0;
 				j = ft_strlen(tmp->meta);
 				printf("%d\n", j);
-				tmp->heredoc = malloc(sizeof(char) * (j + 1));
+				tmp->heredoc = ft_calloc(sizeof(char), (j + 1));
 				if (!tmp)
 					return ;
 				j = 0;				
-				while (tmp->meta[i] && (tmp->meta[i] == 'd' || tmp->meta[i] == 's'))
+				while (tmp->meta[i])
 				{
-					if (tmp->meta[i] == 'd' && tmp->meta[i])
-					{
+					if ((tmp->meta[i] == 'd' || tmp->meta[i] == 's'))
 						i++;
-						while (tmp->meta[i] != 'd')
-						{
-							tmp->heredoc[j] = tmp->word[i];
-							i++;
-							j++;
-						}
-						i++;
-					}
-					else if (tmp->meta[i] == 's' && tmp->meta[i])
-					{
-						i++;
-						while (tmp->meta[i] != 's')
-						{
-							tmp->heredoc[j] = tmp->word[i];
-							i++;
-							j++;
-						}
-						i++;
-					}
-					else if (tmp->meta[i] != 's' && tmp->meta[i] != 'd' && tmp->meta[i])
-					{
-						tmp->heredoc[j] = tmp->word[i];
-						i++;
-						j++;
-					}
+					else
+						tmp->heredoc[j++] = tmp->word[i++];
 				}
-				tmp->heredoc[j] = '0';
-				// printf("%s\n", tmp->heredoc);
+				(j < i) && tmp->h_quoted++;
+				printf("%s\n", tmp->heredoc);
 			}
 		}
 		tmp = tmp->next;
@@ -242,6 +218,9 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		lexer_scan(&meta);
 		error_check(meta.tokens);
+		if (g_all.g_error_status)
+			continue ;
+		ft_heredoc(meta.tokens);
 		if (g_all.g_error_status)
 			continue ;
 		tmp = meta.tokens;
