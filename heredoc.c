@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/04 05:06:00 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/05 00:30:49 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,58 @@ int	ft_heredoc_creat(char *name, int nb, int fd)
 	return (fd);
 }
 
-// void	ft_expand(char *read_ln, char *heredoc)
-// {
-// 	int	i;
+char	*ft_select(char **o_env, char *read_ln)
+{
+	int i;
+	int j;
+	char *tab;
+	
+	i = 0;
+	while (o_env[i])
+	{
+		j = 0;
+		while (o_env[i][j] && o_env[i][j] != '=' && o_env[i][j] == read_ln[j])
+		{
+			j++;
+			if (o_env == '=')
+			{
+				j = ft_strlen((o_env[i] + j));
+				tab = ft_calloc((j + 1), sizeof(char));
+				if (!tab)
+					return (NULL);
+			}
+		}
+		i++;
+	}	
+}
 
-// 	i = 1;
-// 	if (heredoc[i] == '_' || ft_isalpha(heredoc[i]))
-// 	{
-// 		i++;
-// 		while (ft_isalpha(heredoc[i]) || ft_isdigit(heredoc[i]) || heredoc[i] == '_')
-// 			i++;
-		
-// 	}
-// }
+void	ft_expand(char *read_ln, char *heredoc)
+{
+	char	*tab;
+	int		i;
+	int 	j;
+
+	j = 0;
+	i = 0;
+	while (read_ln[i])
+	{
+		if (read_ln[i] = '$')
+		{
+			i++;
+			break;
+		}
+		i++;
+	}
+	j = i;
+	if (read_ln[i] == '_' || ft_isalpha(read_ln[i]))
+	{
+		i++;
+		while (ft_isalpha(read_ln[i]) || ft_isdigit(read_ln[i]) || read_ln[i] == '_')
+			i++;
+		tab = ft_select(g_all.our_env, (read_ln + j));
+		j = i - j;
+	}
+}
 
 void    ft_heredoc(t_token *tokens, int fd)
 {
@@ -89,12 +128,10 @@ void    ft_heredoc(t_token *tokens, int fd)
 					ptr = readline("> ");
 					if (ptr == NULL)
 						break;
-					if (tokens->h_quoted == EXPAND && !ft_strcmp(ptr, tmp->heredoc))
-					// {
-					// 	ft_expand(ptr, tmp->heredoc);
-					// }
 					if (ft_strcmp(ptr, tmp->heredoc))
 					{
+						if (ft_strchr(ptr, '$'))
+							ft_expand( ptr, tmp->heredoc);
 						//check the flag to know if you need to expand or not, if you need to expnad expand 
 						//pass the return of readline to a fuction that search for the dollar sign and check if the word after it is valid
 						// and then if it is valid search for it in the env and then replace the word with it is value from the env
