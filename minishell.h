@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/02 05:13:12 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/04 02:40:05 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define EXPAND		0
 # define NO_EXPAND	1
 
+
 typedef char	t_flag;
 
 typedef struct s_gdata
@@ -37,6 +38,8 @@ typedef struct s_gdata
 	int		g_exit_status;
 	char	**our_env;
 }	t_gdata;
+
+t_gdata	g_all;
 
 typedef struct s_token
 {
@@ -73,8 +76,11 @@ typedef struct s_meta
 // void	*ft_memset(void *b, int c, size_t len);
 // void	ft_bzero(void	*s, size_t n);
 void	ft_dlstadd_back(t_token **lst, t_token *new);
+void    ft_heredoc(t_token *tokens, int fd);
+void	ft_putstr(char *str);
+int		ft_strcmp(char *s1, char *s2);
+int		is_char(char c);
 t_token	*ft_dlstlast(t_token *lst);
 t_token	*lexer_scan(t_meta *meta);
-void    ft_heredoc(t_token *tokens);
 
 #endif

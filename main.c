@@ -6,14 +6,24 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/02 05:13:58 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/04 05:07:00 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
 
-t_gdata	g_all;
+int	ft_strcmp(char *s1, char *s2)
+{
+	if (!s1 || !s2)
+		return (0);
+	while (*s1 == *s2 && *s1 && *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}
 
 void	ft_putchar(char c)
 {
@@ -32,13 +42,6 @@ void	ft_putstr(char *str)
 		ft_putchar(str[i]);
 		i++;
 	}
-}
-
-int	is_char(char c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	return (0);
 }
 
 int	ft_quote(char *av, t_meta *meta, int pos)
@@ -90,7 +93,7 @@ void	ft_trans_meta(char *av, t_meta *meta)
 	i = 0;
 	while (av[i])
 	{
-		if (is_char(av[i]))
+		if (ft_isalpha(av[i]))
 			meta->meta_str[i] = 'u';
 		else if (av[i] == '|')
 			meta->meta_str[i] = 'p';
@@ -102,7 +105,7 @@ void	ft_trans_meta(char *av, t_meta *meta)
 			meta->meta_str[i] = 'b';
 		else if (av[i] == '$')
 		{
-			if (av[i + 1] && is_char(av [i + 1]))
+			if (av[i + 1] && (ft_isalpha(av [i + 1]) || av [i + 1] == '_'))
 			{
 				meta->meta_str[i] = 'x';
 			}
@@ -182,9 +185,8 @@ void	error_check(t_token *tokens)
 				tmp = tmp->next;
 				i = 0;
 				j = ft_strlen(tmp->meta);
-				printf("%d\n", j);
 				tmp->heredoc = ft_calloc(sizeof(char), (j + 1));
-				if (!tmp)
+				if (!tmp->heredoc)
 					return ;
 				j = 0;				
 				while (tmp->meta[i])
@@ -195,10 +197,38 @@ void	error_check(t_token *tokens)
 						tmp->heredoc[j++] = tmp->word[i++];
 				}
 				(j < i) && tmp->h_quoted++;
-				printf("%s\n", tmp->heredoc);
 			}
 		}
 		tmp = tmp->next;
+	}
+}
+
+void	ft_our_env(char **env)
+{
+	int	i;
+	int	j;
+	int	len;
+	
+	i = 0;
+	while (env[i])
+		i++;
+	g_all.our_env = ft_calloc((i + 1), sizeof(char *));
+	if (!g_all.our_env)
+		return ;
+	i = 0;
+	while (env[i])
+	{
+		j = 0;
+		len = ft_strlen(env[i]);
+		g_all.our_env[i] = ft_calloc((len + 1), sizeof(char *));		
+		if (!g_all.our_env[i])
+			return ;
+		while (env[i][j])
+		{
+			g_all.our_env[i][j] = env[i][j];
+			j++;	
+		}
+		i++;
 	}
 }
 
@@ -206,11 +236,14 @@ int	main(int argc, char **argv, char **env)
 {
 	t_meta	meta;
 	t_token	*tmp;
+	int		fd;
 
 	(void)argc;
 	(void)argv;
-	(void)env;
 	tmp = NULL;
+	fd = 0;
+
+	ft_our_env(env);
 	while (TRUE)
 	{
 		ft_init_meta(&meta);
@@ -220,7 +253,7 @@ int	main(int argc, char **argv, char **env)
 		error_check(meta.tokens);
 		if (g_all.g_error_status)
 			continue ;
-		ft_heredoc(meta.tokens);
+		ft_heredoc(meta.tokens, fd);
 		if (g_all.g_error_status)
 			continue ;
 		tmp = meta.tokens;
@@ -230,6 +263,7 @@ int	main(int argc, char **argv, char **env)
 			printf("the word is ¢ %s ¢\n", tmp->word);
 			printf("the meta is ¢ %s ¢\n", tmp->meta);
 			printf("the type is ¢ %u ¢\n", tmp->e_type);
+			// printf("the herdoc is ¢ %s ¢\n", tmp->heredoc);
 			tmp = tmp->next;
 		}
 	}
