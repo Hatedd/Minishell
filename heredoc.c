@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/05 00:30:49 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/06 14:33:10 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,20 @@ char	*ft_select(char **o_env, char *read_ln)
 			j++;
 			if (o_env == '=')
 			{
-				j = ft_strlen((o_env[i] + j));
-				tab = ft_calloc((j + 1), sizeof(char));
+				tab = ft_calloc((ft_strlen(o_env[i] + j) + 1), sizeof(char));
 				if (!tab)
 					return (NULL);
+				while (o_env[i][j] != '\n')
+				{
+					*tab = o_env[i][j];
+					tab++;
+					j++;
+				}
 			}
 		}
 		i++;
-	}	
+	}
+	return (tab);
 }
 
 void	ft_expand(char *read_ln, char *heredoc)
@@ -77,6 +83,7 @@ void	ft_expand(char *read_ln, char *heredoc)
 	char	*tab;
 	int		i;
 	int 	j;
+	int		len;
 
 	j = 0;
 	i = 0;
@@ -96,6 +103,7 @@ void	ft_expand(char *read_ln, char *heredoc)
 		while (ft_isalpha(read_ln[i]) || ft_isdigit(read_ln[i]) || read_ln[i] == '_')
 			i++;
 		tab = ft_select(g_all.our_env, (read_ln + j));
+		len = ft_strlen(tab);
 		j = i - j;
 	}
 }
