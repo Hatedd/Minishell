@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/06 14:33:10 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/07 04:30:33 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,26 +51,37 @@ char	*ft_select(char **o_env, char *read_ln)
 {
 	int i;
 	int j;
+	int	len;
+	int k;
 	char *tab;
 	
 	i = 0;
+	k = 0;
+	len = 0;
+	// printf("%s\n", read_ln);
 	while (o_env[i])
 	{
+			// printf("%d\n", len);
 		j = 0;
-		while (o_env[i][j] && o_env[i][j] != '=' && o_env[i][j] == read_ln[j])
+		while (o_env[i][j] && o_env[i][j] == read_ln[j])
 		{
 			j++;
-			if (o_env == '=')
+			if (o_env[i][j] == '=')
 			{
-				tab = ft_calloc((ft_strlen(o_env[i] + j) + 1), sizeof(char));
+				j++;
+				len = ft_strlen(o_env[i] + j);
+				len++;
+				tab = ft_calloc((len), sizeof(char));
 				if (!tab)
 					return (NULL);
-				while (o_env[i][j] != '\n')
+				while (o_env[i][j] != '\n' && o_env[i][j] && k < len)
 				{
-					*tab = o_env[i][j];
-					tab++;
+					tab[k] = o_env[i][j];
+					k++;
 					j++;
 				}
+				if (tab[0])
+					return (tab);
 			}
 		}
 		i++;
@@ -78,34 +89,42 @@ char	*ft_select(char **o_env, char *read_ln)
 	return (tab);
 }
 
-void	ft_expand(char *read_ln, char *heredoc)
+int	ft_expand(char *read_ln, int fd, int flag)
 {
 	char	*tab;
 	int		i;
-	int 	j;
-	int		len;
 
-	j = 0;
 	i = 0;
-	while (read_ln[i])
-	{
-		if (read_ln[i] = '$')
-		{
-			i++;
-			break;
-		}
+	// printf("%s\n", (read_ln + i));
+	if (read_ln[i] == '$')
 		i++;
-	}
-	j = i;
+	else
+		return (0);
 	if (read_ln[i] == '_' || ft_isalpha(read_ln[i]))
 	{
 		i++;
 		while (ft_isalpha(read_ln[i]) || ft_isdigit(read_ln[i]) || read_ln[i] == '_')
 			i++;
-		tab = ft_select(g_all.our_env, (read_ln + j));
-		len = ft_strlen(tab);
-		j = i - j;
+		if (read_ln[i] != ' ' && read_ln[i])
+			return (0);
+		tab = ft_select(g_all.our_env, (read_ln + 1));
+		// j--;
+		// if (flag == 0)
+		// {	
+		// 	flag++;
+		// }
+		while (*tab)
+		{
+			if (flag == 1)
+			{
+				ft_putchar_fd(' ', fd);
+				flag = 10;
+			}
+			ft_putchar_fd(*tab, fd);
+			tab++;
+		}
 	}
+	return (1);
 }
 
 void    ft_heredoc(t_token *tokens, int fd)
@@ -139,7 +158,23 @@ void    ft_heredoc(t_token *tokens, int fd)
 					if (ft_strcmp(ptr, tmp->heredoc))
 					{
 						if (ft_strchr(ptr, '$'))
-							ft_expand( ptr, tmp->heredoc);
+						{
+							while (*ptr != '$')
+							{
+								if (*ptr && *ptr != ' ' && *(ptr + 1) != '$')
+									ft_putchar_fd(*ptr ,fd);
+								ptr++;
+							}
+							ft_expand(ptr, fd, 1);
+							if (*ptr == '$')
+							{
+								while (*ptr && *ptr != ' ' && *ptr != '\n')
+									ptr++;
+								ft_putstr_fd(ptr, fd);
+								ft_putchar_fd('\n', fd);
+								continue;
+							}
+						}
 						//check the flag to know if you need to expand or not, if you need to expnad expand 
 						//pass the return of readline to a fuction that search for the dollar sign and check if the word after it is valid
 						// and then if it is valid search for it in the env and then replace the word with it is value from the env
