@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/07 04:30:33 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/07 04:47:39 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,9 @@ int	ft_expand(char *read_ln, int fd, int flag)
 		// }
 		while (*tab)
 		{
-			if (flag == 1)
+			if (flag++ == 1)
 			{
 				ft_putchar_fd(' ', fd);
-				flag = 10;
 			}
 			ft_putchar_fd(*tab, fd);
 			tab++;
@@ -134,10 +133,12 @@ void    ft_heredoc(t_token *tokens, int fd)
 	char	*ptr;
 	char	*name;
 	int		nb;
+	int		flag;
 	
 	name = ft_strdup("/tmp/heredoc.....");
     pid = fork();
     tmp = tokens;
+	flag = 1;
     if (pid == 0)
     {
 		nb = ft_heredoc_nb(tmp);
@@ -157,6 +158,10 @@ void    ft_heredoc(t_token *tokens, int fd)
 						break;
 					if (ft_strcmp(ptr, tmp->heredoc))
 					{
+						if (*ptr == '$')
+							flag = 10;
+						else
+							flag = 1;
 						if (ft_strchr(ptr, '$'))
 						{
 							while (*ptr != '$')
@@ -165,7 +170,7 @@ void    ft_heredoc(t_token *tokens, int fd)
 									ft_putchar_fd(*ptr ,fd);
 								ptr++;
 							}
-							ft_expand(ptr, fd, 1);
+							ft_expand(ptr, fd, flag);
 							if (*ptr == '$')
 							{
 								while (*ptr && *ptr != ' ' && *ptr != '\n')
