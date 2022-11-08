@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/04 02:40:05 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/08 06:56:20 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@
 # define EXPAND		0
 # define NO_EXPAND	1
 
-
-typedef char	t_flag;
+# define FIRST		1
+# define SECOND		2
+# define ALL		3
 
 typedef struct s_gdata
 {
@@ -39,7 +40,9 @@ typedef struct s_gdata
 	char	**our_env;
 }	t_gdata;
 
-t_gdata	g_all;
+t_gdata			g_all;
+
+typedef char	t_flag;
 
 typedef struct s_token
 {
@@ -71,16 +74,21 @@ typedef struct s_meta
 	t_token	*tokens;
 }	t_meta;
 
-// int		ft_strlen(char *str);
-// void	*ft_calloc(size_t count, size_t size);
-// void	*ft_memset(void *b, int c, size_t len);
-// void	ft_bzero(void	*s, size_t n);
 void	ft_dlstadd_back(t_token **lst, t_token *new);
-void    ft_heredoc(t_token *tokens, int fd);
+void	join_free(char *s1, char *s2, short flag);
+void	ft_trans_meta(char *av, t_meta *meta);
+void	ft_heredoc(t_token *tokens, int fd);
+void	ft_init_meta(t_meta *meta);
+void	lexer_scan(t_meta *meta);
 void	ft_putstr(char *str);
+void	error_set(void);
+char	**trans_to_string(t_meta *meta, int pos, int len);
+char	*ft_strjoin_free(char *s1, char *s2, short flag);
+char	*ft_expand(char **read_ln);
+int		ft_quote(char *av, t_meta *meta, int pos);
+int		check_word(t_meta *meta, int pos);
 int		ft_strcmp(char *s1, char *s2);
 int		is_char(char c);
 t_token	*ft_dlstlast(t_token *lst);
-t_token	*lexer_scan(t_meta *meta);
 
 #endif
