@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/08 06:57:09 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/09 04:24:04 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ void	redirections_error(t_token *tmp)
 		ft_putstr_fd(tmp->next->word, 2);
 		write(2, "'\n", 2);
 	}
-	g_all.g_exit_status = 258;
-	g_all.g_error_status = EXIT_FAILURE;
-	return ;
+	return (error_set(258));
 }
 
 void	error_check(t_token *tokens)
@@ -63,12 +61,12 @@ void	error_check(t_token *tokens)
 			|| tmp->next == NULL))
 		{
 			write(2, "syntax error near unexpected token `|'\n", 39);
-			return (error_set());
+			return (error_set(258));
 		}
 		else if (tmp->e_type == TOKEN_PIPE && tmp->next->e_type == TOKEN_PIPE)
 		{
 			write(2, "syntax error near unexpected token `|'\n", 39);
-			return (error_set());
+			return (error_set(258));
 		}
 		else if ((tmp->e_type == TOKEN_DREAD || tmp->e_type == TOKEN_READ \
 			|| tmp->e_type == TOKEN_DWRITE || tmp->e_type == TOKEN_WRITE) \

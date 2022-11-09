@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 23:32:17 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/08 06:36:47 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/09 03:03:51 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,11 @@ int	ft_doubly_quote(char *av, t_meta *meta, int pos)
 	if (av[pos] == '\0')
 	{
 		write(2, "quotes not closed\n", 18);
-		g_all.g_error_status = EXIT_FAILURE;
-		g_all.g_exit_status = 258;
-		return (EXIT_FAILURE);
+		error_set(258);
+		return (g_all.g_error_status);
 	}
 	meta->meta_str[pos] = 'd';
-	return (EXIT_SUCCESS);
+	return (pos);
 }
 
 int	ft_quote(char *av, t_meta *meta, int pos)
@@ -47,14 +46,13 @@ int	ft_quote(char *av, t_meta *meta, int pos)
 		if (av[pos] == '\0')
 		{
 			write(2, "quotes not closed\n", 18);
-			g_all.g_error_status = EXIT_FAILURE;
-			g_all.g_exit_status = 258;
-			return (EXIT_FAILURE);
+			error_set(258);
+			return (g_all.g_error_status);
 		}
 		meta->meta_str[pos] = 's';
 	}
 	else if (av[pos] == '"')
-		ft_doubly_quote(av, meta, pos);
+		pos = ft_doubly_quote(av, meta, pos);
 	return (pos);
 }
 

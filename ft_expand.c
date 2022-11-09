@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 05:59:35 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/08 06:16:48 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/09 04:05:36 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**trans_to_string(t_meta *meta, int pos, int len)
 
 	i = 0;
 	cal = 0;
-	tab = malloc(sizeof(char *) * 3);
+	tab = ft_calloc(sizeof(char *), 3);
 	if (!tab)
 		return (NULL);
 	cal = len - pos;

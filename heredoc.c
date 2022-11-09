@@ -6,46 +6,11 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/08 06:03:41 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/09 04:33:43 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_heredoc_nb(t_token *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst)
-	{
-		if (lst->e_type == TOKEN_DREAD)
-			i++;
-		lst = lst->next;
-	}
-	return (i);
-}
-
-int	ft_heredoc_creat(char *name, int nb, int fd)
-{
-	char	*ptr;
-
-	ptr = ttyname(0);
-	ptr = ft_strchr(ptr, '\0');
-	name[12] = nb / 10 + '0';
-	name[13] = nb % 10 + '0';
-	name[16] = *--ptr;
-	name[15] = *--ptr;
-	name[14] = *--ptr;
-	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0600);
-	if (fd == -1)
-	{
-		g_all.g_error_status = EXIT_FAILURE;
-		g_all.g_exit_status = 13;
-		exit (13);
-	}
-	return (fd);
-}
 
 void	ft_heredoc_expand(char *rl, int fd, int h_quoted)
 {
@@ -64,11 +29,34 @@ void	ft_heredoc_expand(char *rl, int fd, int h_quoted)
 			buffer = ft_strjoin_free(buffer, ft_expand(&rl), ALL);
 	}
 	buffer = ft_strjoin_free(buffer, ft_strdup(rl), ALL);
+	buffer = ft_strjoin_free(buffer, ft_strdup("\n"), ALL);
 	ft_putstr_fd(buffer, fd);
 	free (buffer);
 }
 
-void	ft_rl_heredoc(t_token *tokens, char *name, int nb, int fd)
+int	ft_heredoc_creat(char *name, int nb, int fd)
+{
+	char	*ptr;
+
+	ptr = ttyname(0);
+	ptr = ft_strchr(ptr, '\0');
+	name[12] = nb / 10 + '0';
+	name[13] = nb % 10 + '0';
+	name[16] = *--ptr;
+	name[15] = *--ptr;
+	name[14] = *--ptr;
+	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0600);
+	if (fd == -1)
+	{
+		g_all.g_error_status = EXIT_FAILURE;
+		g_all.g_exit_status = 13;
+		exit (g_all.g_exit_status);
+	}
+	return (fd);
+}
+
+void	
+ft_rl_heredoc(t_token *tokens, char *name, int nb, int fd)
 {
 	t_token	*tmp;
 	char	*rl;
@@ -97,6 +85,20 @@ void	ft_rl_heredoc(t_token *tokens, char *name, int nb, int fd)
 	}
 }
 
+int	ft_heredoc_nb(t_token *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		if (lst->e_type == TOKEN_DREAD)
+			i++;
+		lst = lst->next;
+	}
+	return (i);
+}
+
 void	ft_heredoc(t_token *tokens, int fd)
 {
 	t_token	*temp;
@@ -111,10 +113,34 @@ void	ft_heredoc(t_token *tokens, int fd)
 	{
 		nb = ft_heredoc_nb(temp);
 		if (nb >= 16)
-			exit(write(2, ": maximum here-document count exceeded\n", 40));
+		{
+			write(2, ": maximum here-document count exceeded\n", 40);
+			exit(2);
+		}
 		nb = 0;
 		ft_rl_heredoc(tokens, name, nb, fd);
-		exit (99);
+		exit (EXIT_SUCCESS);
 	}
-	waitpid(pid, &nb, 0);
+	pid = waitpid(pid, &nb, 0);
+	if (pid == -1)
+	{
+		if (WIFEXITED(nb))
+		{
+			if (WEXITSTATUS(nb) == EXIT_FAILURE)
+				error_set(1);
+			else if (WEXITSTATUS(nb) == 2)
+				error_set(2);
+			else if (WEXITSTATUS(nb) == 13)
+				error_set(13);
+		}
+		else if (WIFSIGNALED(nb))
+		{
+			if (WTERMSIG(nb) == SIGINT)	
+				error_set(1);
+		}
+	}
+	// check here if the child exited because of a signal
+	
+	//after checking both situations react to each one of them accourdingly
 }
+ 

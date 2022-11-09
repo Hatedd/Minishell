@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/08 06:56:20 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/09 01:02:24 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ft_heredoc(t_token *tokens, int fd);
 void	ft_init_meta(t_meta *meta);
 void	lexer_scan(t_meta *meta);
 void	ft_putstr(char *str);
-void	error_set(void);
+void	error_set(int nb);
 char	**trans_to_string(t_meta *meta, int pos, int len);
 char	*ft_strjoin_free(char *s1, char *s2, short flag);
 char	*ft_expand(char **read_ln);

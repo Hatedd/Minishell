@@ -6,15 +6,15 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 06:25:32 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/08 06:56:11 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/09 00:59:18 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_set(void)
+void	error_set(int nb)
 {
-	g_all.g_exit_status = 258;
+	g_all.g_exit_status = nb;
 	g_all.g_error_status = EXIT_FAILURE;
 	return ;
 }
