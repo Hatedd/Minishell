@@ -6,11 +6,21 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/09 04:33:43 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/09 22:55:44 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	 ft_delimiter_name(t_token * tokens, char *name)
+{
+	t_token *tmp;
+	
+	tmp = tokens;
+	if (tmp->heredoc)
+		tmp->heredoc = ft_strjoin_free(NULL, ft_strdup(name), ALL);
+	printf("%s\n", tmp->heredoc);
+}
 
 void	ft_heredoc_expand(char *rl, int fd, int h_quoted)
 {
@@ -24,9 +34,10 @@ void	ft_heredoc_expand(char *rl, int fd, int h_quoted)
 		while (rl[i] != '$')
 			i++;
 		buffer = ft_strjoin_free(buffer, ft_substr(rl, 0, i), ALL);
+		printf("%s\n", buffer);
 		rl += i;
 		if (h_quoted == EXPAND)
-			buffer = ft_strjoin_free(buffer, ft_expand(&rl), ALL);
+			buffer = ft_strjoin_free(buffer, ft_hexpand(&rl), ALL);
 	}
 	buffer = ft_strjoin_free(buffer, ft_strdup(rl), ALL);
 	buffer = ft_strjoin_free(buffer, ft_strdup("\n"), ALL);
@@ -55,8 +66,7 @@ int	ft_heredoc_creat(char *name, int nb, int fd)
 	return (fd);
 }
 
-void	
-ft_rl_heredoc(t_token *tokens, char *name, int nb, int fd)
+void	ft_rl_heredoc(t_token *tokens, char *name, int nb, int fd)
 {
 	t_token	*tmp;
 	char	*rl;
@@ -79,6 +89,7 @@ ft_rl_heredoc(t_token *tokens, char *name, int nb, int fd)
 					break ;
 			}
 			close(fd);
+			ft_delimiter_name(tmp, name);
 			nb++;
 		}
 		tmp = tmp->next;
@@ -121,6 +132,7 @@ void	ft_heredoc(t_token *tokens, int fd)
 		ft_rl_heredoc(tokens, name, nb, fd);
 		exit (EXIT_SUCCESS);
 	}
+	signal(SIGINT, SIG_IGN);
 	pid = waitpid(pid, &nb, 0);
 	if (pid == -1)
 	{
@@ -128,17 +140,21 @@ void	ft_heredoc(t_token *tokens, int fd)
 		{
 			if (WEXITSTATUS(nb) == EXIT_FAILURE)
 				error_set(1);
-			else if (WEXITSTATUS(nb) == 2)
+			else if (WEXITSTATUS(nb) == 2)// here you should exit
 				error_set(2);
 			else if (WEXITSTATUS(nb) == 13)
 				error_set(13);
+			else if (WEXITSTATUS(nb) == 42)// you shoud exit here too
+				error_set(42);
 		}
 		else if (WIFSIGNALED(nb))
 		{
 			if (WTERMSIG(nb) == SIGINT)	
 				error_set(1);
 		}
+		signal(SIGINT, SIG_DFL);// you need to replace SIG_DFL with you own handler
 	}
+	
 	// check here if the child exited because of a signal
 	
 	//after checking both situations react to each one of them accourdingly

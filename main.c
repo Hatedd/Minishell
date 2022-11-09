@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/09 04:24:04 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/09 22:23:38 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int	main(int argc, char **argv, char **env)
 		ft_heredoc(meta.tokens, fd);
 		if (g_all.g_error_status)
 			continue ;
+		ft_expand(meta.tokens);
 		tmp = meta.tokens;
 		while (tmp)
 		{
