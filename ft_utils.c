@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 06:25:32 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/09 22:58:45 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/10 10:59:00 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,22 @@
 
 char	**add_change(char **tab, char *str)
 {
-	int	i;
-
+	int		i;
+	char	**new;
+	
 	i = 0;
 	while (tab[i])
 		i++;
-	tab[i] = ft_strdup(str);//wa khona khassek talloki wa7ed jdid blen dyal l9dim + 2 3la7ssab bash tzid jdid flor
-	return (tab);
+	new = ft_calloc((i + 2), sizeof(char *));
+	i = 0;
+	while (tab[i])
+	{
+		new[i] = tab[i];
+		i++;
+	}
+	free(tab);
+	new[i] = ft_strdup(str);
+	return (new);
 }
 
 void	error_set(int nb)

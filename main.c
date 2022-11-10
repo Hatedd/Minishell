@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/09 22:23:38 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/10 11:56:03 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,9 @@ int	main(int argc, char **argv, char **env)
 		while (tmp)
 		{
 			printf("-----------------------------\n");
-			printf("the word is ¢ %s ¢\n", tmp->word);
-			printf("the meta is ¢ %s ¢\n", tmp->meta);
-			printf("the type is ¢ %u ¢\n", tmp->e_type);
+			printf("the word is |%s|\n", tmp->word);
+			printf("the meta is |%s|\n", tmp->meta);
+			printf("the type is |%u|\n", tmp->e_type);
 			tmp = tmp->next;
 		}
 	}

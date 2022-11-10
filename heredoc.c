@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/09 22:55:44 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/10 12:28:43 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,29 @@
 void	 ft_delimiter_name(t_token * tokens, char *name)
 {
 	t_token *tmp;
-	
+	char	*ptr;
+	int		nb;
+
+	nb = 0;
 	tmp = tokens;
-	if (tmp->heredoc)
-		tmp->heredoc = ft_strjoin_free(NULL, ft_strdup(name), ALL);
-	printf("%s\n", tmp->heredoc);
+	while (tmp)
+	{
+		if (tmp->e_type == TOKEN_DREAD)
+		{
+			tmp = tmp->next;
+			ptr = ttyname(0);
+			ptr = ft_strchr(ptr, '\0');
+			name[12] = nb / 10 + '0';
+			name[13] = nb % 10 + '0';
+			name[16] = *--ptr;
+			name[15] = *--ptr;
+			name[14] = *--ptr;
+			free (tmp->word);
+			tmp->word = ft_strdup(name);
+			nb++;
+		}
+		tmp = tmp->next;
+	}
 }
 
 void	ft_heredoc_expand(char *rl, int fd, int h_quoted)
@@ -34,7 +52,6 @@ void	ft_heredoc_expand(char *rl, int fd, int h_quoted)
 		while (rl[i] != '$')
 			i++;
 		buffer = ft_strjoin_free(buffer, ft_substr(rl, 0, i), ALL);
-		printf("%s\n", buffer);
 		rl += i;
 		if (h_quoted == EXPAND)
 			buffer = ft_strjoin_free(buffer, ft_hexpand(&rl), ALL);
@@ -89,7 +106,6 @@ void	ft_rl_heredoc(t_token *tokens, char *name, int nb, int fd)
 					break ;
 			}
 			close(fd);
-			ft_delimiter_name(tmp, name);
 			nb++;
 		}
 		tmp = tmp->next;
@@ -128,8 +144,7 @@ void	ft_heredoc(t_token *tokens, int fd)
 			write(2, ": maximum here-document count exceeded\n", 40);
 			exit(2);
 		}
-		nb = 0;
-		ft_rl_heredoc(tokens, name, nb, fd);
+		ft_rl_heredoc(tokens, name, 0, fd);
 		exit (EXIT_SUCCESS);
 	}
 	signal(SIGINT, SIG_IGN);
@@ -154,7 +169,8 @@ void	ft_heredoc(t_token *tokens, int fd)
 		}
 		signal(SIGINT, SIG_DFL);// you need to replace SIG_DFL with you own handler
 	}
-	
+	ft_delimiter_name(tokens, name);
+	free(name);
 	// check here if the child exited because of a signal
 	
 	//after checking both situations react to each one of them accourdingly

@@ -6,16 +6,36 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 22:23:15 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/09 22:54:12 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/10 12:13:05 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*ft_nexpand(char *str, int *pos)
+{
+	char	*tab;
+	int		i;
+	int		len;
+
+	i = *pos;
+	len = 0;
+    while (ft_isalpha(str[i + len]) || ft_isdigit(str[i + len])
+        || str[i + len] == '_')
+        len++;
+    // printf("this is a thing : %s\n", ft_substr(str, i, len));
+    tab = ft_select(g_all.our_env, ft_substr(str, i, len), 0);
+    *pos += len;
+    return (tab);
+}
+
 void    ft_expand(t_token *tokens)
 {
     t_token *tmp;
     char    *old_meta;
+    char    *buffer;
+    char    *mbuffer;
+    char    *temp;
     int     i;
     int     j;
 
@@ -48,7 +68,40 @@ void    ft_expand(t_token *tokens)
         }
         else if (ft_strchr(tmp->meta, 'x') || ft_strchr(tmp->meta, 'X'))// there is an expansion "x" or "X" 
         {
-            j = i;
+            i = 0;
+            buffer = NULL;
+            mbuffer = NULL;
+            while (tmp->meta[i])
+            {
+                j = 0;
+                while (tmp->meta[i + j] != 's' && tmp->meta[i + j] != 'd' && tmp->meta[i + j] != 'x' && tmp->meta[i + j] != 'X' && tmp->meta[i + j])
+                    j++;
+                buffer = ft_strjoin_free(buffer, ft_substr(tmp->word, i, j), ALL);
+                mbuffer = ft_strjoin_free(mbuffer, ft_substr(tmp->meta, i, j), ALL);
+                i += j;
+                if (tmp->meta[i] == 's' || tmp->meta[i] == 'd')
+                    i++;
+                else if (tmp->meta[i] == 'x')
+                {
+                    i++;
+                    temp = ft_nexpand(tmp->word, &i);
+                    if (temp != NULL)
+                        mbuffer = ft_strjoin_free(mbuffer, ft_memset(ft_strdup(temp), tmp->meta[i - 1], ft_strlen(temp)), ALL);
+                    buffer = ft_strjoin_free(buffer, temp, ALL);
+                }
+                else if (tmp->meta[i] == 'X')
+                {
+                    i++;
+                    temp = ft_itoa(g_all.g_exit_status);
+                    mbuffer = ft_strjoin_free(mbuffer, ft_memset(ft_strdup(temp), tmp->meta[i++], ft_strlen(temp)), ALL);
+                    buffer = ft_strjoin_free(buffer, temp, ALL);
+                }
+                // printf("this is the char after expanding : %c\n", tmp->meta[i]);
+            }
+            free (tmp->word);
+            tmp->word = buffer;
+            free (tmp->meta);
+            tmp->meta = mbuffer;
         }
         tmp = tmp->next;
     }

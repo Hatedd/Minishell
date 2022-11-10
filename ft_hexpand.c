@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand.c                                        :+:      :+:    :+:   */
+/*   ft_hexpand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 05:59:35 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/09 18:42:34 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/10 11:50:54 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*ft_select(char **o_env, char *read_ln, int len)
 			}
 		}
 		i++;
-	}
+	}//han radi ykon leak free read_ln 9bel matekhroj
 	return (NULL);
 }
 
@@ -102,10 +102,8 @@ char	*ft_hexpand(char **read_ln)
 {
 	char	*tab;
 	int		i;
-	int		len;
 
 	i = 0;
-	len = 0;
 	if (**read_ln == '$')
 		(*read_ln)++;
 	else
@@ -116,7 +114,7 @@ char	*ft_hexpand(char **read_ln)
 		while (ft_isalpha(read_ln[0][i]) || ft_isdigit(read_ln[0][i])
 			|| read_ln[0][i] == '_')
 			i++;
-		tab = ft_select(g_all.our_env, ft_substr(*read_ln, 0, i), len);
+		tab = ft_select(g_all.our_env, ft_substr(*read_ln, 0, i), 0);
 		*read_ln += i;
 		return (tab);
 	}
