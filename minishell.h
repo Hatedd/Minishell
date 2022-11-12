@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/10 11:47:40 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/12 00:40:01 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@
 # define SECOND		2
 # define ALL		3
 
+typedef	struct	s_parser
+{
+	char			flag;
+	int				index;
+	int 			pipe[2];
+	int				in_fd;
+	int				out_fd;
+	char 			**av;
+	char 			*c_path;
+	struct s_parser	*next;
+	struct s_parser	*prev;
+}	t_parser;
+
 typedef struct s_gdata
 {
 	char	g_error_status;
@@ -54,6 +67,7 @@ typedef struct s_token
 		TOKEN_READ,
 		TOKEN_DWRITE,
 		TOKEN_WRITE,
+		TOKEN_RDAMB
 	} e_type;
 	char			*word;
 	char			*meta;
@@ -72,6 +86,7 @@ typedef struct s_meta
 	int		i;
 	int		flag;
 	t_token	*tokens;
+	t_parser *parsing;
 }	t_meta;
 
 void	ft_dlstadd_back(t_token **lst, t_token *new);
@@ -86,11 +101,11 @@ void	error_set(int nb);
 char	**trans_to_string(t_meta *meta, int pos, int len);
 char	*ft_strjoin_free(char *s1, char *s2, short flag);
 char	*ft_hexpand(char **read_ln);
+char	*ft_select(char **o_env, char *read_ln, int len);
 int		ft_quote(char *av, t_meta *meta, int pos);
 int		check_word(t_meta *meta, int pos);
 int		ft_strcmp(char *s1, char *s2);
 int		is_char(char c);
 t_token	*ft_dlstlast(t_token *lst);
-char	*ft_select(char **o_env, char *read_ln, int len);
 
 #endif

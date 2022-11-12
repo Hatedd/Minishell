@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/10 12:28:43 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/10 21:30:21 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,26 +149,28 @@ void	ft_heredoc(t_token *tokens, int fd)
 	}
 	signal(SIGINT, SIG_IGN);
 	pid = waitpid(pid, &nb, 0);
-	if (pid == -1)
+	// if (pid != -1)
+		//handle the waitpid error here
+	if (WIFEXITED(nb))
 	{
-		if (WIFEXITED(nb))
-		{
-			if (WEXITSTATUS(nb) == EXIT_FAILURE)
-				error_set(1);
-			else if (WEXITSTATUS(nb) == 2)// here you should exit
-				error_set(2);
-			else if (WEXITSTATUS(nb) == 13)
-				error_set(13);
-			else if (WEXITSTATUS(nb) == 42)// you shoud exit here too
-				error_set(42);
-		}
-		else if (WIFSIGNALED(nb))
-		{
-			if (WTERMSIG(nb) == SIGINT)	
-				error_set(1);
-		}
-		signal(SIGINT, SIG_DFL);// you need to replace SIG_DFL with you own handler
+		if (WEXITSTATUS(nb) == EXIT_FAILURE)
+			return (error_set(1));
+		else if (WEXITSTATUS(nb) == 2)
+			exit (2);
+		else if (WEXITSTATUS(nb) == 13)
+			return (error_set(13));
+		else if (WEXITSTATUS(nb) == 42)
+			exit (42);
 	}
+	else if (WIFSIGNALED(nb))
+	{
+		if (WTERMSIG(nb) == SIGINT)
+		{
+			ft_putchar_fd('\n', 1);
+			return (error_set(1));
+		}
+	}
+	signal(SIGINT, SIG_DFL);// you need to replace SIG_DFL with you own handler
 	ft_delimiter_name(tokens, name);
 	free(name);
 	// check here if the child exited because of a signal

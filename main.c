@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/10 11:56:03 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/12 01:01:49 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,70 @@ void	ft_our_env(char **env)
 	}
 }
 
+int	ft_counting_cmd(t_token * tokens)
+{
+	t_token *tmp;
+	t_token *new;
+	int	i;
+
+	i = 0;
+	tmp = tokens;
+	while (tmp)
+	{
+		if (tmp->e_type == TOKEN_PIPE)
+			i++;	
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
+t_parser	*init_parser(void)
+{
+	t_parser	*head;
+
+	head = (t_parser *)ft_calloc(sizeof(t_parser), 1);
+	if (!head)
+		return (NULL);
+	head->flag = 1;
+	head->index = 0;
+	head->pipe[0] = 0;
+	head->pipe[1] = 0;
+	head->in_fd = 0;
+	head->out_fd = 0;	
+	head->av = NULL;
+	head->c_path = NULL;
+	head->next = NULL;
+	head->prev = NULL;
+	return (head);
+}
+
+void	ft_redirection(t_token *tokens, t_parser *parser)
+{
+	if (tokens->e_type == TOKEN_READ)
+		parser->in_fd = open(tokens->next->word, O_RDONLY, 0600);
+	else if (tokens->next->e_type == TOKEN_WRITE)
+		parser->out_fd = open(tokens->next->word, O_CREAT, O_RDWR, 0600);
+}
+
+void	ft_parser(t_token *tokens, t_parser *parser)
+{
+	t_token *tmp;
+	t_parser *temp;
+	int	i;
+
+	i = 0;
+	tmp = tokens;
+	temp = init_parser();
+	while (tmp)
+	{
+		if((tmp->e_type == TOKEN_READ || tmp->e_type == TOKEN_WRITE) && tmp->next->e_type == TOKEN_WORD)
+			ft_redirection(tmp, temp);
+		else if (tmp->e_type == TOKEN_PIPE)
+			temp->index = i++;
+		tmp = tmp->next;
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_meta	meta;
@@ -131,6 +195,28 @@ int	main(int argc, char **argv, char **env)
 		if (g_all.g_error_status)
 			continue ;
 		ft_expand(meta.tokens);
+		if (g_all.g_error_status)
+			continue ;
+		// ft_counting_cmd(meta.tokens);
+		// ft_parser(meta.tokens, meta.parser);
+		//first you need to count how mani comands you have and allocat a linked list
+		//that you will send to wizare in the coresponding count
+		// example cat << l > out | echo helo | wc | ls
+		//in this example we have 4 comands so we will allocate 4 nodes that will 
+		// contain the redirection data and the command and it's arguments.
+		/*
+		here you need to make a function tha treat the redirection as follows:
+		you need to check there permetions and whether they existe or not in turn using
+		the function access and if all the redirections are valid then you will open 
+		the last redirection file for read and for write respectevly.
+		example : 
+			echo > out1 > out2 < in1 >> out3 < in2 > out4 << in3 | ...
+			in this case if we keep in mind that all the input files exist and all the out
+			and in files have the right permissions, your fuction will open the files :
+			in3 and out4
+			-in case of an error at some point in the redirection processing you skip
+			to the next pipe and repeat the process again
+		*/
 		tmp = meta.tokens;
 		while (tmp)
 		{

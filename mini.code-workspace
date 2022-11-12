@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "mini",
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"readline.h": "c",
+			"history.h": "c",
+			"string.h": "c"
+		}
+	}
+}
