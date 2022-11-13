@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/12 00:40:01 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/13 01:55:31 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,14 @@
 # define EXPAND		0
 # define NO_EXPAND	1
 
+# define EXEC		1
+# define NOEXEC		0
 # define FIRST		1
 # define SECOND		2
 # define ALL		3
+
+# define read		0
+# define write		1
 
 typedef	struct	s_parser
 {
@@ -89,6 +94,14 @@ typedef struct s_meta
 	t_parser *parsing;
 }	t_meta;
 
+typedef	struct s_files
+{
+	char	*name;
+	int		mode;
+	int		permission;
+}	t_files;
+
+void	ft_dlstadd_back2(t_parser **lst, t_parser *new);
 void	ft_dlstadd_back(t_token **lst, t_token *new);
 void	join_free(char *s1, char *s2, short flag);
 void	ft_trans_meta(char *av, t_meta *meta);
@@ -99,9 +112,10 @@ void	lexer_scan(t_meta *meta);
 void	ft_putstr(char *str);
 void	error_set(int nb);
 char	**trans_to_string(t_meta *meta, int pos, int len);
-char	*ft_strjoin_free(char *s1, char *s2, short flag);
-char	*ft_hexpand(char **read_ln);
 char	*ft_select(char **o_env, char *read_ln, int len);
+char	*ft_strjoin_free(char *s1, char *s2, short flag);
+char	**add_change(char **tab, char *str);
+char	*ft_hexpand(char **read_ln);
 int		ft_quote(char *av, t_meta *meta, int pos);
 int		check_word(t_meta *meta, int pos);
 int		ft_strcmp(char *s1, char *s2);

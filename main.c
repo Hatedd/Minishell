@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/12 01:01:49 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/13 01:54:33 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,33 +110,31 @@ void	ft_our_env(char **env)
 int	ft_counting_cmd(t_token * tokens)
 {
 	t_token *tmp;
-	t_token *new;
+	// t_token *new;
 	int	i;
 
-	i = 0;
+	i = 1;
 	tmp = tokens;
 	while (tmp)
 	{
 		if (tmp->e_type == TOKEN_PIPE)
-			i++;	
+			i++;
 		tmp = tmp->next;
 	}
 	return (i);
 }
 
-t_parser	*init_parser(void)
+t_parser	*init_parser(int i)
 {
 	t_parser	*head;
 
 	head = (t_parser *)ft_calloc(sizeof(t_parser), 1);
 	if (!head)
 		return (NULL);
-	head->flag = 1;
-	head->index = 0;
-	head->pipe[0] = 0;
-	head->pipe[1] = 0;
+	head->flag = EXEC;
+	head->index = i;
 	head->in_fd = 0;
-	head->out_fd = 0;	
+	head->out_fd = 1;	
 	head->av = NULL;
 	head->c_path = NULL;
 	head->next = NULL;
@@ -144,31 +142,93 @@ t_parser	*init_parser(void)
 	return (head);
 }
 
-void	ft_redirection(t_token *tokens, t_parser *parser)
+int	ft_redirection(t_token *tokens, t_parser *parser, t_files *redirects)
 {
-	if (tokens->e_type == TOKEN_READ)
-		parser->in_fd = open(tokens->next->word, O_RDONLY, 0600);
-	else if (tokens->next->e_type == TOKEN_WRITE)
-		parser->out_fd = open(tokens->next->word, O_CREAT, O_RDWR, 0600);
+	t_files *tmp;
+	t_token *temp;
+	int		valide;
+		
+	tmp = ft_calloc(sizeof(t_files), 1);
+	temp = tokens;
+	if (temp->e_type == TOKEN_READ && temp->next->e_type == TOKEN_WORD)
+	{	
+		tmp->name = temp->next->word;
+		tmp->mode = F_OK;
+		tmp->permission = 0;
+		valide = access(tmp->name, tmp->mode);
+	}
+	else if ((temp->e_type == TOKEN_WRITE || temp->e_type == TOKEN_DWRITE) && temp->next->word == TOKEN_READ)
+	{
+		tmp->name = temp->next->word;
+		tmp->mode = O_CREAT;
+		tmp->permission = 0600;
+		valide = access(tmp->name, tmp->mode);
+	}
+	if (valide > -1)
+	{
+		free(redirects);
+		redirects = tmp;
+		parser->flag = EXEC;
+		return (1);
+	}
+	parser->flag = NOEXEC;
+	return (0);
+	/*
+	this function should check for the required conditions for the corresponding redirection
+	if it is valid free the old data in the corresponding t_files struct and replace it 
+	with the new one
+	if it not valid you should set the flag in the parser node to NOEXEC and outside this function
+	you should skipp to the next command;
+	*/
 }
 
-void	ft_parser(t_token *tokens, t_parser *parser)
+t_parser	*creat_list(t_token *tokens)
 {
-	t_token *tmp;
-	t_parser *temp;
-	int	i;
+	int			i;
+	int			nb;
+	t_parser	*temp;
 
+	nb = ft_counting_cmd(tokens);
 	i = 0;
+	temp = NULL;
+	while (nb)
+	{
+		ft_dlstadd_back2(temp, init_parser(i));
+		nb--;
+		i++;
+	}
+}
+
+void	ft_parser(t_token *tokens, t_parser *parsing)
+{
+	t_token		*tmp;
+	t_files		*redirects;
+
+	redirects = ft_calloc(sizeof(t_files), 2);
 	tmp = tokens;
-	temp = init_parser();
 	while (tmp)
 	{
-		if((tmp->e_type == TOKEN_READ || tmp->e_type == TOKEN_WRITE) && tmp->next->e_type == TOKEN_WORD)
-			ft_redirection(tmp, temp);
-		else if (tmp->e_type == TOKEN_PIPE)
-			temp->index = i++;
-		tmp = tmp->next;
+		while (tmp->e_type != TOKEN_PIPE)
+		{
+			if (tmp->e_type == TOKEN_WORD)
+				parsing->av = add_change(parsing->av, tmp->word);
+			else if (tmp->e_type == TOKEN_READ || \
+					tmp->e_type == TOKEN_WRITE || \
+					tmp->e_type == TOKEN_DWRITE || \
+					tmp->e_type == TOKEN_DREAD)
+				{
+					if (ft_redirection(tmp, parsing, redirects))
+					{
+						printf("hehe\n");
+					}
+					tmp = tmp->next;
+				}
+			else if (tmp->e_type == TOKEN_PIPE)
+				parsing = parsing->next;
+			tmp = tmp->next;
+		}
 	}
+	
 }
 
 int	main(int argc, char **argv, char **env)
@@ -188,6 +248,8 @@ int	main(int argc, char **argv, char **env)
 		if (g_all.g_error_status)
 			continue ;
 		lexer_scan(&meta);
+		if (meta.tokens == NULL)
+			continue ;
 		error_check(meta.tokens);
 		if (g_all.g_error_status)
 			continue ;
@@ -197,8 +259,8 @@ int	main(int argc, char **argv, char **env)
 		ft_expand(meta.tokens);
 		if (g_all.g_error_status)
 			continue ;
-		// ft_counting_cmd(meta.tokens);
-		// ft_parser(meta.tokens, meta.parser);
+		meta.parsing = creat_list(meta.tokens);
+		ft_parser(meta.tokens, meta.parsing);
 		//first you need to count how mani comands you have and allocat a linked list
 		//that you will send to wizare in the coresponding count
 		// example cat << l > out | echo helo | wc | ls
