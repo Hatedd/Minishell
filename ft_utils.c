@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 06:25:32 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/10 10:59:00 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/13 18:19:38 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ char	**add_change(char **tab, char *str)
 	char	**new;
 	
 	i = 0;
+	if (!tab)
+	{
+		new = ft_calloc((i + 2), sizeof(char *));
+		new[0] = ft_strdup(str);
+		return (new);
+	}
 	while (tab[i])
 		i++;
 	new = ft_calloc((i + 2), sizeof(char *));

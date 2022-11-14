@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/13 01:54:33 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/14 01:51:59 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	redirections_error(t_token *tmp)
 	else
 	{
 		ft_putstr_fd(tmp->next->word, 2);
-		write(2, "'\n", 2);
+		write(2, "\n", 2);
 	}
 	return (error_set(258));
 }
@@ -110,7 +110,6 @@ void	ft_our_env(char **env)
 int	ft_counting_cmd(t_token * tokens)
 {
 	t_token *tmp;
-	// t_token *new;
 	int	i;
 
 	i = 1;
@@ -133,8 +132,8 @@ t_parser	*init_parser(int i)
 		return (NULL);
 	head->flag = EXEC;
 	head->index = i;
-	head->in_fd = 0;
-	head->out_fd = 1;	
+	head->in_fd = -2;
+	head->out_fd = -2;	
 	head->av = NULL;
 	head->c_path = NULL;
 	head->next = NULL;
@@ -142,44 +141,57 @@ t_parser	*init_parser(int i)
 	return (head);
 }
 
+void	filling_data(t_files *redirects, char *name, int mode)
+{
+	if (*redirects->name)
+		free (redirects->name);
+	redirects->name = ft_strdup(name);
+	redirects->mode = mode; 
+}
+
 int	ft_redirection(t_token *tokens, t_parser *parser, t_files *redirects)
 {
 	t_files *tmp;
 	t_token *temp;
-	int		valide;
-		
-	tmp = ft_calloc(sizeof(t_files), 1);
+	int		fd;
+
+	tmp = redirects;
 	temp = tokens;
 	if (temp->e_type == TOKEN_READ && temp->next->e_type == TOKEN_WORD)
 	{	
-		tmp->name = temp->next->word;
-		tmp->mode = F_OK;
-		tmp->permission = 0;
-		valide = access(tmp->name, tmp->mode);
+		if (access(temp->next->word, F_OK) != 0 || access(temp->next->word, R_OK) != 0)
+		{
+			redirects[READ].mode = -1;
+			parser->flag = NOEXEC;
+			return (1);
+		}
+		filling_data(&tmp[READ], temp->next->word, O_RDONLY);
 	}
-	else if ((temp->e_type == TOKEN_WRITE || temp->e_type == TOKEN_DWRITE) && temp->next->word == TOKEN_READ)
+	else if ((temp->e_type == TOKEN_WRITE || temp->e_type == TOKEN_DWRITE) && temp->next->e_type == TOKEN_READ)
 	{
-		tmp->name = temp->next->word;
-		tmp->mode = O_CREAT;
-		tmp->permission = 0600;
-		valide = access(tmp->name, tmp->mode);
+		if (access(temp->next->word, F_OK) != 0)
+		{
+			fd = open(temp->next->word, O_CREAT | O_RDWR, 0600);
+			if (fd == -1)
+			{
+				ft_putstr_fd("minishell: faild to creat file\n", 2);
+				error_set(13);
+				return (1);
+			}
+			close(fd);
+		}
+		else if (access(temp->next->word, W_OK) != 0)
+		{
+			redirects[WRITE].mode = -1;
+			parser->flag = NOEXEC;
+			return (1);
+		}
+		if (temp->e_type == TOKEN_WRITE)
+			filling_data(&tmp[WRITE], temp->next->word, O_TRUNC | O_WRONLY);
+		else if (temp->e_type == TOKEN_DWRITE)
+			filling_data(&tmp[WRITE], temp->next->word, O_APPEND | O_WRONLY);
 	}
-	if (valide > -1)
-	{
-		free(redirects);
-		redirects = tmp;
-		parser->flag = EXEC;
-		return (1);
-	}
-	parser->flag = NOEXEC;
 	return (0);
-	/*
-	this function should check for the required conditions for the corresponding redirection
-	if it is valid free the old data in the corresponding t_files struct and replace it 
-	with the new one
-	if it not valid you should set the flag in the parser node to NOEXEC and outside this function
-	you should skipp to the next command;
-	*/
 }
 
 t_parser	*creat_list(t_token *tokens)
@@ -193,9 +205,35 @@ t_parser	*creat_list(t_token *tokens)
 	temp = NULL;
 	while (nb)
 	{
-		ft_dlstadd_back2(temp, init_parser(i));
+		ft_dlstadd_back2(&temp, init_parser(i));
+		if (i == 0)
+			temp->in_fd = 0;
 		nb--;
 		i++;
+	}
+	ft_dlstlast2(temp)->out_fd = 1;
+	return (temp);
+}
+
+void	ft_opening_fd(t_files *redirects, t_parser *parsing, int type)
+{
+	if (type == READ)
+	{
+		parsing->in_fd = open(redirects->name, redirects->mode);
+		if (parsing->in_fd == -1)
+		{
+			ft_putstr_fd("minishell: faild to creat file\n", 2);
+			error_set(13);
+		}
+	}
+	else if (type == WRITE)
+	{
+		parsing->out_fd = open(redirects->name, redirects->mode);
+		if (parsing->out_fd == -1)
+		{
+			ft_putstr_fd("minishell: faild to creat file\n", 2);
+			error_set(13);
+		}
 	}
 }
 
@@ -205,28 +243,40 @@ void	ft_parser(t_token *tokens, t_parser *parsing)
 	t_files		*redirects;
 
 	redirects = ft_calloc(sizeof(t_files), 2);
+	redirects[READ].mode = -1;
+	redirects[WRITE].mode = -1;
 	tmp = tokens;
 	while (tmp)
 	{
-		while (tmp->e_type != TOKEN_PIPE)
+		if (tmp->e_type == TOKEN_WORD)
+			parsing->av = add_change(parsing->av, tmp->word);
+		else if (tmp->e_type == TOKEN_READ || \
+				tmp->e_type == TOKEN_WRITE || \
+				tmp->e_type == TOKEN_DWRITE || \
+				tmp->e_type == TOKEN_DREAD)
 		{
-			if (tmp->e_type == TOKEN_WORD)
-				parsing->av = add_change(parsing->av, tmp->word);
-			else if (tmp->e_type == TOKEN_READ || \
-					tmp->e_type == TOKEN_WRITE || \
-					tmp->e_type == TOKEN_DWRITE || \
-					tmp->e_type == TOKEN_DREAD)
-				{
-					if (ft_redirection(tmp, parsing, redirects))
-					{
-						printf("hehe\n");
-					}
+			if (ft_redirection(tmp, parsing, redirects))
+			{
+				if (g_all.g_error_status)
+					return ;
+				while (tmp && tmp->e_type != TOKEN_PIPE)
 					tmp = tmp->next;
-				}
-			else if (tmp->e_type == TOKEN_PIPE)
-				parsing = parsing->next;
-			tmp = tmp->next;
+				continue;
+			}
 		}
+		else if (tmp->e_type == TOKEN_PIPE)
+		{
+			if (redirects[READ].mode != -1)
+			{
+				ft_opening_fd(redirects, parsing, READ);
+			}
+			if (redirects[WRITE].mode != -1)
+			{
+				ft_opening_fd(redirects, parsing, WRITE);
+			}
+			parsing = parsing->next;
+		}
+		tmp = tmp->next;
 	}
 	
 }
@@ -261,6 +311,8 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		meta.parsing = creat_list(meta.tokens);
 		ft_parser(meta.tokens, meta.parsing);
+		if (g_all.g_error_status)
+			continue ;
 		//first you need to count how mani comands you have and allocat a linked list
 		//that you will send to wizare in the coresponding count
 		// example cat << l > out | echo helo | wc | ls
