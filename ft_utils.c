@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 06:25:32 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/13 18:19:38 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/15 03:25:12 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	**add_change(char **tab, char *str)
 {
 	int		i;
 	char	**new;
-	
+
 	i = 0;
 	if (!tab)
 	{

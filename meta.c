@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 23:32:17 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/12 00:11:22 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/15 03:32:48 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	ft_init_meta(t_meta *meta)
 	g_all.g_error_status = 0;
 	free(meta->tokens);
 	meta->tokens = NULL;
-	free(meta->parsing );
+	free(meta->parsing);
 	meta->parsing = NULL;
 	ft_trans_meta(meta->cmd, meta);
 }

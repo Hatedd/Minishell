@@ -6,15 +6,15 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/13 22:43:03 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/15 03:26:54 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	 ft_delimiter_name(t_token * tokens, char *name)
+void	ft_delimiter_name(t_token *tokens, char *name)
 {
-	t_token *tmp;
+	t_token	*tmp;
 	char	*ptr;
 	int		nb;
 
@@ -174,6 +174,5 @@ void	ft_heredoc(t_token *tokens, int fd)
 	ft_delimiter_name(tokens, name);
 	free(name);
 	// check here if the child exited because of a signal
-	
 	//after checking both situations react to each one of them accourdingly
 }

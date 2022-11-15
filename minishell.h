@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/13 22:37:39 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/15 03:35:24 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@
 # define READ		0
 # define WRITE		1
 
-typedef	struct	s_parser
+typedef struct s_parser
 {
 	char			flag;
 	int				index;
-	int 			pipe[2];
+	int				pipe[2];
 	int				in_fd;
 	int				out_fd;
-	char 			**av;
-	char 			*c_path;
+	char			**av;
+	char			*c_path;
 	struct s_parser	*next;
 	struct s_parser	*prev;
 }	t_parser;
@@ -72,7 +72,7 @@ typedef struct s_token
 		TOKEN_READ,
 		TOKEN_DWRITE,
 		TOKEN_WRITE,
-		TOKEN_RDAMB
+		TOKEN_AMBRD
 	} e_type;
 	char			*word;
 	char			*meta;
@@ -94,7 +94,7 @@ typedef struct s_meta
 	t_parser	*parsing;
 }	t_meta;
 
-typedef	struct s_files
+typedef struct s_files
 {
 	char	*name;
 	int		mode;
@@ -106,7 +106,7 @@ void		join_free(char *s1, char *s2, short flag);
 void		ft_trans_meta(char *av, t_meta *meta);
 void		ft_heredoc(t_token *tokens, int fd);
 void		ft_init_meta(t_meta *meta);
-void    	ft_expand(t_token *tokens);
+void		ft_expand(t_token *tokens);
 void		lexer_scan(t_meta *meta);
 void		ft_putstr(char *str);
 void		error_set(int nb);
@@ -115,6 +115,7 @@ char		*ft_select(char **o_env, char *read_ln, int len);
 char		*ft_strjoin_free(char *s1, char *s2, short flag);
 char		**add_change(char **tab, char *str);
 char		*ft_hexpand(char **read_ln);
+char		**ft_split2(char *str);
 int			ft_quote(char *av, t_meta *meta, int pos);
 int			check_word(t_meta *meta, int pos);
 int			ft_strcmp(char *s1, char *s2);
