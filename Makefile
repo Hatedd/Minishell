@@ -13,8 +13,9 @@ CFLAGS = -Wall -Wextra -Werror -I /Users/${USER}/readline/include -g -fsanitize=
 all : 	${NAME}
 
 ${NAME} : ${OBJS}
-#		${CC} ${CFLAGS} -L /Users/${USER}/readline/lib ${OBJS} -o ${NAME}
-		${CC} ${CFLAGS} -lreadline libft/libft.a ${OBJS} -o ${NAME}
+		stty -echoctl
+		${CC} ${CFLAGS} libft/libft.a -L/Users/${USER}/readline/lib -lhistory -L/Users/${USER}/readline/lib -lreadline ${OBJS} -o ${NAME}
+		# ${CC} ${CFLAGS} -lreadline libft/libft.a ${OBJS} -o ${NAME}
 
 clean :
 	@${RM} ${OBJS}

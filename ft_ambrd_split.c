@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 01:32:57 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/15 03:43:51 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/15 21:36:54 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,22 @@ int	ft_cal(char *str)
 	return (nb);
 }
 
-void	help_all(char **tab, char *str, int i, int k)
+void	help_all(char **tab, char *str, int i, int j)
 {
-	int	j;
 	int	cou;
 
-	tab[++k] = malloc(j + 1);
-	if (!tab[k])
+	*tab = malloc(j + 1);
+	if (!tab[0])
 		ft_free(tab);
 	cou = 0;
 	i -= j;
 	while (str[i] && str[i] != '\n' && str[i] != '\t' && str[i] != ' ')
 	{
-		tab[k][cou] = str[i];
+		tab[0][cou] = str[i];
 		cou++;
 		i++;
 	}
-	tab[k][cou] = '\0';
+	tab[0][cou] = '\0';
 }
 
 char	**all(char *str, char **tab)
@@ -68,7 +67,6 @@ char	**all(char *str, char **tab)
 	int	i;
 	int	k;
 	int	j;
-	int	cou;
 
 	i = 0;
 	k = -1;
@@ -83,7 +81,10 @@ char	**all(char *str, char **tab)
 			j++;
 		}
 		if (j)
-			help_all(tab, str, i, k);
+		{
+			k++;
+			help_all(&tab[k], str, i, j);
+		}
 	}
 	return (tab);
 }

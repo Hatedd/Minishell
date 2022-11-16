@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 05:59:35 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/10 11:50:54 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/16 02:37:31 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ char	*ft_select(char **o_env, char *read_ln, int len)
 			}
 		}
 		i++;
-	}//han radi ykon leak free read_ln 9bel matekhroj
+	}
+	//han radi ykon leak free read_ln 9bel matekhroj
 	return (NULL);
 }
 

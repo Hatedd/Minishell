@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/15 03:36:20 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/16 03:32:19 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,56 +149,77 @@ void	filling_data(t_files *redirects, char *name, int mode)
 	redirects->mode = mode;
 }
 
+int	ft_ambrd_error(t_token *temp, t_parser *parser, t_files *redirects)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(temp->next->old_word, 2);
+	ft_putstr_fd(": ambiguous redirect\n", 2);
+	redirects[WRITE].mode = -1;
+	parser->flag = NOEXEC;
+	return (1);
+}
+
+int	ft_redirection_help(t_token *temp, t_parser *parser, t_files *redirects)
+{
+	int	fd;
+
+	if (temp->next->e_type == TOKEN_AMBRD)
+	{
+		if (ft_ambrd_error(temp, parser, redirects))
+			return (1);
+	}
+	if (access(temp->next->word, F_OK) != 0)
+	{
+		fd = open(temp->next->word, O_CREAT | O_RDWR, 0600);
+		if (fd == -1)
+		{
+			ft_putstr_fd("minishell: faild to creat file1\n", 2);
+			error_set(13);
+			return (1);
+		}
+		close(fd);
+	}
+	else if (access(temp->next->word, W_OK) != 0)
+	{
+		redirects[WRITE].mode = -1;
+		parser->flag = NOEXEC;
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_redirection_read(t_token *temp, t_parser *parser, t_files *redirects)
+{
+	if (temp->next->e_type == TOKEN_AMBRD || \
+		access(temp->next->word, F_OK) != 0 || \
+		access(temp->next->word, R_OK) != 0)
+	{
+		redirects[READ].mode = -1;
+		parser->flag = NOEXEC;
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_redirection(t_token *tokens, t_parser *parser, t_files *redirects)
 {
 	t_files	*tmp;
 	t_token	*temp;
-	int		fd;
 
 	tmp = redirects;
 	temp = tokens;
 	if ((temp->e_type == TOKEN_READ || temp->e_type == TOKEN_DREAD) && \
 		temp->next->e_type == TOKEN_WORD)
 	{	
-		if (temp->next->e_type == TOKEN_AMBRD || \
-			access(temp->next->word, F_OK) != 0 || \
-			access(temp->next->word, R_OK) != 0)
-		{
-			redirects[READ].mode = -1;
-			parser->flag = NOEXEC;
+		if (ft_redirection_read(temp, parser, redirects))
 			return (1);
-		}
 		filling_data(&tmp[READ], temp->next->word, O_RDONLY);
 	}
 	else if ((temp->e_type == TOKEN_WRITE || temp->e_type == TOKEN_DWRITE) \
 		&& temp->next->e_type == TOKEN_WORD)
 	{
-		if (temp->next->e_type == TOKEN_AMBRD)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(temp->next->old_word, 2);
-			ft_putstr_fd(": ambiguous redirect\n", 2);
-			redirects[WRITE].mode = -1;
-			parser->flag = NOEXEC;
+		if (ft_redirection_help(temp, parser, redirects))
 			return (1);
-		}
-		if (access(temp->next->word, F_OK) != 0)
-		{
-			fd = open(temp->next->word, O_CREAT | O_RDWR, 0600);
-			if (fd == -1)
-			{
-				ft_putstr_fd("minishell: faild to creat file1\n", 2);
-				error_set(13);
-				return (1);
-			}
-			close(fd);
-		}
-		else if (access(temp->next->word, W_OK) != 0)
-		{
-			redirects[WRITE].mode = -1;
-			parser->flag = NOEXEC;
-			return (1);
-		}
 		if (temp->e_type == TOKEN_WRITE)
 			filling_data(&tmp[WRITE], temp->next->word, O_TRUNC | O_WRONLY);
 		else if (temp->e_type == TOKEN_DWRITE)
@@ -253,39 +274,52 @@ void	ft_opening_fd(t_files *redirects, t_parser *parsing, int type)
 	}
 }
 
+void	ft_ambrd_parsing(t_token *tmp, t_parser *parsing)
+{
+	char	**tab;
+	int		i;
+
+	i = 0;
+	if (tmp->e_type == TOKEN_AMBRD)
+	{
+		tab = ft_split2(tmp->word);
+		while (tab[i])
+		{
+			add_change(parsing->av, *(tab + i));
+			i++;
+		}
+		i = 0;
+		while (tab[i])
+			free(tab[i++]);
+		free(tab);
+	}
+	else
+		parsing->av = add_change(parsing->av, tmp->word);
+}
+
+void	ft_opening_check(t_files *redirects, t_parser *parsing)
+{
+	if (redirects[READ].mode != -1)
+		ft_opening_fd(redirects, parsing, READ);
+	if (redirects[WRITE].mode != -1)
+		ft_opening_fd(redirects, parsing, WRITE);
+}
+
 void	ft_parser(t_token *tokens, t_parser *parsing)
 {
 	t_token		*tmp;
 	t_files		*redirects;
-	char		**tab;
-	int			i;
 
 	redirects = ft_calloc(sizeof(t_files), 2);
 	redirects[READ].mode = -1;
 	redirects[WRITE].mode = -1;
 	tmp = tokens;
-	i = 0;
 	while (tmp)
 	{
 		if (tmp->e_type == TOKEN_WORD || tmp->e_type == TOKEN_AMBRD)
-		{
-			if (tmp->e_type == TOKEN_AMBRD)
-			{
-				tab = ft_split2(tmp->old_word);
-				while (tab[i])
-				{
-					printf("%s\n", tab[i]);
-					add_change(parsing->av, *(tab + i));
-					i++;
-				}
-				//you should split the word here and then add it to the av
-			}
-			parsing->av = add_change(parsing->av, tmp->word);
-		}
-		else if (tmp->e_type == TOKEN_READ || \
-				tmp->e_type == TOKEN_WRITE || \
-				tmp->e_type == TOKEN_DWRITE || \
-				tmp->e_type == TOKEN_DREAD)
+			ft_ambrd_parsing(tmp, parsing);
+		else if (tmp->e_type == TOKEN_READ || tmp->e_type == TOKEN_WRITE || \
+				tmp->e_type == TOKEN_DWRITE || tmp->e_type == TOKEN_DREAD)
 		{
 			if (ft_redirection(tmp, parsing, redirects))
 			{
@@ -299,42 +333,42 @@ void	ft_parser(t_token *tokens, t_parser *parsing)
 		}
 		else if (tmp->e_type == TOKEN_PIPE)
 		{
-			if (redirects[READ].mode != -1)
-			{
-				ft_opening_fd(redirects, parsing, READ);
-			}
-			if (redirects[WRITE].mode != -1)
-			{
-				ft_opening_fd(redirects, parsing, WRITE);
-			}
+			ft_opening_check(redirects, parsing);
 			parsing = parsing->next;
 		}
 		tmp = tmp->next;
 	}
-	if (redirects[READ].mode != -1)
+	ft_opening_check(redirects, parsing);
+}
+
+void	ft_handler(int macro)
+{
+	if (macro == SIGINT)
 	{
-		ft_opening_fd(redirects, parsing, READ);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
-	if (redirects[WRITE].mode != -1)
-	{
-		ft_opening_fd(redirects, parsing, WRITE);
-	}
+}
+
+void	ft_starting_inti(char **env)
+{
+	t_sig	f;
+
+	f = &ft_handler;
+	ft_our_env(env);
+	signal(SIGINT, ft_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	t_parser	*temp;
 	t_meta		meta;
-	t_token		*tmp;
-	int			i;
-	int			fd;
 
 	(void)argc;
 	(void)argv;
-	tmp = NULL;
-	fd = 0;
-	i = 0;
-	ft_our_env(env);
+	ft_starting_inti(env);
 	while (TRUE)
 	{
 		ft_init_meta(&meta);
@@ -346,7 +380,7 @@ int	main(int argc, char **argv, char **env)
 		error_check(meta.tokens);
 		if (g_all.g_error_status)
 			continue ;
-		ft_heredoc(meta.tokens, fd);
+		ft_heredoc(meta.tokens, 0);
 		if (g_all.g_error_status)
 			continue ;
 		ft_expand(meta.tokens);
@@ -356,46 +390,6 @@ int	main(int argc, char **argv, char **env)
 		ft_parser(meta.tokens, meta.parsing);
 		if (g_all.g_error_status)
 			continue ;
-//first you need to count how mani comands you have and allocat a linked list
-//that you will send to wizare in the coresponding count
-// example cat << l > out | echo helo | wc | ls
-//in this example we have 4 comands so we will allocate 4 nodes that will 
-// contain the redirection data and the command and it's arguments.
-/*
-here you need to make a function tha treat the redirection as follows:
-you need to check there permetions and whether they existe or not in turn using
-the function access and if all the redirections are valid then you will open 
-the last redirection file for read and for write respectevly.
-example : 
-	echo > out1 > out2 < in1 >> out3 < in2 > out4 << in3 | ...
-	in this case if we keep in mind that all the input files exist and all the out
-	and in files have the right permissions, your fuction will open the files :
-	in3 and out4
-	-in case of an error at some point in the redirection processing you skip
-	to the next pipe and repeat the process again
-*/
-		tmp = meta.tokens;
-		while (tmp)
-		{
-			printf("-----------------------------\n");
-			printf("the word is |%s|\n", tmp->word);
-			printf("the meta is |%s|\n", tmp->meta);
-			printf("the type is |%u|\n", tmp->e_type);
-			tmp = tmp->next;
-		}
-		temp = meta.parsing;
-		while (temp)
-		{
-			printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-			printf("the flag is |%d|\n", temp->flag);
-			printf("the index is |%d|\n", temp->index);
-			printf("the infile is |%d|\n", temp->in_fd);
-			printf("the outfile is |%d|\n", temp->out_fd);
-			i = -1;
-			while (temp->av && temp->av[++i])
-				printf("the av[%d] is |%s|\n", i, temp->av[i]);
-			temp = temp->next;
-		}
 	}
 	return (0);
 }

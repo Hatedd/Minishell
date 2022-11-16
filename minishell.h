@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/15 03:35:24 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/16 03:33:56 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-// # include "/Users/yobenali/readline/include/readline/readline.h"
-// # include "/Users/yobenali/readline/include/readline/history.h"
+// # include <readline/readline.h>
+// # include <readline/history.h>
+# include "/Users/yobenali/readline/include/readline/readline.h"
+# include "/Users/yobenali/readline/include/readline/history.h"
 # include <sys/wait.h>
 # include "./libft/libft.h"
 # define TRUE		1
@@ -37,6 +37,9 @@
 
 # define READ		0
 # define WRITE		1
+
+typedef void	(*t_sig) (int);
+typedef char	t_flag;
 
 typedef struct s_parser
 {
@@ -59,8 +62,6 @@ typedef struct s_gdata
 }	t_gdata;
 
 t_gdata			g_all;
-
-typedef char	t_flag;
 
 typedef struct s_token
 {
@@ -108,6 +109,7 @@ void		ft_heredoc(t_token *tokens, int fd);
 void		ft_init_meta(t_meta *meta);
 void		ft_expand(t_token *tokens);
 void		lexer_scan(t_meta *meta);
+void		ft_handler(int macro);
 void		ft_putstr(char *str);
 void		error_set(int nb);
 char		**trans_to_string(t_meta *meta, int pos, int len);

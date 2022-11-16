@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/15 03:26:54 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/16 02:51:06 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,42 +126,22 @@ int	ft_heredoc_nb(t_token *lst)
 	return (i);
 }
 
-void	ft_heredoc(t_token *tokens, int fd)
+void	ft_fexited_sig(int nb)
 {
-	t_token	*temp;
-	pid_t	pid;
-	char	*name;
-	int		nb;
+	if (WEXITSTATUS(nb) == EXIT_FAILURE)
+		return (error_set(1));
+	else if (WEXITSTATUS(nb) == 2)
+		exit (2);
+	else if (WEXITSTATUS(nb) == 13)
+		return (error_set(13));
+	else if (WEXITSTATUS(nb) == 42)
+		exit (42);
+}
 
-	name = ft_strdup("/tmp/heredoc.....");
-	pid = fork();
-	temp = tokens;
-	if (pid == 0)
-	{
-		nb = ft_heredoc_nb(temp);
-		if (nb >= 16)
-		{
-			write(2, ": maximum here-document count exceeded\n", 40);
-			exit(2);
-		}
-		ft_rl_heredoc(tokens, name, 0, fd);
-		exit (EXIT_SUCCESS);
-	}
-	signal(SIGINT, SIG_IGN);
-	pid = waitpid(pid, &nb, 0);
-	// if (pid != -1)
-		//handle the waitpid error here
+void	ft_sig_error(int nb)
+{
 	if (WIFEXITED(nb))
-	{
-		if (WEXITSTATUS(nb) == EXIT_FAILURE)
-			return (error_set(1));
-		else if (WEXITSTATUS(nb) == 2)
-			exit (2);
-		else if (WEXITSTATUS(nb) == 13)
-			return (error_set(13));
-		else if (WEXITSTATUS(nb) == 42)
-			exit (42);
-	}
+		ft_fexited_sig(nb);
 	else if (WIFSIGNALED(nb))
 	{
 		if (WTERMSIG(nb) == SIGINT)
@@ -170,7 +150,40 @@ void	ft_heredoc(t_token *tokens, int fd)
 			return (error_set(1));
 		}
 	}
-	signal(SIGINT, SIG_DFL);// you need to replace SIG_DFL with you own handler
+}
+
+void	ft_hchild_work(t_token *tokens, char *name, int fd, int nb)
+{
+	t_token	*temp;
+
+	temp = tokens;
+	nb = ft_heredoc_nb(temp);
+	if (nb >= 16)
+	{
+		write(2, ": maximum here-document count exceeded\n", 40);
+		exit(2);
+	}
+	ft_rl_heredoc(tokens, name, 0, fd);
+	exit (EXIT_SUCCESS);
+}
+
+void	ft_heredoc(t_token *tokens, int fd)
+{
+	pid_t	pid;
+	char	*name;
+	int		nb;
+	sig_t	f;
+
+	f = &ft_handler;
+	name = ft_strdup("/tmp/heredoc.....");
+	pid = fork();
+	nb = 0;
+	if (pid == 0)
+		ft_hchild_work(tokens, name, fd, nb);
+	signal(SIGINT, SIG_IGN);
+	pid = waitpid(pid, &nb, 0);
+	ft_sig_error(nb);
+	signal(SIGINT, ft_handler);
 	ft_delimiter_name(tokens, name);
 	free(name);
 	// check here if the child exited because of a signal

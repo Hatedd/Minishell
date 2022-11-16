@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 23:32:17 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/15 03:32:48 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/16 01:43:19 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ void	ft_init_meta(t_meta *meta)
 	meta->cmd = readline("minishell$ ");
 	if (meta->cmd == NULL)
 		exit (g_all.g_exit_status);
+	if (meta->cmd[0] == '\0')
+	{
+		g_all.g_error_status = 1;
+		return ;
+	}
 	add_history(meta->cmd);
 	meta->len = ft_strlen(meta->cmd);
 	meta->meta_str = ft_calloc(sizeof(char), meta->len + 1);
