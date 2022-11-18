@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/18 00:31:03 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/18 03:20:08 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ int		ft_multi_pipes(t_parser *tmp);
 void	ft_redirection(t_parser *tmp);
 int		ft_singl_cmd(t_parser *tmp);
 int		ft_lstsize_cmd(t_parser *lst);
-char	*is_bultin(char *str);
+int		is_bultin(char *str);
 int		ck_if_bultin(t_parser *cmdl);
 char	*ft_found_path(void);
 char	*join_frees1(char *s1, char *s2);

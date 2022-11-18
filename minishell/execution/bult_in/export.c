@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:46:49 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 00:27:20 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/18 03:34:46 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	ft_parser_export(t_parser *cmdl)
 			if (valid_export(cmdl->av[i]))
 				ft_export_body(cmdl, i);
 			else
-				printf("exminishell: export: `%s': not a valid identifier\n",
-					cmdl->av[i]);
+				printf("minishell: export: `%s': not a valid identifier\n",
+					cmdl->av[i]);// remove printfs in errors
 			g_all.g_exit_status = 1;
 		}
 	}

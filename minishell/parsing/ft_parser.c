@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:09:18 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/18 00:32:32 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/18 03:43:26 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_ambrd_parsing(t_token *tmp, t_parser *parsing)
 		tab = ft_split2(tmp->word);
 		while (tab[i])
 		{
-			add_change(parsing->av, *(tab + i));
+			parsing->av = add_change(parsing->av, *(tab + i));
 			i++;
 		}
 		i = 0;
