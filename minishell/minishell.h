@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/18 03:20:08 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/18 18:28:46 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include "./libft/libft.h"
-# include "/Users/yobenali/readline/include/readline/readline.h"
-# include "/Users/yobenali/readline/include/readline/history.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define TRUE		1
 # define FALSE		0

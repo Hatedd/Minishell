@@ -38,7 +38,7 @@ CC = @cc
 
 RM = rm -f
 
-CFLAGS = -Wall -Wextra -Werror -I /Users/${USER}/readline/include -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I /Users/$(USER)/.brew/opt/readline/include -g3 -fsanitize=address
 
 
 all : 	${NAME}
@@ -46,7 +46,7 @@ all : 	${NAME}
 ${NAME} : ${OBJS}
 		@stty -echoctl
 		@make -C libft/
-		${CC} ${CFLAGS} libft/libft.a -L/Users/${USER}/readline/lib -lreadline ${OBJS} -o ${NAME}
+		${CC} ${CFLAGS} libft/libft.a -L /Users/$(USER)/.brew/opt/readline/lib -l readline ${OBJS} -o ${NAME}
 
 clean :
 	@make clean -C libft/
