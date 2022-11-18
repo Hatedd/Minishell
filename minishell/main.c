@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 00:21:04 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/19 00:23:59 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int	main(int argc, char **argv, char **env)
 		// 	temp = temp->next;
 		// }
 		
-		system("leaks minishell");
+		//system("leaks minishell");
 		execution(meta.parsing);
 		//ft_lst_toarray();
 		// int j = 0;
