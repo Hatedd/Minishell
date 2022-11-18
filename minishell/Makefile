@@ -38,7 +38,7 @@ CC = @cc
 
 RM = rm -f
 
-CFLAGS = -Wall -Wextra -Werror -I /Users/$(USER)/.brew/opt/readline/include -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I /Users/$(USER)/.brew/opt/readline/include #-g3 -fsanitize=address
 
 
 all : 	${NAME}

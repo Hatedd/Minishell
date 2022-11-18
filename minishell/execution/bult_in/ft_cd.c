@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:08:07 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 00:25:13 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/18 20:49:36 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ void	ft_modify_pwd(char *str, char *value, int flag)
 	tmp = g_all.g_lst_env;
 	while (tmp)
 	{
+
 		if (!ft_strncmp(str, tmp->content, ft_strlen(str))
 			&& (((char *)tmp->content)[ft_strlen(str)] == '\0'
 			|| ((char *)tmp->content)[ft_strlen(str)] == '='))
 		{
-			free(tmp->content);
+			//free(tmp->content);
 			if (flag == 1)
 			{
 				join_pwd(tmp, temp, value);

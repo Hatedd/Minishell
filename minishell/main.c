@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/18 16:46:03 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/19 00:21:04 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	ft_our_env(char **env)
 		}
 		i++;
 	}
-	ft_build_env();
 }
 
 int	ft_counting_cmd(t_token *tokens)
@@ -107,7 +106,22 @@ void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
 	ft_opening_check(redirects, &parsing, FALSE);
 	free (redirects);
 }
-
+void	ft_lst_toarray()
+		{
+			t_list *tmp = g_all.g_lst_env;
+			// char ** array;
+			int i = 0;
+			int len = ft_lstsize(tmp);
+			g_all.our_env = malloc(sizeof(char *) * len + 1);
+			
+			//ft_free_array(g_all.our_env);
+			while (tmp)
+			{
+				g_all.our_env[i++] = ft_strdup(tmp->content);	
+				tmp = tmp->next;
+			}
+			// g_all.our_env[i] = NULL;
+		}
 int	main(int argc, char **argv, char **env)
 {
 	t_meta		meta;
@@ -150,7 +164,18 @@ int	main(int argc, char **argv, char **env)
 		// 		printf("the av[%d] is |%s|\n", i, temp->av[i]);
 		// 	temp = temp->next;
 		// }
+		
+		system("leaks minishell");
 		execution(meta.parsing);
+		//ft_lst_toarray();
+		// int j = 0;
+		// while (j < 36)
+		// {
+		// 	printf("%s\n",g_all.our_env[j++]);
+		// }
+		
+	
+		
 	}
 	return (0);
 }

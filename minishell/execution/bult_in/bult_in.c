@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bult_in.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:42:41 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 17:33:34 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/18 20:47:18 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@ void	ft_build_env(void)
 
 void	bult_in(t_parser	*cmdl)
 {
+		if (!g_all.g_lst_env)
+		{
+			ft_lstadd_back(&g_all.g_lst_env,
+			ft_lstnew("SHLVL=1"));
+			ft_lstadd_back(&g_all.g_lst_env,
+			ft_lstnew("PWD=/Users/mouizar"));
+			ft_lstadd_back(&g_all.g_lst_env,
+			ft_lstnew("OLDPWD="));
+		}
 	if (cmdl->flag == NOEXEC)
 	{
 		error_set(1);
