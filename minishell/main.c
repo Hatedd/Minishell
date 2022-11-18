@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/18 03:46:54 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:46:03 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_our_env(char **env)
 		}
 		i++;
 	}
+	ft_build_env();
 }
 
 int	ft_counting_cmd(t_token *tokens)
@@ -110,13 +111,14 @@ void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
 int	main(int argc, char **argv, char **env)
 {
 	t_meta		meta;
-	t_parser	*temp;
-	t_token		*tmp;
-	int			i;
+	// t_parser	*temp;
+	// t_token		*tmp;
+	// int			i;
 
 	(void)argc;
 	(void)argv;
 	ft_starting_inti(env);
+	
 	while (TRUE)
 	{
 		if (main_helper(&meta))
@@ -125,29 +127,29 @@ int	main(int argc, char **argv, char **env)
 		ft_parser(meta.tokens, meta.parsing, ft_calloc(sizeof(t_files), 2));
 		if (g_all.g_error_status)
 			continue ;
-		tmp = meta.tokens;
-		while (tmp)
-		{
-			printf("-----------------------------\n");
-			printf("the word is |%s|\n", tmp->word);
-			printf("the meta is |%s|\n", tmp->meta);
-			printf("the type is |%u|\n", tmp->e_type);
-			tmp = tmp->next;
-		}
-		temp = meta.parsing;
-		while (temp)
-		{
-			printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-			printf("the flag is |%d|\n", temp->flag);
-			printf("the index is |%d|\n", temp->index);
-			printf("the infile is |%d|\n", temp->in_fd);
-			printf("the outfile is |%d|\n", temp->out_fd);
-			printf("this is the av address |%p|\n", temp->av);
-			i = -1;
-			while (temp->av && temp->av[++i])
-				printf("the av[%d] is |%s|\n", i, temp->av[i]);
-			temp = temp->next;
-		}
+		// tmp = meta.tokens;
+		// while (tmp)
+		// {
+		// 	printf("-----------------------------\n");
+		// 	printf("the word is |%s|\n", tmp->word);
+		// 	printf("the meta is |%s|\n", tmp->meta);
+		// 	printf("the type is |%u|\n", tmp->e_type);
+		// 	tmp = tmp->next;
+		// }
+		// temp = meta.parsing;
+		// while (temp)
+		// {
+		// 	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+		// 	printf("the flag is |%d|\n", temp->flag);
+		// 	printf("the index is |%d|\n", temp->index);
+		// 	printf("the infile is |%d|\n", temp->in_fd);
+		// 	printf("the outfile is |%d|\n", temp->out_fd);
+		// 	printf("this is the av address |%p|\n", temp->av);
+		// 	i = -1;
+		// 	while (temp->av && temp->av[++i])
+		// 		printf("the av[%d] is |%s|\n", i, temp->av[i]);
+		// 	temp = temp->next;
+		// }
 		execution(meta.parsing);
 	}
 	return (0);

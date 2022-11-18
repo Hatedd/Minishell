@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 23:05:30 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/16 18:49:25 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/18 17:31:57 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ int	valid_export(char	*str)
 		i = 0;
 	else
 		i = 1;
-	while (ft_isalnum(str[i]) || ft_egal(str[i])
-		|| ft_space(str[i]) || str[i] == '+')
+	while ((ft_isalnum(str[i]) || ft_egal(str[i])
+		|| ft_space(str[i]) || str[i] == '+') && (str[i] != '='))
 	{
 		if (str[i + 1] == '=' || (str[i + 1] == '+' && str[i + 2] == '='))
 			return (1);
 		i++;
 	}
-	if (str[i] == '\0')
+	if (str[i] == '\0' || str[i] == '=')
 		return (1);
 	return (0);
 }

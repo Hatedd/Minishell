@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 02:29:15 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 03:21:32 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:34:24 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	initial_dup_path(t_parser *cmdl)
 {
 	g_all.path = ft_split_path(cmdl);
-	// printf("in initial dup %p\n", g_all.path);
 	g_all.tmpp_in = dup(0);
 	g_all.tmpp_out = dup(1);
 }
@@ -50,14 +49,18 @@ void	execution(t_parser *cmdl)
 	struct stat	stats;
 	int			i;
 	
+	tmp = cmdl;
+	if (!tmp->av )
+		return ;
 	i = stat(cmdl->av[0], &stats);
 	initial_dup_path(cmdl);
-	tmp = cmdl;
-	if (!tmp->av || !g_all.path)
+	if (!g_all.path && !ck_if_bultin(tmp) && !ft_strchr(tmp->av[0], '/'))
+	{
+		ft_generate_erro2(tmp, 4);
 		return ;
+	}
 	if (!S_ISDIR(stats.st_mode))
 	{
-
 		signal(SIGINT, SIG_IGN);
 		if (ft_lstsize_cmd(tmp) == 1)
 			id = single_command(tmp);
@@ -67,5 +70,4 @@ void	execution(t_parser *cmdl)
 	}
 	else
 		ft_generate_erro2(tmp, 1);
-	// system("leaks minishell");
 }

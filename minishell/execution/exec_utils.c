@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:47:12 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 00:27:20 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:05:35 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,14 @@ void	ft_generate_erro2(t_parser *tmp, int flag)
 	}
 	else if (flag == 3)
 	{
-		printf("cd: %s: No such file or directory\n", tmp->av[1]);
+		printf("minishell: %s: No such file or directory\n", tmp->av[1]);
 		g_all.g_exit_status = 1;
+	}
+	else if (flag == 4)
+	{
+		printf("minishell: %s: No such file or directory\n", tmp->av[0]);
+		g_all.g_exit_status = 127;
+		
 	}
 }
 

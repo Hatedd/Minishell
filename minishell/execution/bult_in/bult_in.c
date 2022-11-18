@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:42:41 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 01:25:14 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:33:34 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	ft_build_env(void)
 	char	*str;
 
 	i = 0;
-	if (!g_all.our_env)
-		g_all.g_lst_env = NULL;
 	g_all.g_lst_env = NULL;
 	while (g_all.our_env[i])
 	{

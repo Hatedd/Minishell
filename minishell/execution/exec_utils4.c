@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:14:47 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 03:21:42 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:13:44 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,12 @@ void	exec_single(t_parser *tmp)
 	int	i;
 	int	fd;
 
+
+	if (ft_strchr(tmp->av[0], '/') && execve(tmp->av[0], tmp->av, g_all.our_env))
+	{
+		ft_generate_erro2(tmp, 2);
+		exit(g_all.g_exit_status);
+	}	
 	i = 0;
 	signal(SIGINT, SIG_DFL);
 	while (g_all.path[i])
