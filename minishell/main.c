@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 00:23:59 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/19 01:59:59 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	ft_starting_inti(env);
-	
 	while (TRUE)
 	{
 		if (main_helper(&meta))
@@ -164,10 +163,9 @@ int	main(int argc, char **argv, char **env)
 		// 		printf("the av[%d] is |%s|\n", i, temp->av[i]);
 		// 	temp = temp->next;
 		// }
-		
-		//system("leaks minishell");
-		execution(meta.parsing);
+		 execution(meta.parsing);
 		//ft_lst_toarray();
+		// ft_free_meta(&meta);
 		// int j = 0;
 		// while (j < 36)
 		// {
