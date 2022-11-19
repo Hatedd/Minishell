@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 01:51:13 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/19 20:36:54 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_gdata
 	int     tmpp_in;
 	int     tmpp_out;
 	char    **path;
+	int		flag_vide_env;
 }	t_gdata;
 //call the fuction tha wizar build his env with in the linked list
 t_gdata			g_all;
@@ -155,7 +156,6 @@ t_parser	*ft_dlstlast2(t_parser *lst);
 t_list	*sorting(t_list *lst, int (*ft_cmpar)(char *, char *));
 int		ft_cmpar(char *s1, char *s2);
 void	printing(char *content);
-int		isvalid_to_export(char c);
 int		valid_export(char *str);
 void	ft_build_env(void);
 int		ft_found_inenv(t_list *lst, char *str);
@@ -209,4 +209,5 @@ void	ft_if_not_bultin(t_parser *tmp);
 int		ft_multi_pipes(t_parser *tmp);
 int		ft_singl_cmd(t_parser *tmp);
 void	ft_exit_error(t_parser *cmdl, int flag);
+char	*join_and_free(char *s1, char *s2);
 #endif

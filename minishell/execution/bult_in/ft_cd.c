@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:08:07 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 20:49:36 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/19 20:39:12 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 void	join_pwd(t_list *tmp, char *temp, char *value)
 {
 	temp = ft_strdup(value);
+	if (g_all.flag_vide_env == 0)
+		free(tmp->content);
 	tmp->content = ft_strjoin("PWD=", temp);
 	free(temp);
+	
 }
 
 void	ft_modify_pwd(char *str, char *value, int flag)
@@ -32,7 +35,6 @@ void	ft_modify_pwd(char *str, char *value, int flag)
 			&& (((char *)tmp->content)[ft_strlen(str)] == '\0'
 			|| ((char *)tmp->content)[ft_strlen(str)] == '='))
 		{
-			//free(tmp->content);
 			if (flag == 1)
 			{
 				join_pwd(tmp, temp, value);
@@ -40,6 +42,8 @@ void	ft_modify_pwd(char *str, char *value, int flag)
 			else
 			{
 				temp = ft_strdup(value);
+				if (g_all.flag_vide_env == 0)
+					free(tmp->content);
 				tmp->content = ft_strjoin("OLDPWD=", temp);
 				free(temp);
 			}
@@ -63,7 +67,7 @@ void	ft_parser_cd(t_parser *cmdl)
 		oldpwd = getcwd(0, 0);
 		chdir(cmdl->av[1]);
 		pwd = getcwd(0, 0);
-		if (!pwd)
+		if (!pwd || !oldpwd)
 			return ;
 		ft_modify_pwd("PWD", pwd, 1);
 		ft_modify_pwd("OLDPWD", oldpwd, 2);

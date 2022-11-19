@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 17:48:43 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/19 18:38:01 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,11 +176,11 @@ int	main(int argc, char **argv, char **env)
 		// 		printf("the av[%d] is |%s|\n", i, temp->av[i]);
 		// 	temp = temp->next;
 		// }
+		free(meta.meta_str);
+		free(meta.cmd);
 		execution(meta.parsing);
 		ft_lst_toarray();
 	//	free_lst(&g_all.g_lst_env);
-		free(meta.cmd);
-		free(meta.meta_str);
 		
 	}
 	return (0);

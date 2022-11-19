@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:08:06 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 00:47:52 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/19 19:42:03 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*join_frees1(char *s1, char *s2)
+char	*join_and_free(char *s1, char *s2)
 {
 	char	*new;
 
@@ -33,8 +33,8 @@ char	**generate_path(char **path, t_parser *cmdl, char *slash_path)
 			path[i] = ft_strdup(slash_path);
 			return (path);
 		}
-		path[i] = join_frees1(path[i], "/");
-		path[i] = join_frees1(path[i], cmdl->av[0]);
+		path[i] = join_and_free(path[i], "/");
+		path[i] = join_and_free(path[i], cmdl->av[0]);
 		i++;
 	}
 	return (path);

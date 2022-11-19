@@ -6,26 +6,16 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 22:52:13 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/19 01:49:52 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/19 18:57:35 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	isvalid_to_export(char c)
-{
-	return (c == '_' || (c >= 'A' && c <= 'Z')
-		|| (c >= 'a' && c <= 'z') || (c == '='));
-}
-
-int	ft_space(char c)
-{
-	return ((c >= 9 && c <= 13) || c == ' ');
-}
 
 int	ft_egal(char c)
 {
-	return (c == '=' || c == '_' );
+	return ( c == '_' );
 }
 
 void	ft_free_array(char **str)

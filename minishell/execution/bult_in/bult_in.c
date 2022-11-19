@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:42:41 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/19 16:24:37 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/19 20:38:53 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ void	ft_build_env(void)
 
 void	bult_in(t_parser	*cmdl)
 {
+		g_all.flag_vide_env = 0;
 		if (!g_all.g_lst_env)
 		{
+			g_all.flag_vide_env = 1;
 			ft_lstadd_back(&g_all.g_lst_env,
 			ft_lstnew("SHLVL=1"));
 			ft_lstadd_back(&g_all.g_lst_env,

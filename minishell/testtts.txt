@@ -1,0 +1,21 @@
+minishell$ '''''''''l''
+quotes not closed
+minishell$ '''''''''l'''
+minishell: l: command not found
+minishell$ '''''''''l'''s
+Makefile        execution       libft           main.c          main.o          minishell       minishell.h     parsing
+minishell$ cllear
+
+
+
+minishell$ cat > outfile >>>>>>>>>> leak
+minishell$ cat < /etc/passwd >>>>>>>>>> leak
+
+PWD=/Users/mouizar/Desktop
+OLDPWD=/Users/mouizar/Desktop/minishell
+hello=bye
+minishell$ >>>>>>>>>>. leak
+
+minishell$ $ksldfsjdf | ls
+
+minishell$ export 'a 2a';
