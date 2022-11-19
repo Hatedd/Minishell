@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 23:32:17 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 01:49:08 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/19 17:47:51 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,11 @@ void	ft_free_tokens(t_token *tokens, t_parser *parsing)
 	}
 	if (parsing)
 	{
-		while (parsing->av[i])
-			free(parsing->av[i++]);
+		if (parsing->av) // after protecting the av
+		{
+			while (parsing->av[i])
+				free(parsing->av[i++]);
+		}
 		free(parsing->av);
 		ft_free_array(parsing->path);
 	}
@@ -149,6 +152,7 @@ void	ft_init_meta(t_meta *meta)
 		exit (g_all.g_exit_status);
 	if (meta->cmd[0] == '\0')
 	{
+		free(meta->cmd);
 		g_all.g_error_status = 1;
 		return ;
 	}

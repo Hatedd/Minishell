@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 01:59:59 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/19 17:48:43 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_our_env(char **env)
 		}
 		i++;
 	}
+	//ft_build_env();
 }
 
 int	ft_counting_cmd(t_token *tokens)
@@ -106,22 +107,34 @@ void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
 	ft_opening_check(redirects, &parsing, FALSE);
 	free (redirects);
 }
+
 void	ft_lst_toarray()
 		{
 			t_list *tmp = g_all.g_lst_env;
+			char *str;
 			// char ** array;
 			int i = 0;
 			int len = ft_lstsize(tmp);
+			ft_free_array(g_all.our_env);
 			g_all.our_env = malloc(sizeof(char *) * len + 1);
+			if (!g_all.our_env)
+				return ;
 			
-			//ft_free_array(g_all.our_env);
+		//system("leaks minishell");
 			while (tmp)
 			{
-				g_all.our_env[i++] = ft_strdup(tmp->content);	
+				str = ft_strdup(tmp->content);
+				//free(tmp->content);
+				//dprintf(2, "str is %p\n",str);
+				// dprintf(2, "env is %p\n",g_all.our_env[i]);
+		//	dprintf(2, "tmp->content  is %p\n", tmp->content);
+				g_all.our_env[i++] = str;
+				//free(str);
 				tmp = tmp->next;
 			}
-			// g_all.our_env[i] = NULL;
+			g_all.our_env[i] = NULL;
 		}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_meta		meta;
@@ -163,16 +176,11 @@ int	main(int argc, char **argv, char **env)
 		// 		printf("the av[%d] is |%s|\n", i, temp->av[i]);
 		// 	temp = temp->next;
 		// }
-		 execution(meta.parsing);
-		//ft_lst_toarray();
-		// ft_free_meta(&meta);
-		// int j = 0;
-		// while (j < 36)
-		// {
-		// 	printf("%s\n",g_all.our_env[j++]);
-		// }
-		
-	
+		execution(meta.parsing);
+		ft_lst_toarray();
+	//	free_lst(&g_all.g_lst_env);
+		free(meta.cmd);
+		free(meta.meta_str);
 		
 	}
 	return (0);

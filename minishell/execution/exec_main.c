@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 02:29:15 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 18:42:31 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/19 16:15:35 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,7 @@ void	execution(t_parser *cmdl)
 	initial_dup_path(cmdl);
 	if (!g_all.path && !ck_if_bultin(tmp) && !ft_strchr(tmp->av[0], '/'))
 	{
-		ft_generate_erro2(tmp, 4);
-		
-		
+		ft_generate_erro2(tmp, 4);	
 		return ;
 	}
 	if (!S_ISDIR(stats.st_mode))
