@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 18:35:29 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/19 23:20:04 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
 		tokens = tokens->next;
 	}
 	ft_opening_check(redirects, &parsing, FALSE);
+	free (redirects->name);
 	free (redirects);
 }
 
@@ -151,8 +152,8 @@ int	main(int argc, char **argv, char **env)
 		// }
 		free(meta.cmd);
 		free(meta.meta_str);
-		system("leaks minishell");
-		// execution(meta.parsing);
+		// system("leaks minishell");
+		execution(meta.parsing);
 	}
 	return (0);
 }
