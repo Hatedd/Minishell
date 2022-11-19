@@ -6,7 +6,11 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/11/19 23:14:45 by mouizar          ###   ########.fr       */
+=======
+/*   Updated: 2022/11/19 23:20:04 by yobenali         ###   ########.fr       */
+>>>>>>> 918ab5264b9066a1eac9d0e46b59ad2fc0091231
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +109,7 @@ void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
 		tokens = tokens->next;
 	}
 	ft_opening_check(redirects, &parsing, FALSE);
+	free (redirects->name);
 	free (redirects);
 }
 
@@ -176,13 +181,10 @@ int	main(int argc, char **argv, char **env)
 		// 		printf("the av[%d] is |%s|\n", i, temp->av[i]);
 		// 	temp = temp->next;
 		// }
-		free(meta.meta_str);
 		free(meta.cmd);
-		
-		//execution(meta.parsing);
-		//ft_lst_toarray();
-		//free_lst(&g_all.g_lst_env);
-		
+		free(meta.meta_str);
+		// system("leaks minishell");
+		execution(meta.parsing);
 	}
 	return (0);
 }

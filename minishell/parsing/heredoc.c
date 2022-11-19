@@ -6,7 +6,11 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/11/19 06:10:53 by yobenali         ###   ########.fr       */
+=======
+/*   Updated: 2022/11/19 18:42:26 by yobenali         ###   ########.fr       */
+>>>>>>> 918ab5264b9066a1eac9d0e46b59ad2fc0091231
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +96,7 @@ void	ft_hchild_work(t_token *tokens, char *name, int fd, int nb)
 	nb = ft_heredoc_nb(temp);
 	if (nb >= 16)
 	{
+		free(name);
 		write(2, "minishell : maximum here-document count exceeded\n", 50);
 		exit(2);
 	}
