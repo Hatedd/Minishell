@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 06:00:15 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/19 18:35:29 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int	main(int argc, char **argv, char **env)
 		free(meta.cmd);
 		free(meta.meta_str);
 		system("leaks minishell");
-		execution(meta.parsing);
+		// execution(meta.parsing);
 	}
 	return (0);
 }
