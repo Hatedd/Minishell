@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 23:32:17 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/18 00:32:21 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/19 06:07:32 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,11 @@ void	ft_free_tokens(t_token *tokens, t_parser *parsing)
 	}
 	if (parsing)
 	{
-		while (parsing->av[i])
-			free(parsing->av[i++]);
+		if (parsing->av) // after protecting the av
+		{
+			while (parsing->av[i])
+				free(parsing->av[i++]);
+		}
 		free(parsing->av);
 		ft_free_array(parsing->path);
 	}

@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 00:40:41 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/18 00:47:07 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/19 03:40:41 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	ft_starting_inti(char **env)
 
 	f = &ft_handler;
 	ft_our_env(env);
-	ft_build_env();
+	// system("leaks minishell");
+	// ft_build_env();
 	signal(SIGINT, f);
 	signal(SIGQUIT, SIG_IGN);
 }
