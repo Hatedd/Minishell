@@ -15,6 +15,7 @@ PWD=/Users/mouizar/Desktop
 OLDPWD=/Users/mouizar/Desktop/minishell
 hello=bye
 minishell$ >>>>>>>>>>. leak
+minishell$ >>>>>>>>>>. $HOME
 
 minishell$ $ksldfsjdf | ls
 
