@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:05:19 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 03:19:26 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 06:49:56 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_lstsize_cmd(t_parser *lst)
 {
 	t_parser	*ptr;
-	int		count;
+	int			count;
 
 	count = 0;
 	ptr = NULL;

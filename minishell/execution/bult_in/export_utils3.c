@@ -12,10 +12,9 @@
 
 #include "../../minishell.h"
 
-
 int	ft_egal(char c)
 {
-	return ( c == '_' );
+	return (c == '_');
 }
 
 void	ft_free_array(char **str)
@@ -29,7 +28,7 @@ void	ft_free_array(char **str)
 	{
 		free(str[i]);
 		i++;
-	}	
+	}
 	free(str);
 }
 
