@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:23:57 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 00:27:20 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 17:33:36 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	ft_exit_parser(t_parser *cmdl)
 		exit(exitt);
 	else if (cmdl->av[2] != NULL)
 	{
-		// exitt = handel_two_negative(cmdl, exitt);
 		if (ft_num_alpha(cmdl->av[1]) == 0)
 		{
 			ft_exit_error(cmdl, 2);

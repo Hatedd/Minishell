@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:17:29 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 00:25:13 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 18:13:07 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ int	valid_unset(char *str)
 	i = 0;
 	if (str[i] == '=')
 		return (0);
-	if (!ft_isalpha(str[0]))
+	if ((ft_isdigit(str[0]) || !ft_isalpha(str[0])) && str[i] != '_' )
 	{
-		printf("minishell: unset: `%s': not a valid identifier\n", str);
+		ft_generate_errors(str, 3);
 		return (89);
 	}
 	i = 1;
-	while (ft_isalnum(str[i]))
+	while (ft_isalnum(str[i]) || ft_egal(str[i]))
 	{
 		if (str[i + 1] == '=')
 			return (1);
@@ -101,7 +101,8 @@ void	ft_parser_unset(t_parser *cmdl)
 		}
 		else if (valid_unset(cmdl->av[i]) == 0)
 		{
-			printf("unset: %s: invalid parameter name\n", cmdl->av[i]);
+			ft_generate_errors(cmdl->av[i], 3);
+			g_all.g_exit_status = 1;
 		}
 		i++;
 	}

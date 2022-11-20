@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:11:02 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 06:19:28 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 17:40:01 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ void	ft_process_communication(t_parser *tmp)
 	if (tmp->out_fd == -2 && tmp->next)
 	{	
 		if (dup2(tmp->pipe[1], 1) == -1)
-			printf("dup failed\n");
+			ft_putstr_fd("dup failed\n", 2);
 		close (tmp->pipe[0]);
 		close (tmp->pipe[1]);
 	}
 	if (tmp->in_fd == -2 && tmp->prev != NULL)
 	{
 		if (dup2(tmp->prev->pipe[0], 0) == -1)
-			printf("dup failed\n");
+			ft_putstr_fd("dup failed\n", 2);
 		close (tmp->prev->pipe[1]);
 		close (tmp->prev->pipe[0]);
 	}

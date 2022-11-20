@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:35 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 00:27:20 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 17:41:02 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_check_ul(unsigned long res, int signe, const char *str)
 	if ((res > 9223372036854775807 && signe == 1)
 		|| (res > 9223372036854775808UL && signe == -1))
 	{
-		printf("bash: exit: %s: numeric argument required\n", str);
+		ft_generate_errors((char *)str, 2);
 		g_all.g_exit_status = 255;
 		exit((unsigned short)g_all.g_exit_status);
 	}
