@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:09:18 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/18 03:43:26 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 16:57:10 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void	ft_opening_fd(t_files *redirects, t_parser *parsing, int type)
 		parsing->in_fd = open(redirects[type].name, redirects[type].mode);
 		if (parsing->in_fd == -1)
 		{
-			ft_putstr_fd("minishell: faild to open file2\n", 2);
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(redirects[type].name, 2);
+			perror(":");
 			error_set(13);
 		}
 		redirects[type].mode = -1;
@@ -47,8 +49,9 @@ void	ft_opening_fd(t_files *redirects, t_parser *parsing, int type)
 		parsing->out_fd = open(redirects[type].name, redirects[type].mode);
 		if (parsing->out_fd == -1)
 		{
-			perror(NULL);
-			ft_putstr_fd("minishell: faild to open file3\n", 2);
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(redirects[type].name, 2);
+			perror(":");
 			error_set(13);
 		}
 		redirects[type].mode = -1;

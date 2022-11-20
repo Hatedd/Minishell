@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   meta.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 23:32:17 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 23:42:46 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 16:10:13 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,12 +147,13 @@ void	ft_free_dlst(t_meta *meta)
 
 void	ft_init_meta(t_meta *meta)
 {
+	free (meta->cmd);
+	free (meta->meta_str);
 	meta->cmd = readline("minishell$ ");
 	if (meta->cmd == NULL)
 		exit (g_all.g_exit_status);
 	if (meta->cmd[0] == '\0')
 	{
-		free(meta->cmd);
 		g_all.g_error_status = 1;
 		return ;
 	}

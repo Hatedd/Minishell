@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 15:49:49 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 16:56:48 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,13 @@ t_parser	*creat_list(t_token *tokens)
 	return (temp);
 }
 
+void	ft_free_redirects(t_files *redirects)
+{
+	free(redirects[READ].name);
+	free(redirects[WRITE].name);
+	free(redirects);
+}
+
 void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
 {
 	redirects[READ].mode = -1;
@@ -104,8 +111,7 @@ void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
 		tokens = tokens->next;
 	}
 	ft_opening_check(redirects, &parsing, FALSE);
-	free(redirects->name);
-	free(redirects);
+	ft_free_redirects(redirects);
 }
 
 void	ft_lst_toarray(void)
@@ -140,23 +146,24 @@ void	ft_lst_toarray(void)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_meta		meta;
+	t_meta		*meta;
 	// t_parser	*temp;
 	// t_token		*tmp;
 	// int			i;
 
 	(void)argc;
 	(void)argv;
+	meta = ft_calloc(sizeof(t_meta), 1);
 	ft_starting_inti(env);
 	while (TRUE)
 	{
-		if (main_helper(&meta))
+		if (main_helper(meta))
 			continue ;
-		meta.parsing = creat_list(meta.tokens);
-		ft_parser(meta.tokens, meta.parsing, ft_calloc(sizeof(t_files), 2));
+		meta->parsing = creat_list(meta->tokens);
+		ft_parser(meta->tokens, meta->parsing, ft_calloc(sizeof(t_files), 2));
 		if (g_all.g_error_status)
 			continue ;
-		// tmp = meta.tokens;
+		// tmp = meta->tokens;
 		// while (tmp)
 		// {
 		// 	printf("-----------------------------\n");
@@ -165,7 +172,7 @@ int	main(int argc, char **argv, char **env)
 		// 	printf("the type is |%u|\n", tmp->e_type);
 		// 	tmp = tmp->next;
 		// }
-		// temp = meta.parsing;
+		// temp = meta->parsing;
 		// while (temp)
 		// {
 		// 	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
@@ -179,9 +186,8 @@ int	main(int argc, char **argv, char **env)
 		// 		printf("the av[%d] is |%s|\n", i, temp->av[i]);
 		// 	temp = temp->next;
 		// }
-		free(meta.cmd);
-		free(meta.meta_str);
-		execution(meta.parsing);
+		printf("wizar bda\n");
+		execution(meta->parsing);
 		ft_lst_toarray();
 	}
 	return (0);
