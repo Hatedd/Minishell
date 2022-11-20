@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:14:47 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 00:10:23 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 06:49:43 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	ft_if_not_bultin(t_parser	*tmp)
 	int		i;
 
 	i = 0;
-	//tmp->path = ft_split_path(tmp);
+	tmp->path = ft_split_path(tmp);
 	if (tmp->exec_flag == 0)
 	{
-		while (g_all.path[i])
+		while (tmp->path[i])
 		{
 			succs = access(tmp->path[i], X_OK);
 			if (succs == 0)
@@ -40,7 +40,7 @@ void	ft_if_not_bultin(t_parser	*tmp)
 		}
 		if (succs == 0)
 		{
-			if (execve(g_all.path[i], tmp->av, g_all.our_env))
+			if (execve(tmp->path[i], tmp->av, g_all.our_env))
 				ft_generate_erro2(tmp, 2);
 		}
 		else
@@ -60,6 +60,7 @@ int	ft_multi_pipes(t_parser *tmp)
 		if (tmp->flag == NOEXEC)
 			exit(1);
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		ft_process_communication(tmp);
 		ft_redirection(tmp);
 		ft_if_bultin(tmp);
@@ -79,14 +80,10 @@ void	exec_single(t_parser *tmp)
 	int	i;
 	int	sccs;
 
-
-	if (ft_strchr(tmp->av[0], '/') && execve(tmp->av[0], tmp->av, g_all.our_env))
-	{
-		ft_generate_erro2(tmp, 2);
-		exit(g_all.g_exit_status);
-	}	
+	if_invalid_path_cmd(tmp);
 	i = 0;
 	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	while (g_all.path[i])
 	{
 		sccs = access(g_all.path[i], X_OK);
@@ -103,10 +100,7 @@ void	exec_single(t_parser *tmp)
 		}
 	}
 	else
-	{
 		ft_generate_erro2(tmp, 2);
-		exit(127);
-	}
 }
 
 int	ft_singl_cmd(t_parser *tmp)

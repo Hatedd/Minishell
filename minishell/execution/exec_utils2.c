@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:08:06 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 01:39:58 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 06:39:07 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	**generate_path(char **path, t_parser *cmdl, char *slash_path)
 			path[i] = ft_strdup(slash_path);
 			return (path);
 		}
-		//system("leaks minishell");
 		path[i] = join_and_free(path[i], "/");
 		path[i] = join_and_free(path[i], cmdl->av[0]);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 01:14:32 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 06:57:42 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
 	{
 		if (tokens->e_type == T_WORD || tokens->e_type == T_AMBRD)
 			ft_ambrd_parsing(tokens, parsing);
-		else if (tokens->e_type == T_READ || tokens->e_type == T_WRITE || \
-				tokens->e_type == T_DWRITE || tokens->e_type == T_DREAD)
+		else if (tokens->e_type == T_READ || tokens->e_type == T_WRITE ||
+					tokens->e_type == T_DWRITE || tokens->e_type == T_DREAD)
 		{
 			if (ft_predirection(tokens, parsing, redirects))
 			{
@@ -105,36 +105,39 @@ void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
 		tokens = tokens->next;
 	}
 	ft_opening_check(redirects, &parsing, FALSE);
-	free (redirects->name);
-	free (redirects);
+	free(redirects->name);
+	free(redirects);
 }
 
-void	ft_lst_toarray()
-		{
-			t_list *tmp = g_all.g_lst_env;
-			char *str;
-			// char ** array;
-			int i = 0;
-			int len = ft_lstsize(tmp);
-			ft_free_array(g_all.our_env);
-			g_all.our_env = malloc(sizeof(char *) * len + 1);
-			if (!g_all.our_env)
-				return ;
-			
-		//system("leaks minishell");
-			while (tmp)
-			{
-				str = ft_strdup(tmp->content);
-				//free(tmp->content);
-				//dprintf(2, "str is %p\n",str);
-				// dprintf(2, "env is %p\n",g_all.our_env[i]);
+void	ft_lst_toarray(void)
+{
+	t_list	*tmp;
+	char	*str;
+	int		i;
+	int		len;
+
+	tmp = g_all.g_lst_env;
+	// char ** array;
+	i = 0;
+	len = ft_lstsize(tmp);
+	ft_free_array(g_all.our_env);
+	g_all.our_env = malloc(sizeof(char *) * len + 1);
+	if (!g_all.our_env)
+		return ;
+	//system("leaks minishell");
+	while (tmp)
+	{
+		str = ft_strdup(tmp->content);
+		//free(tmp->content);
+		//dprintf(2, "str is %p\n",str);
+		// dprintf(2, "env is %p\n",g_all.our_env[i]);
 		//	dprintf(2, "tmp->content  is %p\n", tmp->content);
-				g_all.our_env[i++] = str;
-				//free(str);
-				tmp = tmp->next;
-			}
-			g_all.our_env[i] = NULL;
-		}
+		g_all.our_env[i++] = str;
+		//free(str);
+		tmp = tmp->next;
+	}
+	g_all.our_env[i] = NULL;
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -180,8 +183,7 @@ int	main(int argc, char **argv, char **env)
 		free(meta.cmd);
 		free(meta.meta_str);
 		execution(meta.parsing);
-	 
-		//ft_free_array(g_all.path);
+		ft_lst_toarray();
 	}
 	return (0);
 }

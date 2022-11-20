@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:47:12 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 17:05:35 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 06:49:50 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,6 @@ void	ft_generate_erro2(t_parser *tmp, int flag)
 		printf("minishell: %s: No such file or directory\n", tmp->av[1]);
 		g_all.g_exit_status = 1;
 	}
-	else if (flag == 4)
-	{
-		printf("minishell: %s: No such file or directory\n", tmp->av[0]);
-		g_all.g_exit_status = 127;
-		
-	}
 }
 
 void	ft_exit_error(t_parser *cmdl, int flag)
@@ -65,6 +59,16 @@ void	ft_exit_error(t_parser *cmdl, int flag)
 	else if (flag == 2)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-			g_all.g_exit_status = 1;
+		g_all.g_exit_status = 1;
+	}
+}
+
+void	if_invalid_path_cmd(t_parser *tmp)
+{
+	if (ft_strchr(tmp->av[0], '/') && execve(tmp->av[0], tmp->av,
+			g_all.our_env))
+	{
+		ft_generate_erro2(tmp, 2);
+		exit(g_all.g_exit_status);
 	}
 }
