@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 23:32:17 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 16:10:13 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 18:06:20 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,9 @@ void	ft_free_dlst(t_meta *meta)
 void	ft_init_meta(t_meta *meta)
 {
 	free (meta->cmd);
+	meta->cmd = NULL;
 	free (meta->meta_str);
+	meta->meta_str = NULL;
 	meta->cmd = readline("minishell$ ");
 	if (meta->cmd == NULL)
 		exit (g_all.g_exit_status);

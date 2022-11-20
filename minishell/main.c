@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 16:56:48 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 18:06:48 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	ft_lst_toarray(void)
 	i = 0;
 	len = ft_lstsize(tmp);
 	ft_free_array(g_all.our_env);
-	g_all.our_env = malloc(sizeof(char *) * len + 1);
+	g_all.our_env = ft_calloc(sizeof(char *), len + 1);
 	if (!g_all.our_env)
 		return ;
 	//system("leaks minishell");
@@ -186,7 +186,6 @@ int	main(int argc, char **argv, char **env)
 		// 		printf("the av[%d] is |%s|\n", i, temp->av[i]);
 		// 	temp = temp->next;
 		// }
-		printf("wizar bda\n");
 		execution(meta->parsing);
 		ft_lst_toarray();
 	}
