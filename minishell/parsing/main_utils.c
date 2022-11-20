@@ -6,11 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 00:40:41 by yobenali          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/11/19 16:36:19 by mouizar          ###   ########.fr       */
-=======
-/*   Updated: 2022/11/19 23:03:15 by yobenali         ###   ########.fr       */
->>>>>>> 918ab5264b9066a1eac9d0e46b59ad2fc0091231
+/*   Updated: 2022/11/19 23:43:32 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +50,7 @@ void	ft_starting_inti(char **env)
 	f = &ft_handler;
 	ft_our_env(env);
 	// system("leaks minishell");
-<<<<<<< HEAD
 	ft_build_env();
-
-=======
-	// ft_build_env();
->>>>>>> 918ab5264b9066a1eac9d0e46b59ad2fc0091231
 	signal(SIGINT, f);
 	signal(SIGQUIT, SIG_IGN);
 }

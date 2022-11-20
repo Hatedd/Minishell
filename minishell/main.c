@@ -6,11 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/11/19 23:14:45 by mouizar          ###   ########.fr       */
-=======
-/*   Updated: 2022/11/19 23:20:04 by yobenali         ###   ########.fr       */
->>>>>>> 918ab5264b9066a1eac9d0e46b59ad2fc0091231
+/*   Updated: 2022/11/20 01:14:32 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +179,9 @@ int	main(int argc, char **argv, char **env)
 		// }
 		free(meta.cmd);
 		free(meta.meta_str);
-		// system("leaks minishell");
 		execution(meta.parsing);
+	 
+		//ft_free_array(g_all.path);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:08:06 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/19 19:42:03 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 01:19:25 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,12 @@ char	**generate_path(char **path, t_parser *cmdl, char *slash_path)
 	{
 		if (ft_strchr(cmdl->av[0], '/'))
 		{
+			dprintf(2, "%p\n", path[i]);
+			free(path[i]);
 			path[i] = ft_strdup(slash_path);
 			return (path);
 		}
+		//system("leaks minishell");
 		path[i] = join_and_free(path[i], "/");
 		path[i] = join_and_free(path[i], cmdl->av[0]);
 		i++;
@@ -55,6 +58,7 @@ char	**ft_split_path(t_parser	*cmdl)
 	ft_free_array(var);
 	slash_path = ft_strdup(cmdl->av[0]);
 	path = generate_path(path, cmdl, slash_path);
+	system("leaks minishell");
 	free(slash_path);
 	return (path);
 }
