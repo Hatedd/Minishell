@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 23:25:20 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 01:34:51 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,4 +210,5 @@ int		ft_multi_pipes(t_parser *tmp);
 int		ft_singl_cmd(t_parser *tmp);
 void	ft_exit_error(t_parser *cmdl, int flag);
 char	*join_and_free(char *s1, char *s2);
+
 #endif
