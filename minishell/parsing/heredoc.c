@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 23:42:39 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 21:03:37 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_heredoc_expand(char *rl, int fd, int h_quoted)
 	while (ft_strchr(rl, '$'))
 	{
 		i = 0;
-		while (rl[i] != '$')
+		while (rl[i] && (rl[i] != '$' || h_quoted == NO_EXPAND))
 			i++;
 		buffer = ft_strjoin_free(buffer, ft_substr(rl, 0, i), ALL);
 		rl += i;

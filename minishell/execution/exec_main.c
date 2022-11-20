@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 02:29:15 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 06:37:34 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 18:58:30 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	execution(t_parser *cmdl)
 			id = multiple_command(tmp);
 		ft_norm2(id);
 	}
-	else
+	else if (g_all.path)
 		ft_generate_erro2(tmp, 1);
 	ft_free_array(g_all.path);
 }

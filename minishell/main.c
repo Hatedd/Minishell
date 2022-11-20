@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 18:21:11 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 21:19:12 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,8 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		meta->parsing = creat_list(meta->tokens);
 		ft_parser(meta->tokens, meta->parsing, ft_calloc(sizeof(t_files), 2));
-		if (g_all.g_error_status)
-			continue ;
+		// if (g_all.g_error_status)
+		// 	continue ;
 		// tmp = meta->tokens;
 		// while (tmp)
 		// {

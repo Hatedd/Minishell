@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 22:23:15 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/19 23:42:55 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 21:17:15 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_q_expand(t_token *tmp)
 
 	j = 0;
 	i = 0;
+	if (tmp->prev && tmp->prev->e_type == T_DREAD)
+		return ;
 	old_meta = ft_strdup(tmp->meta);
 	while (tmp->meta[i])
 	{
