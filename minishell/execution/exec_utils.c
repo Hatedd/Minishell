@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:47:12 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 06:49:50 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 18:09:55 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,20 @@ void	ft_generate_errors(char *str, int flag)
 		ft_putstr_fd("minishell: export: `", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": not a valid identifier\n", 2);
+		g_all.g_exit_status = 1;
+	}
+	if (flag == 2)
+	{
+		ft_putstr_fd("minishell: exit: `", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(" numeric argument required\n", 2);
+	}
+	if (flag == 3)
+	{
+		ft_putstr_fd("minishell: unset: `", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": not a valid identifier\n", 2);
+		g_all.g_exit_status = 1;
 	}
 }
 

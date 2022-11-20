@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:42:41 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 01:37:46 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 18:49:03 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,26 @@ void	ft_build_env(void)
 	while (g_all.our_env[i])
 	{
 		str = ft_strdup(g_all.our_env[i]);
-		ft_lstadd_back(&g_all.g_lst_env, \
-			ft_lstnew(str));
+		ft_lstadd_back(&g_all.g_lst_env, ft_lstnew(str));
 		i++;
 	}
 }
 
-void	bult_in(t_parser	*cmdl)
+void	ft_fill_env(void)
 {
-		g_all.flag_vide_env = 0;
-		if (!g_all.g_lst_env)
-		{
-			g_all.flag_vide_env = 1;
-			ft_lstadd_back(&g_all.g_lst_env,
-			ft_lstnew("SHLVL=1"));
-			ft_lstadd_back(&g_all.g_lst_env,
-			ft_lstnew("PWD=/Users/mouizar"));
-			ft_lstadd_back(&g_all.g_lst_env,
-			ft_lstnew("OLDPWD="));
-		}
+	if (!g_all.g_lst_env)
+	{
+		g_all.flag_vide_env = 1;
+		ft_lstadd_back(&g_all.g_lst_env, ft_lstnew("SHLVL=1"));
+		ft_lstadd_back(&g_all.g_lst_env, ft_lstnew("PWD=/Users/mouizar"));
+		ft_lstadd_back(&g_all.g_lst_env, ft_lstnew("OLDPWD="));
+	}
+}
+
+void	bult_in(t_parser *cmdl)
+{
+	g_all.flag_vide_env = 0;
+	ft_fill_env();
 	if (cmdl->flag == NOEXEC)
 	{
 		error_set(1);

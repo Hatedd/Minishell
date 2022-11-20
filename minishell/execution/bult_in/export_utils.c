@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:52:32 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 16:28:01 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 17:31:14 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_list	*sorting(t_list *lst, int (*ft_cmpar)(char *, char *))
 	char	*tmp;
 
 	if (!lst)
-		return 0;
+		return (0);
 	tmp = NULL;
 	sv = lst;
 	while (lst->next)

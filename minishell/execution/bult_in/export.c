@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:46:49 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/19 18:40:26 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 17:33:14 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	ft_parser_export(t_parser *cmdl)
 	int	i;
 
 	i = 0;
-
-	
 	if (cmdl->av[1] == 0)
 		ft_print_export();
 	else
@@ -62,8 +60,7 @@ void	ft_parser_export(t_parser *cmdl)
 			if (valid_export(cmdl->av[i]))
 				ft_export_body(cmdl, i);
 			else
-				printf("minishell: export: `%s': not a valid identifier\n",
-					cmdl->av[i]);// remove printfs in errors
+				ft_generate_errors(cmdl->av[i], 1);
 			g_all.g_exit_status = 1;
 		}
 	}

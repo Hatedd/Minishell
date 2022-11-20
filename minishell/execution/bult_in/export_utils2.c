@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 23:05:30 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/19 18:56:12 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 17:46:16 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	valid_export(char	*str)
 		return (404);
 	}
 	while ((ft_isalnum(str[i]) || ft_egal(str[i])
-		||  (str[i] == '+' && str[i + 1] == '=')) && (str[i] != '=') )
+		||  (str[i] == '+' && str[i + 1] == '=')) && (str[i] != '='))
 	{
 		if (str[i + 1] == '=' || (str[i + 1] == '+' && str[i + 2] == '='))
 			return (1);
