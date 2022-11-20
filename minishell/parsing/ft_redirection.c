@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:27:12 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/18 01:14:54 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 15:44:25 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,19 @@ int	ft_redirection_read(t_token *temp, t_parser *parser, t_files *redirects)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(temp->next->word, 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
+			redirects[READ].mode = -1;
+			parser->flag = NOEXEC;
+			return (1);
 		}
-		if (access(temp->next->word, R_OK) != 0)
+		if (access(temp->next->word, R_OK) != 0 )
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(temp->next->word, 2);
 			ft_putstr_fd(": Permission denied\n", 2);
+			redirects[READ].mode = -1;
+			parser->flag = NOEXEC;
+			return (1);
 		}
-		redirects[READ].mode = -1;
-		parser->flag = NOEXEC;
-		return (1);
 	}
 	return (0);
 }

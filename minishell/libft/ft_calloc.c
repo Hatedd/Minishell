@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:57:21 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 01:32:00 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 01:49:00 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	*ft_calloc(size_t count, size_t size)
 		perror("minishell ");
 		exit(EXIT_FAILURE);
 	}
-		return (0);
 	ft_bzero (p, count * size);
 	return (p);
 }
