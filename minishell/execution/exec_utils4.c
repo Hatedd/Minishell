@@ -6,7 +6,7 @@
 /*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:14:47 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 06:49:43 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 16:20:43 by mouizar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	ft_multi_pipes(t_parser *tmp)
 		ft_redirection(tmp);
 		ft_if_bultin(tmp);
 		ft_if_not_bultin(tmp);
+		if (!tmp->av && tmp->flag == EXEC)
+			g_all.g_exit_status = 0;
 	}
 	else
 	{
@@ -114,6 +116,8 @@ int	ft_singl_cmd(t_parser *tmp)
 	{
 		if (tmp->flag == NOEXEC)
 			exit (1);
+		if (!tmp->av && tmp->flag == EXEC)
+			g_all.g_exit_status = 0;
 		exec_single(tmp);
 	}
 	return (id);
