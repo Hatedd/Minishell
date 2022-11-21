@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 21:19:12 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:15:14 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,14 @@ t_parser	*creat_list(t_token *tokens)
 	return (temp);
 }
 
-void	ft_free_redirects(t_files *redirects)
+int	ft_free_redirects(t_files *redirects)
 {
 	free(redirects[READ].name);
 	free(redirects[WRITE].name);
+	redirects[READ].name = NULL;
+	redirects[WRITE].name = NULL;
 	free(redirects);
+	return (1);
 }
 
 void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
@@ -93,12 +96,11 @@ void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
 	{
 		if (tokens->e_type == T_WORD || tokens->e_type == T_AMBRD)
 			ft_ambrd_parsing(tokens, parsing);
-		else if (tokens->e_type == T_READ || tokens->e_type == T_WRITE ||
-					tokens->e_type == T_DWRITE || tokens->e_type == T_DREAD)
+		else if (tokens->e_type >= T_DREAD && tokens->e_type <= T_WRITE)
 		{
 			if (ft_predirection(tokens, parsing, redirects))
 			{
-				if (g_all.g_error_status)
+				if (g_all.g_error_status && ft_free_redirects(redirects))
 					return ;
 				while (tokens && tokens->e_type != T_PIPE)
 					tokens = tokens->next;
@@ -129,7 +131,6 @@ void	ft_lst_toarray(void)
 	g_all.our_env = ft_calloc(sizeof(char *), len + 1);
 	if (!g_all.our_env)
 		return ;
-	//system("leaks minishell");
 	while (tmp)
 	{
 		str = ft_strdup(tmp->content);
@@ -161,8 +162,9 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		meta->parsing = creat_list(meta->tokens);
 		ft_parser(meta->tokens, meta->parsing, ft_calloc(sizeof(t_files), 2));
-		// if (g_all.g_error_status)
-		// 	continue ;
+		// system("leaks minishell");
+ 		if (g_all.g_error_status)
+			continue ;
 		// tmp = meta->tokens;
 		// while (tmp)
 		// {

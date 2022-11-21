@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:11:02 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 17:40:01 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/20 22:24:23 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,11 @@ void	ft_wait(int id)
 			if (WIFEXITED(status))
 					g_all.g_exit_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-					g_all.g_exit_status = 128 + WTERMSIG(status);
+			{
+				if (WTERMSIG(status) == SIGQUIT)
+					ft_putstr_fd("Quit: 3\n", 1);
+				g_all.g_exit_status = 128 + WTERMSIG(status);
+			}
 		}
 	}
 	signal(SIGINT, ft_handler);

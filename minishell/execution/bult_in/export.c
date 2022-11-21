@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:46:49 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 17:33:14 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/21 01:44:39 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ft_parser_export(t_parser *cmdl)
 	int	i;
 
 	i = 0;
+	g_all.flag_exit_export = 0;
 	if (cmdl->av[1] == 0)
 		ft_print_export();
 	else
@@ -58,10 +59,17 @@ void	ft_parser_export(t_parser *cmdl)
 		while (cmdl->av[++i])
 		{
 			if (valid_export(cmdl->av[i]))
+			{
 				ft_export_body(cmdl, i);
+				g_all.g_exit_status = 0;
+			}
 			else
+			{
+				g_all.flag_exit_export = 1;
 				ft_generate_errors(cmdl->av[i], 1);
-			g_all.g_exit_status = 1;
+			}
 		}
+		if (g_all.flag_exit_export == 1)
+			g_all.g_exit_status = 1;
 	}
 }

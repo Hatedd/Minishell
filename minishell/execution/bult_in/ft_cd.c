@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:08:07 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 03:41:01 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/21 01:47:30 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,8 @@ void	ft_parser_cd(t_parser *cmdl)
 		ft_modify_pwd("OLDPWD", oldpwd, 2);
 		free(pwd);
 		free(oldpwd);
+		g_all.g_exit_status = 0;
 	}
-	else if (cmdl->av[1] == 0 && ft_strncmp(cmdl->av[0], "cd", 3) == 0)
-		write(2, "cd with only a relative or absolute path\n", 42);
 	else
 		ft_generate_erro2(cmdl, 3);
 	return ;

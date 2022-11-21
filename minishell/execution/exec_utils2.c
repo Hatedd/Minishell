@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:08:06 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 16:07:08 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/21 03:18:19 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**ft_split_path(t_parser	*cmdl)
 	char	*slash_path;
 
 	str = ft_found_path();
-	if (!str || cmdl->av[0] == NULL)
+	if (!str || cmdl->av == NULL)
 		return (NULL);
 	var = ft_split(str, '=');
 	path = ft_split(var[1], ':');

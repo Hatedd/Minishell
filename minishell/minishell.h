@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 15:49:30 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 01:45:32 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_gdata
 	char    **path;
 	int			flag_vide_env;
 	int			flag_norm_exec;
-
+	int			flag_exit_export;
 }	t_gdata;
 //call the fuction tha wizar build his env with in the linked list
 t_gdata			g_all;

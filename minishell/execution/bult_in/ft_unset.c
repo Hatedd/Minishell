@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:17:29 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 18:13:07 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/21 01:58:05 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,7 @@ int	valid_unset(char *str)
 	if (str[i] == '=')
 		return (0);
 	if ((ft_isdigit(str[0]) || !ft_isalpha(str[0])) && str[i] != '_' )
-	{
-		ft_generate_errors(str, 3);
-		return (89);
-	}
+		return (0);
 	i = 1;
 	while (ft_isalnum(str[i]) || ft_egal(str[i]))
 	{
@@ -98,6 +95,7 @@ void	ft_parser_unset(t_parser *cmdl)
 		if (ft_found_inenv(tmp, cmdl->av[i]) == 1)
 		{
 			unset_var(&tmp, cmdl->av[i]);
+			g_all.g_exit_status = 0;
 		}
 		else if (valid_unset(cmdl->av[i]) == 0)
 		{

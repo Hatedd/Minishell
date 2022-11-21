@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 03:47:36 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 21:03:37 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 22:25:50 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	ft_hchild_work(t_token *tokens, char *name, int fd, int nb)
 	t_token	*temp;
 
 	temp = tokens;
+	signal(SIGINT, SIG_DFL);
 	nb = ft_heredoc_nb(temp);
 	if (nb >= 16)
 	{

@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:27:12 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 15:44:25 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:43:57 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ int	ft_redirection_help(t_token *temp, t_parser *parser, t_files *redirects)
 		fd = open(temp->next->word, O_CREAT | O_RDWR, 0600);
 		if (fd == -1)
 		{
-			ft_putstr_fd("minishell: faild to creat file1\n", 2);
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(temp->next->word, 2);
+			ft_putstr_fd("faild to creat file\n", 2);
 			error_set(13);
 			return (1);
 		}

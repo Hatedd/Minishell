@@ -22,3 +22,8 @@ minishell$ $ksldfsjdf | ls
 minishell$ export 'a 2a';
 
 #Makefile 
+
+
+
+
+"<<"|>>''|''

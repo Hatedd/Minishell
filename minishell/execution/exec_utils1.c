@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:05:19 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 06:49:56 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/21 03:12:14 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	is_bultin(char *str)
 
 int	ck_if_bultin(t_parser *cmdl)
 {
+	if (cmdl->av == NULL)
+		return (0);
 	return (is_bultin(cmdl->av[0]));
 }
 

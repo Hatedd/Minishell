@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:10:36 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/18 00:00:35 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 01:50:30 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,5 @@ void	ft_parser_echo(t_parser	*cmdl)
 		write(1, "\n", 1);
 		return ;
 	}
+	g_all.g_exit_status = 0;
 }

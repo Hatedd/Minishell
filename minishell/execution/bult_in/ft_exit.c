@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:23:57 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 17:33:36 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/21 00:38:03 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,56 +51,42 @@ int	ft_num_alpha(char *str)
 	i = 0;
 	while ((str[i] && ft_isdigit(str[i])))
 		i++;
-	if (str[i] == '\0')
+	if (str[i] == '\0' || str[i] == '-')
 		return (0);
 	else
 		return (1);
 }
 
-// int	handel_two_negative(t_parser *cmdl, unsigned short exitt)
-// {
-// 	if (ft_strncmp(cmdl->av[1], "--", 3) == 0)
-// 	{
-// 		if (cmdl->av[2])
-// 		{
-// 			if (ft_atoi(cmdl->av[2]) >= SIZE_MAX && cmdl->av[2][0] != '-')
-// 			{
-// 				ft_exit_error(cmdl, 2);
-// 				exitt = g_all.g_exit_status;
-// 			}
-// 			g_all.g_exit_status = ft_atoi_exit(cmdl->av[2]);
-// 			exitt = g_all.g_exit_status;
-// 		}
-// 		g_all.g_exit_status = 0;
-// 		exitt = g_all.g_exit_status;
-// 	}
-// 	return (exitt);
-// }
-
-void	ft_exit_parser(t_parser *cmdl)
+unsigned short    ft_too_many(t_parser *cmdl, unsigned short exitt)
 {
-	unsigned short	exitt;
+    ft_exit_error(cmdl, 2);
+    exitt = 255;
+    return (exitt);
+}
 
-	exitt = g_all.g_exit_status;
-	if (!cmdl->prev)
-		printf("exit\n");
-	if (cmdl->av[1] == 0)
-		exit(exitt);
-	else if (cmdl->av[2] != NULL)
-	{
-		if (ft_num_alpha(cmdl->av[1]) == 0)
-		{
-			ft_exit_error(cmdl, 2);
-			exitt = g_all.g_exit_status;
-			return ;
-		}
-		else
-		{
-			ft_exit_error(cmdl, 2);
-			exitt = g_all.g_exit_status;
-		}
-	}
-	else if (cmdl->av[1])
-		ft_exit_value(cmdl);
-	exit(exitt);
+void    ft_exit_parser(t_parser *cmdl)
+{
+    unsigned short    exitt;
+
+    exitt = g_all.g_exit_status;
+    if (!cmdl->prev)
+        printf("exit\n");
+    if (cmdl->av[1] == 0)
+        exit(exitt);
+    else if (cmdl->av[2] != NULL)
+    {
+        if (ft_num_alpha(cmdl->av[1]) == 0)
+        {
+            ft_exit_error(cmdl, 2);
+            g_all.g_exit_status = 1;
+            return ;
+        }
+        else
+            exitt = ft_too_many(cmdl, exitt);
+    }
+    else if (cmdl->av[1] && ft_num_alpha(cmdl->av[1]) == 0)
+        exitt = ft_atoi_exit(cmdl->av[1]);
+    else if (cmdl->av[1])
+        ft_exit_value(cmdl);
+    exit(exitt);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:35 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 17:41:02 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/21 01:53:13 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_parser_pwd(void)
 		return ;
 	printf("%s\n", buff);
 	free(buff);
+	g_all.g_exit_status = 0;
 }
 
 void	ft_check_ul(unsigned long res, int signe, const char *str)

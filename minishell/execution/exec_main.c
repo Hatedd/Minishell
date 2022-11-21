@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 02:29:15 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 18:58:30 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 03:16:14 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	initial_dup_path(t_parser *tmp)
 	g_all.path = ft_split_path(tmp);
 	g_all.tmpp_in = dup(0);
 	g_all.tmpp_out = dup(1);
-	if (!g_all.path && !ck_if_bultin(tmp) && !ft_strchr(tmp->av[0], '/'))
+	if (!g_all.path && !ck_if_bultin(tmp) && tmp->av && \
+		!ft_strchr(tmp->av[0], '/'))
 	{
 		g_all.flag_norm_exec = 1;
 		printf("minishell: %s: No such file or directory\n", tmp->av[0]);
@@ -58,9 +59,8 @@ void	execution(t_parser *cmdl)
 	int			i;
 
 	tmp = cmdl;
-	if (!tmp->av)
-		return ;
-	i = stat(cmdl->av[0], &stats);
+	if (tmp->av)
+		i = stat(cmdl->av[0], &stats);
 	initial_dup_path(cmdl);
 	if (!S_ISDIR(stats.st_mode) && g_all.flag_norm_exec == 0)
 	{

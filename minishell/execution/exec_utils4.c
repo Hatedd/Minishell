@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouizar <mouizar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:14:47 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/20 16:20:43 by mouizar          ###   ########.fr       */
+/*   Updated: 2022/11/21 03:20:51 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int	ft_multi_pipes(t_parser *tmp)
 		signal(SIGQUIT, SIG_DFL);
 		ft_process_communication(tmp);
 		ft_redirection(tmp);
+		if (!tmp->av && tmp->flag == EXEC)
+			exit (0);
 		ft_if_bultin(tmp);
 		ft_if_not_bultin(tmp);
-		if (!tmp->av && tmp->flag == EXEC)
-			g_all.g_exit_status = 0;
 	}
 	else
 	{
@@ -117,7 +117,7 @@ int	ft_singl_cmd(t_parser *tmp)
 		if (tmp->flag == NOEXEC)
 			exit (1);
 		if (!tmp->av && tmp->flag == EXEC)
-			g_all.g_exit_status = 0;
+			exit (0);
 		exec_single(tmp);
 	}
 	return (id);

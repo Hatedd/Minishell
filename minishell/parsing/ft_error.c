@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:24:33 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 04:48:11 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/20 22:54:32 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	redirections_error(t_token *tmp)
 	else
 	{
 		ft_putstr_fd(tmp->next->word, 2);
-		write(2, "\n", 2);
+		write(2, "'\n", 2);
 	}
 	return (error_set(258));
 }
