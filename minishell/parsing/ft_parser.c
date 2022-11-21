@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:09:18 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/21 01:02:19 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 05:36:00 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	ft_opening_fd(t_files *redirects, t_parser *parsing, int type)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(redirects[type].name, 2);
 			ft_putstr_fd(": Is a directory\n", 2);
-			// perror("");
 			error_set(13);
 		}
 		redirects[type].mode = -1;

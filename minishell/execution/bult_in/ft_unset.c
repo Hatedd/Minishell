@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:17:29 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/21 04:23:35 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 05:48:39 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ void	ft_parser_unset(t_parser *cmdl)
 	i = 1;
 	while (cmdl->av[i])
 	{
-		if (ft_found_inenv(tmp, cmdl->av[i]) == 1 &&  valid_unset(cmdl->av[i]) == 1)
+		if (ft_found_inenv(tmp, cmdl->av[i]) == 1 \
+			&& valid_unset(cmdl->av[i]) == 1)
 		{
 			unset_var(&tmp, cmdl->av[i]);
 			g_all.g_exit_status = 0;

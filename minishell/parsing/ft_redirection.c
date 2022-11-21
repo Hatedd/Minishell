@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:27:12 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/21 02:43:57 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 05:35:05 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ void	filling_data(t_files *redirects, char *name, int mode)
 		free (redirects->name);
 	redirects->name = ft_strdup(name);
 	redirects->mode = mode;
+}
+
+int	ft_redirection_norm(char *value)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(value, 2);
+	ft_putstr_fd("faild to creat file\n", 2);
+	error_set(13);
+	return (1);
 }
 
 int	ft_redirection_help(t_token *temp, t_parser *parser, t_files *redirects)
@@ -33,13 +42,8 @@ int	ft_redirection_help(t_token *temp, t_parser *parser, t_files *redirects)
 	{
 		fd = open(temp->next->word, O_CREAT | O_RDWR, 0600);
 		if (fd == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(temp->next->word, 2);
-			ft_putstr_fd("faild to creat file\n", 2);
-			error_set(13);
-			return (1);
-		}
+			if (ft_redirection_norm(temp->next->word))
+				return (1);
 		close(fd);
 	}
 	else if (access(temp->next->word, W_OK) != 0)
@@ -69,7 +73,7 @@ int	ft_redirection_read(t_token *temp, t_parser *parser, t_files *redirects)
 			parser->flag = NOEXEC;
 			return (1);
 		}
-		if (access(temp->next->word, R_OK) != 0 )
+		if (access(temp->next->word, R_OK) != 0)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(temp->next->word, 2);

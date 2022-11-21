@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/21 01:45:32 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 05:57:26 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,15 @@ typedef struct s_parser
 typedef struct s_gdata
 {
 	char	g_error_status;
-	int		g_exit_status;
 	char	**our_env;
-    t_list	*g_lst_env;
-	int     tmpp_in;
-	int     tmpp_out;
-	char    **path;
-	int			flag_vide_env;
-	int			flag_norm_exec;
-	int			flag_exit_export;
+	char	**path;
+	int		g_exit_status;
+	int		tmpp_in;
+	int		tmpp_out;
+	int		flag_vide_env;
+	int		flag_norm_exec;
+	int		flag_exit_export;
+	t_list	*g_lst_env;
 }	t_gdata;
 //call the fuction tha wizar build his env with in the linked list
 t_gdata			g_all;
@@ -155,64 +155,60 @@ t_token		*ft_dlstlast(t_token *lst);
 t_parser	*ft_dlstlast2(t_parser *lst);
 
 // execution
-t_list	*sorting(t_list *lst, int (*ft_cmpar)(char *, char *));
-int		ft_cmpar(char *s1, char *s2);
-void	printing(char *content);
-int		isvalid_to_export(char c);
-int		valid_export(char *str);
-void	ft_build_env(void);
-int		ft_found_inenv(t_list *lst, char *str);
-int		ft_search_variable(char *s1, char *s2);
-void	ft_modify_var(t_list *lst_env, char *value);
-int		ft_cmpar(char *s1, char *s2);
-int		ft_same_c(char c1, char c2);
-int		ft_search_variable(char *s1, char *s2);
-int		ft_found_inenv(t_list *lst, char *str);
-void	ft_modify_var(t_list *lst_env, char *value);
-void	ft_free_array(char **str);
-void	ft_build_env(void);
-void	bult_in(t_parser *cmdl);
-void	ft_parser_export(t_parser *cmdl);
-void	execution(t_parser *cmdl);
-void	ft_parser_cd(t_parser *cmdl);
-int		ft_valid_n(char *str);
-void	ft_parser_echo(t_parser *cmdl);
-void	ft_parser_env(t_parser *cmdl);
-void	ft_parser_export(t_parser *cmdl);
-void	unset_var(t_list **lst, char *str);
-void	ft_parser_unset(t_parser *cmdl);
-void	ft_parser_env(t_parser *cmdl);
-void	ft_parser_unset(t_parser *cmdl);
-void	ft_parser_pwd(void);
-void	ft_exit_parser(t_parser *cmdl);
-int		ft_atoi_exit(const char *str);
-void	free_lst(t_list **lst);
-int		ft_lstsize_cmd(t_parser *lst);
-int		ft_egal(char c);
-int		ft_space(char c);
-void	ft_generate_errors(char *str, int flag);
-void	ft_generate_erro2(t_parser *tmp, int flag);
-int		ft_multi_pipes(t_parser *tmp);
-void	ft_redirection(t_parser *tmp);
-int		ft_singl_cmd(t_parser *tmp);
-int		ft_lstsize_cmd(t_parser *lst);
-int		is_bultin(char *str);
-int		ck_if_bultin(t_parser *cmdl);
-char	*ft_found_path(void);
-char	*join_frees1(char *s1, char *s2);
-char	**generate_path(char **path, t_parser *cmdl, char *slash_path);
-char	**ft_split_path(t_parser *cmdl);
-int		single_command(t_parser *tmp);
-int		multiple_command(t_parser *tmp);
-void	ft_wait(int id);
-void	ft_redirection(t_parser *tmp);
-void	ft_process_communication(t_parser *tmp);
-void	ft_if_bultin(t_parser *tmp);
-void	ft_if_not_bultin(t_parser *tmp);
-int		ft_multi_pipes(t_parser *tmp);
-int		ft_singl_cmd(t_parser *tmp);
-void	ft_exit_error(t_parser *cmdl, int flag);
-char	*join_and_free(char *s1, char *s2);
-void	if_invalid_path_cmd(t_parser *tmp);
+void		ft_modify_var(t_list *lst_env, char *value);
+void		ft_generate_erro2(t_parser *tmp, int flag);
+void		ft_parser_export(t_parser *cmdl, int i);
+void		ft_process_communication(t_parser *tmp);
+void		ft_generate_errors(char *str, int flag);
+void		ft_exit_error(t_parser *cmdl, int flag);
+void		unset_var(t_list **lst, char *str);
+void		if_invalid_path_cmd(t_parser *tmp);
+void		ft_if_not_bultin(t_parser *tmp);
+void		ft_parser_unset(t_parser *cmdl);
+void		ft_parser_echo(t_parser *cmdl);
+void		ft_exit_parser(t_parser *cmdl);
+void		ft_parser_env(t_parser *cmdl);
+void		ft_redirection(t_parser *tmp);
+void		ft_parser_cd(t_parser *cmdl);
+void		ft_if_bultin(t_parser *tmp);
+void		ft_free_dlst(t_meta *meta);
+void		execution(t_parser *cmdl);
+void		ft_free_array(char **str);
+void		printing(char *content);
+void		bult_in(t_parser *cmdl);
+void		free_lst(t_list **lst);
+void		ft_lst_toarray(void);
+void		ft_parser_pwd(void);
+void		ft_build_env(void);
+void		ft_wait(int id);
+char		**generate_path(char **path, t_parser *cmdl, char *slash_path);
+char		*join_and_free(char *s1, char *s2);
+char		*join_frees1(char *s1, char *s2);
+char		**ft_split_path(t_parser *cmdl);
+char		*ft_found_path(void);
+int			ft_cmpar(char *s1, char *s2);
+int			isvalid_to_export(char c);
+int			valid_export(char *str);
+int			ft_found_inenv(t_list *lst, char *str);
+int			ft_search_variable(char *s1, char *s2);
+int			ft_cmpar(char *s1, char *s2);
+int			ft_same_c(char c1, char c2);
+int			ft_search_variable(char *s1, char *s2);
+int			ft_found_inenv(t_list *lst, char *str);
+int			ft_valid_n(char *str);
+int			ft_atoi_exit(const char *str);
+int			ft_lstsize_cmd(t_parser *lst);
+int			ft_egal(char c);
+int			ft_space(char c);
+int			ft_multi_pipes(t_parser *tmp);
+int			ft_singl_cmd(t_parser *tmp);
+int			ft_lstsize_cmd(t_parser *lst);
+int			is_bultin(char *str);
+int			ck_if_bultin(t_parser *cmdl);
+int			single_command(t_parser *tmp);
+int			multiple_command(t_parser *tmp);
+int			ft_multi_pipes(t_parser *tmp);
+int			ft_singl_cmd(t_parser *tmp);
+t_list		*sorting(t_list *lst, int (*ft_cmpar)(char *, char *));
 
 #endif

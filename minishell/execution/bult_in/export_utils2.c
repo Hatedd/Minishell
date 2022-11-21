@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 23:05:30 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/21 01:38:26 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 05:46:33 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	valid_export(char	*str)
 		i = 1;
 	if ((ft_isdigit(str[0]) || !ft_isalpha(str[0])) && !ft_egal(str[0]))
 		return (0);
-	while ((ft_isalnum(str[i]) || ft_egal(str[i])
-		||  (str[i] == '+' && str[i + 1] == '=')) && (str[i] != '='))
+	while ((ft_isalnum(str[i]) || ft_egal(str[i]) \
+		|| (str[i] == '+' && str[i + 1] == '=')) && (str[i] != '='))
 	{
 		if (str[i + 1] == '=' || (str[i + 1] == '+' && str[i + 2] == '='))
 			return (1);

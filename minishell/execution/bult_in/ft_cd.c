@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:08:07 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/21 05:02:30 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 05:45:18 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	join_pwd(t_list *tmp, char *temp, char *value)
 		free(tmp->content);
 	tmp->content = ft_strjoin("PWD=", temp);
 	free(temp);
-	
 }
 
 void	ft_modify_pwd(char *str, char *value, int flag)
@@ -30,15 +29,12 @@ void	ft_modify_pwd(char *str, char *value, int flag)
 	tmp = g_all.g_lst_env;
 	while (tmp)
 	{
-
 		if (!ft_strncmp(str, tmp->content, ft_strlen(str))
 			&& (((char *)tmp->content)[ft_strlen(str)] == '\0'
 			|| ((char *)tmp->content)[ft_strlen(str)] == '='))
 		{
 			if (flag == 1)
-			{
 				join_pwd(tmp, temp, value);
-			}
 			else
 			{
 				temp = ft_strdup(value);

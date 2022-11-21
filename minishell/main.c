@@ -6,40 +6,11 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:19 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/21 02:15:14 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 05:40:27 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_our_env(char **env)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	i = 0;
-	while (env[i])
-		i++;
-	g_all.our_env = ft_calloc((i + 1), sizeof(char *));
-	if (!g_all.our_env)
-		return ;
-	i = 0;
-	while (env[i])
-	{
-		j = 0;
-		len = ft_strlen(env[i]);
-		g_all.our_env[i] = ft_calloc((len + 1), sizeof(char *));
-		if (!g_all.our_env[i])
-			return ;
-		while (env[i][j])
-		{
-			g_all.our_env[i][j] = env[i][j];
-			j++;
-		}
-		i++;
-	}
-}
 
 int	ft_counting_cmd(t_token *tokens)
 {
@@ -116,41 +87,9 @@ void	ft_parser(t_token *tokens, t_parser *parsing, t_files *redirects)
 	ft_free_redirects(redirects);
 }
 
-void	ft_lst_toarray(void)
-{
-	t_list	*tmp;
-	char	*str;
-	int		i;
-	int		len;
-
-	tmp = g_all.g_lst_env;
-	// char ** array;
-	i = 0;
-	len = ft_lstsize(tmp);
-	ft_free_array(g_all.our_env);
-	g_all.our_env = ft_calloc(sizeof(char *), len + 1);
-	if (!g_all.our_env)
-		return ;
-	while (tmp)
-	{
-		str = ft_strdup(tmp->content);
-		//free(tmp->content);
-		//dprintf(2, "str is %p\n",str);
-		// dprintf(2, "env is %p\n",g_all.our_env[i]);
-		//	dprintf(2, "tmp->content  is %p\n", tmp->content);
-		g_all.our_env[i++] = str;
-		//free(str);
-		tmp = tmp->next;
-	}
-	g_all.our_env[i] = NULL;
-}
-
 int	main(int argc, char **argv, char **env)
 {
-	t_meta		*meta;
-	// t_parser	*temp;
-	// t_token		*tmp;
-	// int			i;
+	t_meta	*meta;
 
 	(void)argc;
 	(void)argv;
@@ -162,32 +101,8 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		meta->parsing = creat_list(meta->tokens);
 		ft_parser(meta->tokens, meta->parsing, ft_calloc(sizeof(t_files), 2));
-		// system("leaks minishell");
- 		if (g_all.g_error_status)
+		if (g_all.g_error_status)
 			continue ;
-		// tmp = meta->tokens;
-		// while (tmp)
-		// {
-		// 	printf("-----------------------------\n");
-		// 	printf("the word is |%s|\n", tmp->word);
-		// 	printf("the meta is |%s|\n", tmp->meta);
-		// 	printf("the type is |%u|\n", tmp->e_type);
-		// 	tmp = tmp->next;
-		// }
-		// temp = meta->parsing;
-		// while (temp)
-		// {
-		// 	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-		// 	printf("the flag is |%d|\n", temp->flag);
-		// 	printf("the index is |%d|\n", temp->index);
-		// 	printf("the infile is |%d|\n", temp->in_fd);
-		// 	printf("the outfile is |%d|\n", temp->out_fd);
-		// 	printf("this is the av address |%p|\n", temp->av);
-		// 	i = -1;
-		// 	while (temp->av && temp->av[++i])
-		// 		printf("the av[%d] is |%s|\n", i, temp->av[i]);
-		// 	temp = temp->next;
-		// }
 		execution(meta->parsing);
 		ft_lst_toarray();
 	}

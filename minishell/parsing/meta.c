@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 23:32:17 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 21:09:19 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 05:30:14 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,53 +95,6 @@ void	ft_trans_meta(char *av, t_meta *meta)
 		if (g_all.g_error_status)
 			return ;
 		i++;
-	}
-}
-
-void	ft_free_tokens(t_token *tokens, t_parser *parsing)
-{
-	int	i;
-
-	i = 0;
-	if (tokens)
-	{
-		free(tokens->word);
-		free(tokens->meta);
-		free(tokens->old_word);
-		free(tokens->heredoc);
-	}
-	if (parsing)
-	{
-		if (parsing->av) // after protecting the av
-		{
-			while (parsing->av[i])
-				free(parsing->av[i++]);
-		}
-		free(parsing->av);
-		ft_free_array(parsing->path);
-	}
-}
-
-void	ft_free_dlst(t_meta *meta)
-{
-	t_token *tmp;
-	t_parser *temp;
-
-	tmp = meta->tokens;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		ft_free_tokens(meta->tokens, NULL);
-		free(meta->tokens);
-		meta->tokens = tmp;
-	}
-	temp = meta->parsing;
-	while (temp)
-	{
-		temp = temp->next;
-		ft_free_tokens(NULL, meta->parsing);
-		free(meta->parsing);
-		meta->parsing = temp;
 	}
 }
 
