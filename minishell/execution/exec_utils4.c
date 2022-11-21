@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:14:47 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/21 03:20:51 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:01:53 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,16 @@ void	ft_if_bultin(t_parser *tmp)
 	}
 }
 
-void	ft_if_not_bultin(t_parser	*tmp)
+void	ft_if_not_bultin(t_parser	*tmp, int i)
 {
 	int		succs;
-	int		i;
 
-	i = 0;
 	tmp->path = ft_split_path(tmp);
+	if (!tmp->path)
+	{
+		ft_generate_erro2(tmp, 3);
+		exit(1);
+	}
 	if (tmp->exec_flag == 0)
 	{
 		while (tmp->path[i])
@@ -66,7 +69,7 @@ int	ft_multi_pipes(t_parser *tmp)
 		if (!tmp->av && tmp->flag == EXEC)
 			exit (0);
 		ft_if_bultin(tmp);
-		ft_if_not_bultin(tmp);
+		ft_if_not_bultin(tmp, 0);
 	}
 	else
 	{
@@ -103,22 +106,4 @@ void	exec_single(t_parser *tmp)
 	}
 	else
 		ft_generate_erro2(tmp, 2);
-}
-
-int	ft_singl_cmd(t_parser *tmp)
-{
-	int	id;
-
-	id = fork();
-	if (id == -1)
-		perror("minishell ");
-	if (id == 0)
-	{
-		if (tmp->flag == NOEXEC)
-			exit (1);
-		if (!tmp->av && tmp->flag == EXEC)
-			exit (0);
-		exec_single(tmp);
-	}
-	return (id);
 }

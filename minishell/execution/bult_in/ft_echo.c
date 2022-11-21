@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:10:36 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/21 01:50:30 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 19:45:47 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ void	ft_parser_echo(t_parser	*cmdl)
 	if (cmdl->av[j] == 0)
 		return ;
 	print_echo(cmdl, i);
+	g_all.g_exit_status = 0;
 	if (ft_valid_n(cmdl->av[1]) == 0)
 	{
 		write(1, "\n", 1);
 		return ;
 	}
-	g_all.g_exit_status = 0;
 }

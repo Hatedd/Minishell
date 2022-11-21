@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:27:12 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/21 05:35:05 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 20:57:03 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ int	ft_redirection_help(t_token *temp, t_parser *parser, t_files *redirects)
 	int	fd;
 
 	if (temp->next->e_type == T_AMBRD)
-	{
-		if (ft_ambrd_error(temp, parser, redirects))
-			return (1);
-	}
+		return (ft_ambrd_error(temp->next->old_word, parser, redirects));
 	if (access(temp->next->word, F_OK) != 0)
 	{
 		fd = open(temp->next->word, O_CREAT | O_RDWR, 0600);
@@ -60,8 +57,9 @@ int	ft_redirection_help(t_token *temp, t_parser *parser, t_files *redirects)
 
 int	ft_redirection_read(t_token *temp, t_parser *parser, t_files *redirects)
 {
-	if (temp->next->e_type == T_AMBRD || \
-		access(temp->next->word, F_OK) != 0 || \
+	if (temp->next->e_type == T_AMBRD)
+		return (ft_ambrd_error(temp->next->old_word, parser, redirects));
+	if (access(temp->next->word, F_OK) != 0 || \
 		access(temp->next->word, R_OK) != 0)
 	{
 		if (access(temp->next->word, F_OK) != 0)
@@ -94,14 +92,14 @@ int	ft_predirection(t_token *tokens, t_parser *parser, t_files *redirects)
 	tmp = redirects;
 	temp = tokens;
 	if ((temp->e_type == T_READ || temp->e_type == T_DREAD) && \
-		temp->next->e_type == T_WORD)
-	{	
+		(temp->next->e_type == T_WORD || temp->next->e_type == T_AMBRD))
+	{
 		if (ft_redirection_read(temp, parser, redirects))
 			return (1);
 		filling_data(&tmp[READ], temp->next->word, O_RDONLY);
 	}
 	else if ((temp->e_type == T_WRITE || temp->e_type == T_DWRITE) \
-		&& temp->next->e_type == T_WORD)
+		&& (temp->next->e_type == T_WORD || temp->next->e_type == T_AMBRD))
 	{
 		if (ft_redirection_help(temp, parser, redirects))
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/21 17:43:09 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:02:10 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int			ft_matchnmatch(char *buffer, char *mbuffer, char *charset, \
 				char match);
 int			ft_predirection(t_token *tokens, t_parser *parser, \
 				t_files *redirects);
-int			ft_ambrd_error(t_token *temp, t_parser *parser, \
+int			ft_ambrd_error(char *str, t_parser *parser, \
 				t_files *redirects);
 int			ft_opening_check(t_files *redirects, t_parser **parsing, char flag);
 int			ft_quote(char *av, t_meta *meta, int pos);
@@ -163,7 +163,7 @@ void		ft_generate_errors(char *str, int flag);
 void		ft_exit_error(t_parser *cmdl, int flag);
 void		unset_var(t_list **lst, char *str);
 void		if_invalid_path_cmd(t_parser *tmp);
-void		ft_if_not_bultin(t_parser *tmp);
+void		ft_if_not_bultin(t_parser *tmp, int i);
 void		ft_parser_unset(t_parser *cmdl);
 void		ft_parser_echo(t_parser *cmdl);
 void		ft_exit_parser(t_parser *cmdl);
@@ -171,6 +171,7 @@ void		ft_parser_env(t_parser *cmdl);
 void		ft_redirection(t_parser *tmp);
 void		ft_parser_cd(t_parser *cmdl);
 void		ft_if_bultin(t_parser *tmp);
+void		exec_single(t_parser *tmp);
 void		ft_free_dlst(t_meta *meta);
 void		execution(t_parser *cmdl);
 void		ft_free_array(char **str);
@@ -199,7 +200,6 @@ int			single_command(t_parser *tmp);
 int			ft_cmpar(char *s1, char *s2);
 int			ft_cmpar(char *s1, char *s2);
 int			ck_if_bultin(t_parser *cmdl);
-int			ft_singl_cmd(t_parser *tmp);
 int			ft_same_c(char c1, char c2);
 int			ft_singl_cmd(t_parser *tmp);
 int			isvalid_to_export(char c);

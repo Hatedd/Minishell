@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:24:33 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/20 22:54:32 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 19:56:22 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ void	error_check(t_token *tokens)
 	}
 }
 
-int	ft_ambrd_error(t_token *temp, t_parser *parser, t_files *redirects)
+int	ft_ambrd_error(char *str, t_parser *parser, t_files *redirects)
 {
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(temp->next->old_word, 2);
+	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": ambiguous redirect\n", 2);
 	redirects[WRITE].mode = -1;
 	parser->flag = NOEXEC;

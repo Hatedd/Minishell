@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:08:07 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/21 05:45:18 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 18:58:10 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,19 @@ void	ft_modify_pwd(char *str, char *value, int flag)
 	}
 }
 
+int	is_old_pwd_null(char *pwd, char *oldpwd)
+{
+	if (!pwd || !oldpwd)
+	{
+		if (pwd)
+			free(pwd);
+		if (oldpwd)
+			free(oldpwd);
+		return (1);
+	}
+	return (0);
+}
+
 void	ft_parser_cd(t_parser *cmdl)
 {
 	struct stat	stats;
@@ -63,7 +76,7 @@ void	ft_parser_cd(t_parser *cmdl)
 		oldpwd = getcwd(0, 0);
 		chdir(cmdl->av[1]);
 		pwd = getcwd(0, 0);
-		if (!pwd || !oldpwd)
+		if (is_old_pwd_null(oldpwd, pwd))
 			return ;
 		ft_modify_pwd("PWD", pwd, 1);
 		ft_modify_pwd("OLDPWD", oldpwd, 2);

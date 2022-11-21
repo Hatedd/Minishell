@@ -6,11 +6,29 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 23:08:06 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/21 03:18:19 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:00:44 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_singl_cmd(t_parser *tmp)
+{
+	int	id;
+
+	id = fork();
+	if (id == -1)
+		perror("minishell ");
+	if (id == 0)
+	{
+		if (tmp->flag == NOEXEC)
+			exit (1);
+		if (!tmp->av && tmp->flag == EXEC)
+			exit (0);
+		exec_single(tmp);
+	}
+	return (id);
+}
 
 char	*join_and_free(char *s1, char *s2)
 {
