@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:23:57 by mouizar           #+#    #+#             */
-/*   Updated: 2022/11/21 00:38:03 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 04:10:06 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_num_alpha(char *str)
 	i = 0;
 	while ((str[i] && ft_isdigit(str[i])))
 		i++;
-	if (str[i] == '\0' || str[i] == '-')
+	if (str[i] == '\0' || (str[0] == '-'  && ft_isdigit (str[1])))
 		return (0);
 	else
 		return (1);
