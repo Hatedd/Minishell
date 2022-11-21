@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 00:05:08 by yobenali          #+#    #+#             */
-/*   Updated: 2022/11/21 05:57:26 by yobenali         ###   ########.fr       */
+/*   Updated: 2022/11/21 17:43:09 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_gdata
 	int		flag_exit_export;
 	t_list	*g_lst_env;
 }	t_gdata;
-//call the fuction tha wizar build his env with in the linked list
+
 t_gdata			g_all;
 
 typedef struct s_token
@@ -181,34 +181,33 @@ void		ft_lst_toarray(void);
 void		ft_parser_pwd(void);
 void		ft_build_env(void);
 void		ft_wait(int id);
+
 char		**generate_path(char **path, t_parser *cmdl, char *slash_path);
 char		*join_and_free(char *s1, char *s2);
 char		*join_frees1(char *s1, char *s2);
 char		**ft_split_path(t_parser *cmdl);
 char		*ft_found_path(void);
-int			ft_cmpar(char *s1, char *s2);
-int			isvalid_to_export(char c);
-int			valid_export(char *str);
+
 int			ft_found_inenv(t_list *lst, char *str);
 int			ft_search_variable(char *s1, char *s2);
-int			ft_cmpar(char *s1, char *s2);
-int			ft_same_c(char c1, char c2);
-int			ft_search_variable(char *s1, char *s2);
-int			ft_found_inenv(t_list *lst, char *str);
-int			ft_valid_n(char *str);
-int			ft_atoi_exit(const char *str);
-int			ft_lstsize_cmd(t_parser *lst);
-int			ft_egal(char c);
-int			ft_space(char c);
-int			ft_multi_pipes(t_parser *tmp);
-int			ft_singl_cmd(t_parser *tmp);
-int			ft_lstsize_cmd(t_parser *lst);
-int			is_bultin(char *str);
-int			ck_if_bultin(t_parser *cmdl);
-int			single_command(t_parser *tmp);
 int			multiple_command(t_parser *tmp);
 int			ft_multi_pipes(t_parser *tmp);
+int			ft_atoi_exit(const char *str);
+int			ft_lstsize_cmd(t_parser *lst);
+int			ft_multi_pipes(t_parser *tmp);
+int			single_command(t_parser *tmp);
+int			ft_cmpar(char *s1, char *s2);
+int			ft_cmpar(char *s1, char *s2);
+int			ck_if_bultin(t_parser *cmdl);
 int			ft_singl_cmd(t_parser *tmp);
+int			ft_same_c(char c1, char c2);
+int			ft_singl_cmd(t_parser *tmp);
+int			isvalid_to_export(char c);
+int			valid_export(char *str);
+int			ft_valid_n(char *str);
+int			is_bultin(char *str);
+int			ft_space(char c);
+int			ft_egal(char c);
 t_list		*sorting(t_list *lst, int (*ft_cmpar)(char *, char *));
 
 #endif
